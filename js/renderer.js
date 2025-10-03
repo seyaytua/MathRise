@@ -3,6 +3,8 @@ export class LessonRenderer {
     this.container = document.getElementById('lesson-content');
     this.progressManager = null;
     this.currentCourseId = null;
+    this.currentLesson = null;
+    this.problemsCompleted = new Set();
   }
 
   setProgressManager(progressManager, courseId) {
@@ -15,6 +17,9 @@ export class LessonRenderer {
       console.error('❌ コンテナが見つかりません');
       return;
     }
+
+    this.currentLesson = lesson;
+    this.problemsCompleted.clear();
 
     // 重要度に応じたクラスを取得
     const importanceClass = `lesson-${lesson.importance || 'medium'}`;
@@ -135,13 +140,29 @@ export class LessonRenderer {
     question.innerHTML = `<strong>問題 ${index + 1}:</strong> ${problem.question}`;
     container.appendChild(question);
 
+    // 数式入力ツールバー
+    const toolbar = this.createMathToolbar();
+    container.appendChild(toolbar);
+
     // 入力欄
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'problem-input';
-    input.placeholder = '答えを入力してください';
+    input.placeholder = '答えを入力してください（例: x^2+3x+1）';
     input.id = `answer-${index}`;
+    
+    // 数式プレビュー
+    const preview = document.createElement('div');
+    preview.className = 'math-preview';
+    preview.innerHTML = '<span class="preview-label">プレビュー:</span> <span class="preview-content"></span>';
+    
+    // リアルタイムプレビュー
+    input.addEventListener('input', (e) => {
+      this.updateMathPreview(e.target.value, preview.querySelector('.preview-content'));
+    });
+
     container.appendChild(input);
+    container.appendChild(preview);
 
     // ボタングループ
     const actions = document.createElement('div');
@@ -160,12 +181,114 @@ export class LessonRenderer {
     const checkBtn = document.createElement('button');
     checkBtn.className = 'btn btn-primary';
     checkBtn.textContent = '✓ 答え合わせ';
-    checkBtn.onclick = () => this.checkAnswer(problem, input.value, container, lessonId);
+    checkBtn.onclick = () => this.checkAnswer(problem, input.value, container, lessonId, index);
     actions.appendChild(checkBtn);
+
+    // Enterキーで答え合わせ
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        checkBtn.click();
+      }
+    });
 
     container.appendChild(actions);
 
     return container;
+  }
+
+  /**
+   * 数式入力ツールバー
+   */
+  createMathToolbar() {
+    const toolbar = document.createElement('div');
+    toolbar.className = 'math-toolbar';
+
+    const symbols = [
+      { label: 'x²', value: 'x^2', title: 'x の2乗' },
+      { label: 'x³', value: 'x^3', title: 'x の3乗' },
+      { label: '√', value: 'sqrt()', title: '平方根' },
+      { label: '±', value: '±', title: 'プラスマイナス' },
+      { label: '÷', value: '/', title: '割り算' },
+      { label: '×', value: '*', title: '掛け算' },
+      { label: '( )', value: '()', title: '括弧' },
+      { label: 'π', value: 'π', title: '円周率' },
+    ];
+
+    const label = document.createElement('span');
+    label.className = 'toolbar-label';
+    label.textContent = '記号:';
+    toolbar.appendChild(label);
+
+    symbols.forEach(symbol => {
+      const btn = document.createElement('button');
+      btn.className = 'math-symbol-btn';
+      btn.textContent = symbol.label;
+      btn.title = symbol.title;
+      btn.onclick = (e) => {
+        e.preventDefault();
+        const input = btn.closest('.problem-container').querySelector('.problem-input');
+        this.insertSymbol(input, symbol.value);
+      };
+      toolbar.appendChild(btn);
+    });
+
+    return toolbar;
+  }
+
+  /**
+   * 記号を入力欄に挿入
+   */
+  insertSymbol(input, symbol) {
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    const text = input.value;
+    
+    // 括弧の場合、カーソルを中に配置
+    if (symbol === '()' || symbol === 'sqrt()') {
+      const before = text.substring(0, start);
+      const after = text.substring(end);
+      input.value = before + symbol + after;
+      input.focus();
+      input.setSelectionRange(start + symbol.length - 1, start + symbol.length - 1);
+    } else {
+      const before = text.substring(0, start);
+      const after = text.substring(end);
+      input.value = before + symbol + after;
+      input.focus();
+      input.setSelectionRange(start + symbol.length, start + symbol.length);
+    }
+
+    // プレビューを更新
+    const preview = input.closest('.problem-container').querySelector('.preview-content');
+    this.updateMathPreview(input.value, preview);
+  }
+
+  /**
+   * 数式のリアルタイムプレビュー
+   */
+  updateMathPreview(text, previewElement) {
+    if (!text.trim()) {
+      previewElement.textContent = '（入力してください）';
+      return;
+    }
+
+    // LaTeX形式に変換
+    let latex = text
+      .replace(/\^(\d)/g, '^{$1}')
+      .replace(/sqrt\((.*?)\)/g, '\\sqrt{$1}')
+      .replace(/\*/g, '\\times')
+      .replace(/\//g, '\\div')
+      .replace(/±/g, '\\pm')
+      .replace(/π/g, '\\pi');
+
+    previewElement.innerHTML = `$$${latex}$$`;
+
+    // MathJaxで再レンダリング
+    if (window.MathJax) {
+      MathJax.typesetPromise([previewElement]).catch(err => {
+        previewElement.textContent = text;
+      });
+    }
   }
 
   showHint(problem, container) {
@@ -181,9 +304,16 @@ export class LessonRenderer {
     hintContainer.textContent = problem.hints[0];
 
     container.appendChild(hintContainer);
+
+    // MathJaxで再レンダリング
+    if (window.MathJax) {
+      MathJax.typesetPromise([hintContainer]).catch(err => {
+        console.error('MathJax エラー:', err);
+      });
+    }
   }
 
-  checkAnswer(problem, userAnswer, container, lessonId) {
+  checkAnswer(problem, userAnswer, container, lessonId, problemIndex) {
     // 既存のフィードバックを削除
     const existingFeedback = container.querySelector('.feedback');
     if (existingFeedback) {
@@ -204,13 +334,26 @@ export class LessonRenderer {
       );
     }
 
+    // 問題完了を記録
+    if (isCorrect) {
+      this.problemsCompleted.add(problemIndex);
+      
+      // すべての問題が完了したらレッスン完了
+      if (this.currentLesson && this.problemsCompleted.size === this.currentLesson.problems.length) {
+        this.markLessonCompleted(lessonId);
+      }
+    }
+
     const feedback = document.createElement('div');
     feedback.className = `feedback ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
     
     if (isCorrect) {
-      feedback.textContent = '正解です！よくできました。';
+      feedback.innerHTML = '正解です！よくできました。';
+      
+      // 完了アニメーション
+      container.classList.add('problem-completed');
     } else {
-      feedback.innerHTML = `不正解です。<br>正しい答え: ${problem.answer}`;
+      feedback.innerHTML = `不正解です。<br>正しい答え: $$${problem.answer}$$`;
       if (problem.feedback && problem.feedback.incorrect) {
         feedback.innerHTML += `<br><br>${problem.feedback.incorrect}`;
       }
@@ -226,8 +369,57 @@ export class LessonRenderer {
     }
   }
 
+  /**
+   * レッスン完了をマーク
+   */
+  markLessonCompleted(lessonId) {
+    if (this.progressManager && this.currentCourseId) {
+      this.progressManager.markLessonCompleted(this.currentCourseId, lessonId);
+      
+      // 完了通知
+      this.showCompletionNotification();
+      
+      // アプリの進捗バーを更新（イベント発火）
+      window.dispatchEvent(new CustomEvent('lessonCompleted', { 
+        detail: { lessonId } 
+      }));
+    }
+  }
+
+  /**
+   * 完了通知を表示
+   */
+  showCompletionNotification() {
+    const notification = document.createElement('div');
+    notification.className = 'completion-notification';
+    notification.innerHTML = `
+      <div class="notification-content">
+        <div class="notification-icon">🎉</div>
+        <div class="notification-text">
+          <strong>レッスン完了！</strong>
+          <p>よくできました。次のレッスンに進みましょう。</p>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // 3秒後に自動削除
+    setTimeout(() => {
+      notification.classList.add('fade-out');
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  }
+
   normalizeAnswer(answer) {
-    return String(answer).trim().toLowerCase().replace(/\s+/g, '');
+    return String(answer)
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '')
+      .replace(/\*/g, '')
+      .replace(/×/g, '')
+      .replace(/÷/g, '/')
+      .replace(/π/g, 'pi');
   }
 
   getImportanceEmoji(importance) {

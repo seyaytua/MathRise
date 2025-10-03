@@ -13,25 +13,19 @@ class App {
     this.currentCourseId = null;
     this.currentLessonIndex = 0;
     this.allLessons = [];
-    this.currentMode = 'learn'; // 'learn' or 'stats'
+    this.currentMode = 'learn';
   }
 
   async init() {
     console.log('🚀 アプリを起動中...');
 
     try {
-      // MathJaxの初期化
       await this.initMathJax();
-
-      // イベントリスナーの設定
       this.setupEventListeners();
-
-      // デフォルトコースの読み込み
       await this.loadCourse('math-1-sample');
-
       console.log('✅ アプリ起動完了！');
     } catch (error) {
-      console.error('❌ 起動エラー:', error);
+      console.error('❌起動エラー:', error);
       this.showError('アプリの起動に失敗しました');
     }
   }
@@ -60,6 +54,12 @@ class App {
   }
 
   setupEventListeners() {
+    // レッスン完了イベント
+    window.addEventListener('lessonCompleted', () => {
+      this.renderSidebar();
+      this.updateProgress();
+    });
+
     // モード切り替え
     const navLearn = document.getElementById('nav-learn');
     const navStats = document.getElementById('nav-stats');
@@ -121,6 +121,7 @@ class App {
         if (this.progress.resetCourse(this.currentCourseId)) {
           this.refreshDashboard();
           this.renderSidebar();
+          this.updateProgress();
           alert('進捗をリセットしました');
         }
       });
@@ -138,9 +139,6 @@ class App {
     });
   }
 
-  /**
-   * モード切り替え
-   */
   switchMode(mode) {
     this.currentMode = mode;
 
@@ -163,9 +161,6 @@ class App {
     }
   }
 
-  /**
-   * ダッシュボードの更新
-   */
   refreshDashboard() {
     if (this.currentCourse) {
       this.dashboard.render(this.currentCourseId, this.currentCourse.courseName);
@@ -179,23 +174,16 @@ class App {
       this.currentCourse = await this.loader.loadCourse(courseId);
       this.currentCourseId = courseId;
       
-      // 全レッスンをフラット化
       this.allLessons = [];
       this.currentCourse.units.forEach(unit => {
         this.allLessons.push(...unit.lessons);
       });
 
-      // 進捗管理の初期化
       this.progress.initCourse(courseId, this.allLessons.length);
-
-      // サイドバーを更新
       this.renderSidebar();
-
-      // 前回の続きから、または最初のレッスンを表示
       this.currentLessonIndex = this.progress.getCurrentLesson(courseId);
       this.renderCurrentLesson();
 
-      // ダッシュボードを更新
       if (this.currentMode === 'stats') {
         this.refreshDashboard();
       }
@@ -226,7 +214,6 @@ class App {
         const lessonItem = document.createElement('div');
         lessonItem.className = 'lesson-item';
         
-        // 完了マーク
         if (this.progress.isLessonCompleted(this.currentCourseId, lesson.id)) {
           lessonItem.classList.add('completed');
         }
@@ -251,22 +238,16 @@ class App {
 
     const lesson = this.allLessons[this.currentLessonIndex];
     
-    // レッスンを表示（rendererに進捗管理を渡す）
     this.renderer.setProgressManager(this.progress, this.currentCourseId);
     this.renderer.renderLesson(lesson);
 
-    // 現在のレッスン位置を保存
     this.progress.setCurrentLesson(this.currentCourseId, this.currentLessonIndex);
 
-    // サイドバーのアクティブ状態を更新
     document.querySelectorAll('.lesson-item').forEach((item, index) => {
       item.classList.toggle('active', index === this.currentLessonIndex);
     });
 
-    // ナビゲーションボタンの状態を更新
     this.updateNavigationButtons();
-
-    // 進捗バーを更新
     this.updateProgress();
   }
 
@@ -276,8 +257,6 @@ class App {
     if (newIndex >= 0 && newIndex < this.allLessons.length) {
       this.currentLessonIndex = newIndex;
       this.renderCurrentLesson();
-      
-      // ページトップにスクロール
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
@@ -319,6 +298,5 @@ class App {
   }
 }
 
-// アプリケーション起動
 const app = new App();
 app.init();

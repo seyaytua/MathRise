@@ -182,3 +182,163 @@
   background: white;
   border-radius: 4px;
 }
+
+/* 数式入力ツールバー */
+.math-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--bg-main);
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.toolbar-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.math-symbol-btn {
+  padding: 0.4rem 0.8rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+  min-width: 40px;
+}
+
+.math-symbol-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.math-symbol-btn:active {
+  transform: translateY(0);
+}
+
+/* 数式プレビュー */
+.math-preview {
+  padding: 1rem;
+  background: #F5F5F5;
+  border-radius: 4px;
+  margin-top: 0.75rem;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.preview-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.preview-content {
+  flex: 1;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+}
+
+/* 問題完了アニメーション */
+.problem-completed {
+  animation: completePulse 0.5s ease;
+  border: 2px solid var(--success);
+  background: #E8F5E9;
+}
+
+@keyframes completePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* 完了通知 */
+.completion-notification {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  z-index: 1000;
+  animation: slideInRight 0.3s ease;
+}
+
+.notification-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 300px;
+  border-left: 4px solid var(--success);
+}
+
+.notification-icon {
+  font-size: 2.5rem;
+}
+
+.notification-text strong {
+  display: block;
+  color: var(--success);
+  margin-bottom: 0.25rem;
+}
+
+.notification-text p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.completion-notification.fade-out {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .math-toolbar {
+    padding: 0.5rem;
+  }
+  
+  .math-symbol-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.9rem;
+    min-width: 35px;
+  }
+  
+  .completion-notification {
+    right: 10px;
+    left: 10px;
+  }
+  
+  .notification-content {
+    min-width: auto;
+  }
+}
