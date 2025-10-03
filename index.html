@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>数学学習アプリ - MathRise</title>
+  <title>MathRise - 数学学習アプリ</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/templates.css">
   <link rel="stylesheet" href="css/components.css">
@@ -20,7 +20,9 @@
         </nav>
         <div class="progress-bar">
           <span id="progress-text">進捗: 0%</span>
-          <div class="progress-bar-fill" id="progress-fill"></div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+          </div>
         </div>
       </div>
     </header>
@@ -35,17 +37,21 @@
             </select>
           </div>
           <nav id="lesson-list">
-            <!-- レッスンリストがここに表示される -->
+            <div class="app-loading">
+              <div class="spinner"></div>
+            </div>
           </nav>
         </aside>
 
         <main class="content">
           <div id="lesson-content">
-            <div class="loading">読み込み中...</div>
+            <div class="app-loading">
+              <div class="spinner"></div>
+            </div>
           </div>
           
           <div class="navigation">
-            <button id="prev-btn" class="nav-btn">← 前へ</button>
+            <button id="prev-btn" class="nav-btn" disabled>← 前へ</button>
             <button id="next-btn" class="nav-btn">次へ →</button>
           </div>
         </main>

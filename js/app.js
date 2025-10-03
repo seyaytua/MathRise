@@ -14,19 +14,27 @@ class App {
     this.currentLessonIndex = 0;
     this.allLessons = [];
     this.currentMode = 'learn';
+    this.isInitialized = false;
   }
 
   async init() {
     console.log('🚀 アプリを起動中...');
 
     try {
-      await this.initMathJax();
+      // イベントリスナーの設定（最初に）
       this.setupEventListeners();
+
+      // MathJaxの初期化
+      await this.initMathJax();
+
+      // デフォルトコースの読み込み
       await this.loadCourse('math-1-sample');
+
+      this.isInitialized = true;
       console.log('✅ アプリ起動完了！');
     } catch (error) {
-      console.error('❌起動エラー:', error);
-      this.showError('アプリの起動に失敗しました');
+      console.error('❌ 起動エラー:', error);
+      this.showError('アプリの起動に失敗しました: ' + error.message);
     }
   }
 
@@ -109,6 +117,8 @@ class App {
           this.progress.import(e.target.files[0]).then(() => {
             alert('データをインポートしました！');
             this.refreshDashboard();
+            this.renderSidebar();
+            this.updateProgress();
           }).catch(err => {
             alert('インポートに失敗しました: ' + err.message);
           });
@@ -191,7 +201,7 @@ class App {
       console.log(`✅ コース読み込み完了: ${this.allLessons.length} レッスン`);
     } catch (error) {
       console.error('❌ コース読み込みエラー:', error);
-      this.showError('コースの読み込みに失敗しました');
+      this.showError('コースの読み込みに失敗しました: ' + error.message);
     }
   }
 
@@ -289,9 +299,12 @@ class App {
     const content = document.getElementById('lesson-content');
     if (content) {
       content.innerHTML = `
-        <div class="error-message" style="text-align: center; padding: 3rem; color: var(--error);">
+        <div class="error-message">
           <h2>❌ エラー</h2>
           <p>${message}</p>
+          <button class="btn btn-primary" onclick="location.reload()">
+            再読み込み
+          </button>
         </div>
       `;
     }

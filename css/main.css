@@ -18,11 +18,23 @@
   --border: #E0E0E0;
 }
 
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   background: var(--bg-main);
   color: var(--text-dark);
   line-height: 1.6;
+}
+
+/* アプリ全体のコンテナ */
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* ヘッダー */
@@ -31,6 +43,7 @@ body {
   border-bottom: 1px solid var(--border);
   padding: 1rem 2rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  flex-shrink: 0;
 }
 
 .header-content {
@@ -39,15 +52,44 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
 }
 
 .header h1 {
   font-size: 1.5rem;
   color: var(--primary);
+  white-space: nowrap;
+}
+
+.header-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.header-nav .nav-btn {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.header-nav .nav-btn:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.header-nav .nav-btn.active {
+  background: var(--primary);
+  color: white;
 }
 
 .progress-bar {
-  width: 300px;
+  min-width: 200px;
 }
 
 #progress-text {
@@ -55,6 +97,7 @@ body {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
   color: var(--text-light);
+  white-space: nowrap;
 }
 
 .progress-bar-fill {
@@ -62,23 +105,48 @@ body {
   background: var(--success);
   border-radius: 4px;
   transition: width 0.3s ease;
+  width: 0%;
 }
 
 /* メインコンテナ */
 .main-container {
+  flex: 1;
   display: flex;
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
-  min-height: calc(100vh - 80px);
+  min-height: 0; /* Flexboxの子要素が縮小できるようにする */
+}
+
+/* モードコンテナ */
+.mode-container {
+  display: flex;
+  width: 100%;
+  min-height: 0;
+}
+
+/* 学習モード */
+#learn-mode {
+  display: flex;
+  width: 100%;
+}
+
+/* 統計モード */
+#stats-mode {
+  display: none;
+  width: 100%;
+  overflow-y: auto;
 }
 
 /* サイドバー */
 .sidebar {
   width: 280px;
+  min-width: 280px;
   background: var(--bg-white);
   border-right: 1px solid var(--border);
   padding: 1.5rem;
   overflow-y: auto;
+  flex-shrink: 0;
 }
 
 .course-selector {
@@ -92,6 +160,12 @@ body {
   border-radius: 4px;
   font-size: 1rem;
   background: var(--bg-white);
+  cursor: pointer;
+}
+
+.course-selector select:focus {
+  outline: none;
+  border-color: var(--primary);
 }
 
 /* レッスンリスト */
@@ -107,6 +181,7 @@ body {
   font-weight: bold;
   margin-bottom: 0.5rem;
   color: var(--text-dark);
+  font-size: 0.95rem;
 }
 
 .lesson-item {
@@ -118,6 +193,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 0.9rem;
 }
 
 .lesson-item:hover {
@@ -133,21 +209,31 @@ body {
   content: '✓';
   margin-left: auto;
   color: var(--success);
+  font-weight: bold;
+}
+
+.lesson-item.active.completed::after {
+  color: white;
 }
 
 /* メインコンテンツ */
 .content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 2rem;
   background: var(--bg-white);
-  margin: 1rem;
+  margin: 1rem 1rem 1rem 0;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow-y: auto;
+  min-width: 0; /* Flexboxの子要素が縮小できるようにする */
 }
 
 #lesson-content {
-  min-height: 500px;
+  flex: 1;
   margin-bottom: 2rem;
+  min-height: 400px;
 }
 
 .loading {
@@ -162,6 +248,8 @@ body {
   justify-content: space-between;
   padding-top: 2rem;
   border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .nav-btn {
@@ -175,29 +263,182 @@ body {
   transition: background 0.2s;
 }
 
-.nav-btn:hover {
+.nav-btn:hover:not(:disabled) {
   background: #1976D2;
 }
 
 .nav-btn:disabled {
   background: var(--text-light);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* レスポンシブ */
+@media (max-width: 1024px) {
+  .header-content {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .progress-bar {
+    order: 3;
+    flex-basis: 100%;
+  }
+}
+
 @media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .header h1 {
+    font-size: 1.2rem;
+  }
+  
   .main-container {
+    flex-direction: column;
+  }
+  
+  .mode-container {
+    flex-direction: column;
+  }
+  
+  #learn-mode {
     flex-direction: column;
   }
   
   .sidebar {
     width: 100%;
+    min-width: auto;
     border-right: none;
     border-bottom: 1px solid var(--border);
+    max-height: 300px;
   }
   
   .content {
     margin: 0;
     border-radius: 0;
   }
+  
+  .navigation {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .nav-btn {
+    width: 100%;
+  }
+}
+
+/* ローディング状態の改善 */
+.app-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--bg-main);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* エラー表示 */
+.error-message {
+  text-align: center;
+  padding: 3rem;
+  color: var(--error);
+}
+
+.error-message h2 {
+  margin-bottom: 1rem;
+}
+
+/* 進捗バーのコンテナ */
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-main);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-container .progress-bar-fill {
+  height: 100%;
+  background: var(--success);
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+/* レイアウト安定化 */
+.lesson-low,
+.lesson-medium,
+.lesson-high {
+  width: 100%;
+  max-width: 100%;
+}
+
+.lesson {
+  width: 100%;
+}
+
+.lesson-explanation,
+.problem-container {
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* MathJax表示の安定化 */
+.MathJax {
+  display: inline-block !important;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+mjx-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* 画像の最大幅制限 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* テーブルのレスポンシブ対応 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* スクロールバーのスタイル（Webkit系ブラウザ） */
+.sidebar::-webkit-scrollbar,
+.content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track,
+.content::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.content::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover,
+.content::-webkit-scrollbar-thumb:hover {
+  background: var(--text-light);
 }
