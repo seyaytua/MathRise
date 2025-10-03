@@ -11,6 +11,7 @@
   font-size: 1.1rem;
   margin-bottom: 1rem;
   font-weight: 500;
+  line-height: 1.8;
 }
 
 .problem-input {
@@ -153,13 +154,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* 数式表示 */
-.math-display {
-  text-align: center;
-  margin: 1.5rem 0;
-  font-size: 1.2rem;
 }
 
 /* よくある間違い */
@@ -321,6 +315,64 @@
   }
 }
 
+/* 数式とテキストの高さ調整 - 左詰め */
+.lesson-explanation mjx-container,
+.problem-question mjx-container {
+  display: inline !important;
+  vertical-align: middle;
+  margin: 0 0.2em;
+}
+
+/* インライン数式 - 左詰め */
+mjx-container[display="false"] {
+  display: inline !important;
+  vertical-align: middle;
+  margin: 0 0.15em;
+}
+
+/* ディスプレイ数式 - 左詰めに変更 */
+mjx-container[display="true"] {
+  display: block !important;
+  text-align: left;
+  margin: 1rem 0;
+  margin-left: 2rem; /* 少しインデント */
+}
+
+/* 数式を含む段落 */
+.lesson-explanation p,
+.problem-question {
+  line-height: 2;
+}
+
+/* MathJax SVG要素の調整 */
+mjx-container svg {
+  vertical-align: middle;
+}
+
+/* 問題文の数式を見やすく */
+.problem-question mjx-container {
+  font-size: 1.05em;
+}
+
+/* プレビューの数式 */
+.math-preview mjx-container {
+  vertical-align: middle;
+}
+
+/* 数式のベースライン調整 */
+.MathJax {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin: 0 0.2em !important;
+}
+
+/* 数式を含む文の調整 */
+.lesson-explanation > div,
+.lesson-explanation > p {
+  display: block;
+  margin-bottom: 1rem;
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
   .math-toolbar {
@@ -340,5 +392,9 @@
   
   .notification-content {
     min-width: auto;
+  }
+  
+  mjx-container[display="true"] {
+    margin-left: 1rem;
   }
 }

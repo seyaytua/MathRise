@@ -21,14 +21,11 @@ export class LessonRenderer {
     this.currentLesson = lesson;
     this.problemsCompleted.clear();
 
-    // 重要度に応じたクラスを取得
     const importanceClass = `lesson-${lesson.importance || 'medium'}`;
     
-    // コンテナをクリア
     this.container.innerHTML = '';
     this.container.className = importanceClass;
 
-    // レッスン構築
     const lessonElement = document.createElement('div');
     lessonElement.className = 'lesson';
 
@@ -91,10 +88,16 @@ export class LessonRenderer {
     return intro;
   }
 
-  createExplanation(text) {
+  createExplanation(html) {
     const explanation = document.createElement('div');
     explanation.className = 'lesson-explanation';
-    explanation.innerHTML = `<div>${text}</div>`;
+    
+    // HTMLを処理して数式を適切に配置
+    const processedHtml = html
+      .replace(/<p>/g, '<p class="text-with-math">')
+      .replace(/class='math-center'/g, 'class="math-center"');
+    
+    explanation.innerHTML = processedHtml;
     return explanation;
   }
 
@@ -109,7 +112,7 @@ export class LessonRenderer {
     const list = document.createElement('ul');
     concepts.forEach(concept => {
       const li = document.createElement('li');
-      li.textContent = concept;
+      li.innerHTML = concept; // 数式を含む可能性があるのでinnerHTML
       list.appendChild(li);
     });
 
@@ -137,7 +140,7 @@ export class LessonRenderer {
     // 問題文
     const question = document.createElement('div');
     question.className = 'problem-question';
-    question.innerHTML = `<strong>問題 ${index + 1}:</strong> ${problem.question}`;
+    question.innerHTML = `<strong>問題 ${index + 1}:</strong> <span class="question-text">${problem.question}</span>`;
     container.appendChild(question);
 
     // 数式入力ツールバー
@@ -154,7 +157,7 @@ export class LessonRenderer {
     // 数式プレビュー
     const preview = document.createElement('div');
     preview.className = 'math-preview';
-    preview.innerHTML = '<span class="preview-label">プレビュー:</span> <span class="preview-content"></span>';
+    preview.innerHTML = '<span class="preview-label">プレビュー:</span> <span class="preview-content">（入力してください）</span>';
     
     // リアルタイムプレビュー
     input.addEventListener('input', (e) => {
@@ -196,9 +199,6 @@ export class LessonRenderer {
     return container;
   }
 
-  /**
-   * 数式入力ツールバー
-   */
   createMathToolbar() {
     const toolbar = document.createElement('div');
     toolbar.className = 'math-toolbar';
@@ -235,15 +235,11 @@ export class LessonRenderer {
     return toolbar;
   }
 
-  /**
-   * 記号を入力欄に挿入
-   */
   insertSymbol(input, symbol) {
     const start = input.selectionStart;
     const end = input.selectionEnd;
     const text = input.value;
     
-    // 括弧の場合、カーソルを中に配置
     if (symbol === '()' || symbol === 'sqrt()') {
       const before = text.substring(0, start);
       const after = text.substring(end);
@@ -258,21 +254,16 @@ export class LessonRenderer {
       input.setSelectionRange(start + symbol.length, start + symbol.length);
     }
 
-    // プレビューを更新
     const preview = input.closest('.problem-container').querySelector('.preview-content');
     this.updateMathPreview(input.value, preview);
   }
 
-  /**
-   * 数式のリアルタイムプレビュー
-   */
   updateMathPreview(text, previewElement) {
     if (!text.trim()) {
       previewElement.textContent = '（入力してください）';
       return;
     }
 
-    // LaTeX形式に変換
     let latex = text
       .replace(/\^(\d)/g, '^{$1}')
       .replace(/sqrt\((.*?)\)/g, '\\sqrt{$1}')
@@ -283,7 +274,6 @@ export class LessonRenderer {
 
     previewElement.innerHTML = `$$${latex}$$`;
 
-    // MathJaxで再レンダリング
     if (window.MathJax) {
       MathJax.typesetPromise([previewElement]).catch(err => {
         previewElement.textContent = text;
@@ -292,7 +282,6 @@ export class LessonRenderer {
   }
 
   showHint(problem, container) {
-    // 既存のヒントを削除
     const existingHint = container.querySelector('.hint-container');
     if (existingHint) {
       existingHint.remove();
@@ -301,11 +290,10 @@ export class LessonRenderer {
 
     const hintContainer = document.createElement('div');
     hintContainer.className = 'hint-container';
-    hintContainer.textContent = problem.hints[0];
+    hintContainer.innerHTML = problem.hints[0];
 
     container.appendChild(hintContainer);
 
-    // MathJaxで再レンダリング
     if (window.MathJax) {
       MathJax.typesetPromise([hintContainer]).catch(err => {
         console.error('MathJax エラー:', err);
@@ -314,7 +302,6 @@ export class LessonRenderer {
   }
 
   checkAnswer(problem, userAnswer, container, lessonId, problemIndex) {
-    // 既存のフィードバックを削除
     const existingFeedback = container.querySelector('.feedback');
     if (existingFeedback) {
       existingFeedback.remove();
@@ -324,7 +311,6 @@ export class LessonRenderer {
     const correctAnswer = this.normalizeAnswer(problem.answer);
     const isCorrect = normalized === correctAnswer;
 
-    // 進捗を記録
     if (this.progressManager && this.currentCourseId) {
       this.progressManager.recordProblemAttempt(
         this.currentCourseId,
@@ -334,11 +320,9 @@ export class LessonRenderer {
       );
     }
 
-    // 問題完了を記録
     if (isCorrect) {
       this.problemsCompleted.add(problemIndex);
       
-      // すべての問題が完了したらレッスン完了
       if (this.currentLesson && this.problemsCompleted.size === this.currentLesson.problems.length) {
         this.markLessonCompleted(lessonId);
       }
@@ -349,8 +333,6 @@ export class LessonRenderer {
     
     if (isCorrect) {
       feedback.innerHTML = '正解です！よくできました。';
-      
-      // 完了アニメーション
       container.classList.add('problem-completed');
     } else {
       feedback.innerHTML = `不正解です。<br>正しい答え: $$${problem.answer}$$`;
@@ -361,7 +343,6 @@ export class LessonRenderer {
 
     container.appendChild(feedback);
 
-    // MathJaxで再レンダリング
     if (window.MathJax) {
       MathJax.typesetPromise([feedback]).catch(err => {
         console.error('MathJax エラー:', err);
@@ -369,26 +350,16 @@ export class LessonRenderer {
     }
   }
 
-  /**
-   * レッスン完了をマーク
-   */
   markLessonCompleted(lessonId) {
     if (this.progressManager && this.currentCourseId) {
       this.progressManager.markLessonCompleted(this.currentCourseId, lessonId);
-      
-      // 完了通知
       this.showCompletionNotification();
-      
-      // アプリの進捗バーを更新（イベント発火）
       window.dispatchEvent(new CustomEvent('lessonCompleted', { 
         detail: { lessonId } 
       }));
     }
   }
 
-  /**
-   * 完了通知を表示
-   */
   showCompletionNotification() {
     const notification = document.createElement('div');
     notification.className = 'completion-notification';
@@ -404,7 +375,6 @@ export class LessonRenderer {
     
     document.body.appendChild(notification);
     
-    // 3秒後に自動削除
     setTimeout(() => {
       notification.classList.add('fade-out');
       setTimeout(() => notification.remove(), 300);
