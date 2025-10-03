@@ -1,6 +1,13 @@
 export class LessonRenderer {
   constructor() {
     this.container = document.getElementById('lesson-content');
+    this.progressManager = null;
+    this.currentCourseId = null;
+  }
+
+  setProgressManager(progressManager, courseId) {
+    this.progressManager = progressManager;
+    this.currentCourseId = courseId;
   }
 
   renderLesson(lesson) {
@@ -44,7 +51,7 @@ export class LessonRenderer {
 
     // 問題
     if (lesson.problems && lesson.problems.length > 0) {
-      const problems = this.createProblems(lesson.problems);
+      const problems = this.createProblems(lesson.problems, lesson.id);
       lessonElement.appendChild(problems);
     }
 
@@ -105,19 +112,19 @@ export class LessonRenderer {
     return container;
   }
 
-  createProblems(problems) {
+  createProblems(problems, lessonId) {
     const container = document.createElement('div');
     container.className = 'problems-section';
 
     problems.forEach((problem, index) => {
-      const problemElement = this.createProblem(problem, index);
+      const problemElement = this.createProblem(problem, index, lessonId);
       container.appendChild(problemElement);
     });
 
     return container;
   }
 
-  createProblem(problem, index) {
+  createProblem(problem, index, lessonId) {
     const container = document.createElement('div');
     container.className = 'problem-container';
     container.id = `problem-${index}`;
@@ -153,7 +160,7 @@ export class LessonRenderer {
     const checkBtn = document.createElement('button');
     checkBtn.className = 'btn btn-primary';
     checkBtn.textContent = '✓ 答え合わせ';
-    checkBtn.onclick = () => this.checkAnswer(problem, input.value, container);
+    checkBtn.onclick = () => this.checkAnswer(problem, input.value, container, lessonId);
     actions.appendChild(checkBtn);
 
     container.appendChild(actions);
@@ -176,7 +183,7 @@ export class LessonRenderer {
     container.appendChild(hintContainer);
   }
 
-  checkAnswer(problem, userAnswer, container) {
+  checkAnswer(problem, userAnswer, container, lessonId) {
     // 既存のフィードバックを削除
     const existingFeedback = container.querySelector('.feedback');
     if (existingFeedback) {
@@ -186,6 +193,16 @@ export class LessonRenderer {
     const normalized = this.normalizeAnswer(userAnswer);
     const correctAnswer = this.normalizeAnswer(problem.answer);
     const isCorrect = normalized === correctAnswer;
+
+    // 進捗を記録
+    if (this.progressManager && this.currentCourseId) {
+      this.progressManager.recordProblemAttempt(
+        this.currentCourseId,
+        lessonId,
+        problem.problemId,
+        isCorrect
+      );
+    }
 
     const feedback = document.createElement('div');
     feedback.className = `feedback ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
@@ -201,19 +218,16 @@ export class LessonRenderer {
 
     container.appendChild(feedback);
 
-    // 進捗を更新
-    if (isCorrect) {
-      this.markAsCompleted(problem.problemId);
+    // MathJaxで再レンダリング
+    if (window.MathJax) {
+      MathJax.typesetPromise([feedback]).catch(err => {
+        console.error('MathJax エラー:', err);
+      });
     }
   }
 
   normalizeAnswer(answer) {
     return String(answer).trim().toLowerCase().replace(/\s+/g, '');
-  }
-
-  markAsCompleted(problemId) {
-    // 進捗管理（後で実装）
-    console.log('✓ 問題完了:', problemId);
   }
 
   getImportanceEmoji(importance) {

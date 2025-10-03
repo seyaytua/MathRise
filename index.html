@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>数学学習アプリ - Progate風</title>
+  <title>数学学習アプリ - MathRise</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/templates.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
   <div id="app">
     <header class="header">
       <div class="header-content">
-        <h1>📐 数学学習アプリ</h1>
+        <h1>📐 MathRise</h1>
+        <nav class="header-nav">
+          <button id="nav-learn" class="nav-btn active">学習</button>
+          <button id="nav-stats" class="nav-btn">統計</button>
+        </nav>
         <div class="progress-bar">
           <span id="progress-text">進捗: 0%</span>
           <div class="progress-bar-fill" id="progress-fill"></div>
@@ -21,27 +26,118 @@
     </header>
 
     <div class="main-container">
-      <aside class="sidebar" id="sidebar">
-        <div class="course-selector">
-          <select id="course-select">
-            <option value="math-1-sample">数学Ⅰ（サンプル）</option>
-          </select>
-        </div>
-        <nav id="lesson-list">
-          <!-- レッスンリストがここに表示される -->
-        </nav>
-      </aside>
+      <!-- 学習モード -->
+      <div id="learn-mode" class="mode-container">
+        <aside class="sidebar" id="sidebar">
+          <div class="course-selector">
+            <select id="course-select">
+              <option value="math-1-sample">数学Ⅰ（サンプル）</option>
+            </select>
+          </div>
+          <nav id="lesson-list">
+            <!-- レッスンリストがここに表示される -->
+          </nav>
+        </aside>
 
-      <main class="content">
-        <div id="lesson-content">
-          <div class="loading">読み込み中...</div>
+        <main class="content">
+          <div id="lesson-content">
+            <div class="loading">読み込み中...</div>
+          </div>
+          
+          <div class="navigation">
+            <button id="prev-btn" class="nav-btn">← 前へ</button>
+            <button id="next-btn" class="nav-btn">次へ →</button>
+          </div>
+        </main>
+      </div>
+
+      <!-- 統計モード -->
+      <div id="stats-mode" class="mode-container" style="display: none;">
+        <div class="dashboard-container">
+          <h2>📊 学習統計</h2>
+          
+          <!-- 概要カード -->
+          <div class="stats-overview">
+            <div class="stat-card">
+              <div class="stat-icon">📚</div>
+              <div class="stat-content">
+                <div class="stat-label">完了レッスン</div>
+                <div class="stat-value" id="stat-completed">0</div>
+                <div class="stat-total">/ <span id="stat-total">0</span></div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-content">
+                <div class="stat-label">正答率</div>
+                <div class="stat-value" id="stat-accuracy">0%</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">📝</div>
+              <div class="stat-content">
+                <div class="stat-label">解答数</div>
+                <div class="stat-value" id="stat-attempts">0</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">⭐</div>
+              <div class="stat-content">
+                <div class="stat-label">達成度</div>
+                <div class="stat-value" id="stat-progress">0%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 進捗グラフ -->
+          <div class="stats-section">
+            <h3>📈 進捗グラフ</h3>
+            <div class="progress-chart">
+              <canvas id="progress-canvas"></canvas>
+            </div>
+          </div>
+
+          <!-- 達成バッジ -->
+          <div class="stats-section">
+            <h3>🏆 達成バッジ</h3>
+            <div id="badges-container" class="badges-grid">
+              <!-- バッジがここに表示される -->
+            </div>
+          </div>
+
+          <!-- レッスン別詳細 -->
+          <div class="stats-section">
+            <h3>📋 レッスン別詳細</h3>
+            <div id="lesson-details" class="lesson-details-table">
+              <!-- 詳細がここに表示される -->
+            </div>
+          </div>
+
+          <!-- データ管理 -->
+          <div class="stats-section">
+            <h3>💾 データ管理</h3>
+            <div class="data-management">
+              <button id="export-btn" class="btn btn-secondary">
+                📥 データをエクスポート
+              </button>
+              <button id="import-btn" class="btn btn-secondary">
+                📤 データをインポート
+              </button>
+              <input type="file" id="import-file" accept=".json" style="display: none;">
+              <button id="reset-btn" class="btn btn-danger">
+                🔄 進捗をリセット
+              </button>
+            </div>
+            <div class="data-info">
+              <p>最終学習日: <span id="last-studied">-</span></p>
+              <p>学習開始日: <span id="started-at">-</span></p>
+            </div>
+          </div>
         </div>
-        
-        <div class="navigation">
-          <button id="prev-btn" class="nav-btn">← 前へ</button>
-          <button id="next-btn" class="nav-btn">次へ →</button>
-        </div>
-      </main>
+      </div>
     </div>
   </div>
 

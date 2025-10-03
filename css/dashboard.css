@@ -1,0 +1,296 @@
+/* ダッシュボード全体 */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dashboard-container h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--text-dark);
+}
+
+.dashboard-container h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.5rem;
+}
+
+/* ヘッダーナビゲーション */
+.header-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.header-nav .nav-btn {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.header-nav .nav-btn:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.header-nav .nav-btn.active {
+  background: var(--primary);
+  color: white;
+}
+
+/* モード切り替え */
+.mode-container {
+  width: 100%;
+}
+
+/* 統計概要カード */
+.stats-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.stat-icon {
+  font-size: 3rem;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.stat-total {
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+/* 統計セクション */
+.stats-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+/* 進捗グラフ */
+.progress-chart {
+  height: 300px;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-main);
+  border-radius: 4px;
+}
+
+.chart-bar {
+  flex: 1;
+  background: var(--primary);
+  border-radius: 4px 4px 0 0;
+  min-height: 20px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.chart-bar:hover {
+  background: #1976D2;
+}
+
+.chart-bar-label {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.chart-bar-value {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+/* バッジグリッド */
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.badge {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.badge.earned {
+  border-color: var(--success);
+  background: #E8F5E9;
+}
+
+.badge.locked {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+
+.badge:hover {
+  transform: scale(1.05);
+}
+
+.badge-icon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.badge-name {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: var(--text-dark);
+}
+
+.badge-description {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+/* レッスン詳細テーブル */
+.lesson-details-table {
+  overflow-x: auto;
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.details-table th,
+.details-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.details-table th {
+  background: var(--bg-main);
+  font-weight: bold;
+  color: var(--text-dark);
+}
+
+.details-table tr:hover {
+  background: var(--bg-main);
+}
+
+.accuracy-bar {
+  height: 20px;
+  background: var(--bg-main);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.accuracy-fill {
+  height: 100%;
+  background: var(--success);
+  transition: width 0.3s ease;
+}
+
+.accuracy-fill.medium {
+  background: var(--warning);
+}
+
+.accuracy-fill.low {
+  background: var(--error);
+}
+
+/* データ管理 */
+.data-management {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-danger {
+  background: var(--error);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #C62828;
+}
+
+.data-info {
+  padding: 1rem;
+  background: var(--bg-main);
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.data-info p {
+  margin: 0.5rem 0;
+  color: var(--text-light);
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .stats-overview {
+    grid-template-columns: 1fr;
+  }
+  
+  .badges-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+  
+  .data-management {
+    flex-direction: column;
+  }
+  
+  .data-management button {
+    width: 100%;
+  }
+}

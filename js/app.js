@@ -1,13 +1,19 @@
 import { CourseLoader } from './loader.js';
 import { LessonRenderer } from './renderer.js';
+import { ProgressManager } from './progress.js';
+import { Dashboard } from './dashboard.js';
 
 class App {
   constructor() {
     this.loader = new CourseLoader();
     this.renderer = new LessonRenderer();
+    this.progress = new ProgressManager();
+    this.dashboard = new Dashboard(this.progress);
     this.currentCourse = null;
+    this.currentCourseId = null;
     this.currentLessonIndex = 0;
     this.allLessons = [];
+    this.currentMode = 'learn'; // 'learn' or 'stats'
   }
 
   async init() {
@@ -54,6 +60,18 @@ class App {
   }
 
   setupEventListeners() {
+    // モード切り替え
+    const navLearn = document.getElementById('nav-learn');
+    const navStats = document.getElementById('nav-stats');
+
+    if (navLearn) {
+      navLearn.addEventListener('click', () => this.switchMode('learn'));
+    }
+
+    if (navStats) {
+      navStats.addEventListener('click', () => this.switchMode('stats'));
+    }
+
     // コース選択
     const courseSelect = document.getElementById('course-select');
     if (courseSelect) {
@@ -73,6 +91,85 @@ class App {
     if (nextBtn) {
       nextBtn.addEventListener('click', () => this.navigateLesson(1));
     }
+
+    // データ管理ボタン
+    const exportBtn = document.getElementById('export-btn');
+    const importBtn = document.getElementById('import-btn');
+    const importFile = document.getElementById('import-file');
+    const resetBtn = document.getElementById('reset-btn');
+
+    if (exportBtn) {
+      exportBtn.addEventListener('click', () => this.progress.export());
+    }
+
+    if (importBtn && importFile) {
+      importBtn.addEventListener('click', () => importFile.click());
+      importFile.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          this.progress.import(e.target.files[0]).then(() => {
+            alert('データをインポートしました！');
+            this.refreshDashboard();
+          }).catch(err => {
+            alert('インポートに失敗しました: ' + err.message);
+          });
+        }
+      });
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (this.progress.resetCourse(this.currentCourseId)) {
+          this.refreshDashboard();
+          this.renderSidebar();
+          alert('進捗をリセットしました');
+        }
+      });
+    }
+
+    // キーボードショートカット
+    document.addEventListener('keydown', (e) => {
+      if (this.currentMode === 'learn' && !e.target.matches('input, textarea')) {
+        if (e.key === 'ArrowLeft') {
+          this.navigateLesson(-1);
+        } else if (e.key === 'ArrowRight') {
+          this.navigateLesson(1);
+        }
+      }
+    });
+  }
+
+  /**
+   * モード切り替え
+   */
+  switchMode(mode) {
+    this.currentMode = mode;
+
+    const learnMode = document.getElementById('learn-mode');
+    const statsMode = document.getElementById('stats-mode');
+    const navLearn = document.getElementById('nav-learn');
+    const navStats = document.getElementById('nav-stats');
+
+    if (mode === 'learn') {
+      learnMode.style.display = 'flex';
+      statsMode.style.display = 'none';
+      navLearn.classList.add('active');
+      navStats.classList.remove('active');
+    } else {
+      learnMode.style.display = 'none';
+      statsMode.style.display = 'block';
+      navLearn.classList.remove('active');
+      navStats.classList.add('active');
+      this.refreshDashboard();
+    }
+  }
+
+  /**
+   * ダッシュボードの更新
+   */
+  refreshDashboard() {
+    if (this.currentCourse) {
+      this.dashboard.render(this.currentCourseId, this.currentCourse.courseName);
+    }
   }
 
   async loadCourse(courseId) {
@@ -80,6 +177,7 @@ class App {
       console.log(`📚 コース読み込み中: ${courseId}`);
       
       this.currentCourse = await this.loader.loadCourse(courseId);
+      this.currentCourseId = courseId;
       
       // 全レッスンをフラット化
       this.allLessons = [];
@@ -87,12 +185,20 @@ class App {
         this.allLessons.push(...unit.lessons);
       });
 
+      // 進捗管理の初期化
+      this.progress.initCourse(courseId, this.allLessons.length);
+
       // サイドバーを更新
       this.renderSidebar();
 
-      // 最初のレッスンを表示
-      this.currentLessonIndex = 0;
+      // 前回の続きから、または最初のレッスンを表示
+      this.currentLessonIndex = this.progress.getCurrentLesson(courseId);
       this.renderCurrentLesson();
+
+      // ダッシュボードを更新
+      if (this.currentMode === 'stats') {
+        this.refreshDashboard();
+      }
 
       console.log(`✅ コース読み込み完了: ${this.allLessons.length} レッスン`);
     } catch (error) {
@@ -116,9 +222,14 @@ class App {
       unitTitle.textContent = unit.unitName;
       unitGroup.appendChild(unitTitle);
 
-      unit.lessons.forEach((lesson, index) => {
+      unit.lessons.forEach((lesson) => {
         const lessonItem = document.createElement('div');
         lessonItem.className = 'lesson-item';
+        
+        // 完了マーク
+        if (this.progress.isLessonCompleted(this.currentCourseId, lesson.id)) {
+          lessonItem.classList.add('completed');
+        }
         
         const emoji = this.renderer.getImportanceEmoji(lesson.importance);
         lessonItem.textContent = `${emoji} ${lesson.title}`;
@@ -139,7 +250,13 @@ class App {
     if (this.allLessons.length === 0) return;
 
     const lesson = this.allLessons[this.currentLessonIndex];
+    
+    // レッスンを表示（rendererに進捗管理を渡す）
+    this.renderer.setProgressManager(this.progress, this.currentCourseId);
     this.renderer.renderLesson(lesson);
+
+    // 現在のレッスン位置を保存
+    this.progress.setCurrentLesson(this.currentCourseId, this.currentLessonIndex);
 
     // サイドバーのアクティブ状態を更新
     document.querySelectorAll('.lesson-item').forEach((item, index) => {
@@ -183,7 +300,7 @@ class App {
     const progressFill = document.getElementById('progress-fill');
 
     if (progressText && progressFill) {
-      const progress = Math.round(((this.currentLessonIndex + 1) / this.allLessons.length) * 100);
+      const progress = this.progress.getCourseProgress(this.currentCourseId);
       progressText.textContent = `進捗: ${progress}%`;
       progressFill.style.width = `${progress}%`;
     }
