@@ -1,0 +1,203 @@
+/* リセット & 基本設定 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #2196F3;
+  --secondary: #FF9800;
+  --success: #4CAF50;
+  --error: #F44336;
+  --warning: #FFC107;
+  --bg-main: #F5F5F5;
+  --bg-white: #FFFFFF;
+  --text-dark: #212121;
+  --text-light: #757575;
+  --border: #E0E0E0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+/* ヘッダー */
+.header {
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  color: var(--primary);
+}
+
+.progress-bar {
+  width: 300px;
+}
+
+#progress-text {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
+}
+
+.progress-bar-fill {
+  height: 8px;
+  background: var(--success);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* メインコンテナ */
+.main-container {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 80px);
+}
+
+/* サイドバー */
+.sidebar {
+  width: 280px;
+  background: var(--bg-white);
+  border-right: 1px solid var(--border);
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.course-selector {
+  margin-bottom: 1.5rem;
+}
+
+.course-selector select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 1rem;
+  background: var(--bg-white);
+}
+
+/* レッスンリスト */
+#lesson-list {
+  list-style: none;
+}
+
+.unit-group {
+  margin-bottom: 1.5rem;
+}
+
+.unit-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+}
+
+.lesson-item {
+  padding: 0.75rem;
+  margin: 0.25rem 0;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lesson-item:hover {
+  background: var(--bg-main);
+}
+
+.lesson-item.active {
+  background: var(--primary);
+  color: white;
+}
+
+.lesson-item.completed::after {
+  content: '✓';
+  margin-left: auto;
+  color: var(--success);
+}
+
+/* メインコンテンツ */
+.content {
+  flex: 1;
+  padding: 2rem;
+  background: var(--bg-white);
+  margin: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#lesson-content {
+  min-height: 500px;
+  margin-bottom: 2rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-light);
+}
+
+/* ナビゲーション */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.nav-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.nav-btn:hover {
+  background: #1976D2;
+}
+
+.nav-btn:disabled {
+  background: var(--text-light);
+  cursor: not-allowed;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .content {
+    margin: 0;
+    border-radius: 0;
+  }
+}
