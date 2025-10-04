@@ -138,7 +138,6 @@ export class LessonRenderer {
       return this.createStepByStepProblem(problem, index, lessonId);
     }
 
-    // 既存のシンプル問題処理
     const container = document.createElement('div');
     container.className = 'problem-container';
     container.id = `problem-${index}`;
@@ -406,7 +405,6 @@ export class LessonRenderer {
     };
     return emojis[importance] || '⚪';
   }
-}
 
     // ========================================
     // 段階的問題（Step-by-Step）の実装
@@ -637,3 +635,4 @@ export class LessonRenderer {
             .replace(/[（）]/g, match => match === '（' ? '(' : ')')
             .trim();
     }
+}
