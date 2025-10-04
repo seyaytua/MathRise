@@ -313,3 +313,15 @@ class App {
 
 const app = new App();
 app.init();
+
+// HOMEボタンにサウンド効果を追加
+document.addEventListener('DOMContentLoaded', () => {
+    const homeButton = document.getElementById('homeButton');
+    if (homeButton) {
+        homeButton.addEventListener('click', () => {
+            if (typeof soundManager !== 'undefined') {
+                soundManager.play('select');
+            }
+        });
+    }
+});

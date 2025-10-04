@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathRise - ホーム</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div class="switch-home">
+        <!-- ヘッダー -->
+        <header class="switch-header">
+            <div class="header-left">
+                <h1 class="logo">🎮 MathRise</h1>
+            </div>
+            <div class="header-right">
+                <span class="time" id="currentTime">14:26</span>
+                <button class="icon-btn theme-toggle" id="themeToggle" title="テーマ切り替え">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <button class="icon-btn" id="achievementsBtn" title="実績">
+                    🏆
+                    <span class="badge" id="achievementBadge">0</span>
+                </button>
+                <button class="icon-btn" id="settingsBtn" title="設定">⚙️</button>
+                <button class="icon-btn" id="userBtn" title="ユーザー">👤</button>
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <div class="welcome-section">
+                <h2 class="welcome-text">学びたいコースを選択してください</h2>
+                <p class="subtitle">各コースをクリックして学習を始めましょう 🚀</p>
+            </div>
+
+            <!-- コースグリッド -->
+            <div class="course-grid" id="courseGrid">
+                <!-- JavaScriptで動的生成 -->
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer class="switch-footer">
+            <div class="footer-controls">
+                <button class="control-btn" id="prevBtn">
+                    <span class="btn-icon">⬅️</span>
+                    <span class="btn-text">前へ</span>
+                </button>
+                <button class="control-btn primary" id="selectBtn">
+                    <span class="btn-badge">[A]</span>
+                    <span class="btn-text">選択</span>
+                </button>
+                <button class="control-btn" id="nextBtn">
+                    <span class="btn-text">次へ</span>
+                    <span class="btn-icon">➡️</span>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 実績モーダル -->
+    <div class="modal" id="achievementsModal">
+        <div class="modal-content achievement-modal">
+            <div class="modal-header">
+                <h2>🏆 実績</h2>
+                <button class="close-btn" id="closeAchievements">✕</button>
+            </div>
+            <div class="modal-body" id="achievementsList">
+                <!-- JavaScriptで動的生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 実績アンロック通知 -->
+    <div class="achievement-notification" id="achievementNotification">
+        <div class="notification-content">
+            <span class="notification-icon">🏆</span>
+            <div class="notification-text">
+                <strong class="notification-title">実績解除！</strong>
+                <p class="notification-desc" id="notificationDesc"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- スクリプト -->
+    <script src="js/sound-manager.js"></script>
+    <script src="js/theme-manager.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>
+
+    <!-- テーマ設定モーダル -->
+    <div class="modal" id="themeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🎨 テーマ設定</h2>
+                <button class="close-btn" id="closeTheme">✕</button>
+            </div>
+            <div class="modal-body">
+                <h3>背景スタイル（ライトモードのみ）</h3>
+                <div class="theme-selector">
+                    <button class="theme-option default active" data-variant="default" title="デフォルト（ブルー）"></button>
+                    <button class="theme-option sunset" data-variant="sunset" title="サンセット"></button>
+                    <button class="theme-option mint" data-variant="mint" title="ミントグリーン"></button>
+                    <button class="theme-option lavender" data-variant="lavender" title="ラベンダー"></button>
+                    <button class="theme-option modern" data-variant="modern" title="モダングレー"></button>
+                </div>
+                
+                <div style="margin-top: 2rem;">
+                    <h3>プレビュー</h3>
+                    <div class="theme-preview" id="themePreview">
+                        選択した背景がここに表示されます
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // テーマ選択機能
+        document.getElementById('settingsBtn')?.addEventListener('click', () => {
+            soundManager.play('select');
+            document.getElementById('themeModal').classList.add('active');
+        });
+        
+        document.getElementById('closeTheme')?.addEventListener('click', () => {
+            soundManager.play('select');
+            document.getElementById('themeModal').classList.remove('active');
+        });
+        
+        document.querySelectorAll('.theme-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const variant = option.dataset.variant;
+                themeManager.setVariant(variant);
+                soundManager.play('select');
+                
+                // アクティブ表示を更新
+                document.querySelectorAll('.theme-option').forEach(o => o.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+    </script>

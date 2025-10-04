@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="css/templates.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/dashboard.css">
-  <link rel="stylesheet" href="css/themes.css">
 </head>
 <body>
   <div id="app">
@@ -19,27 +18,12 @@
           <button id="nav-learn" class="nav-btn active">学習</button>
           <button id="nav-stats" class="nav-btn">統計</button>
         </nav>
-        
-        <!-- トップバー（進捗 + HOMEボタン） -->
-        <div class="top-bar">
-          <!-- 進捗バー -->
-          <div class="progress-container">
-            <span id="progress-text">進捗: 0%</span>
-            <div class="progress-bar-container">
-              <div class="progress-bar-fill" id="progress-fill"></div>
-            </div>
+        <div class="progress-bar">
+          <span id="progress-text">進捗: 0%</span>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
           </div>
-          
-          <!-- HOMEボタン -->
-          <a href="home.html" class="home-button-compact" id="homeButton">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-            <span>HOME</span>
-          </a>
         </div>
-        
       </div>
     </header>
 
@@ -164,6 +148,5 @@
   </div>
 
   <script type="module" src="js/app.js"></script>
-  <script src="js/theme-manager.js"></script>
 </body>
 </html>
