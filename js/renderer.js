@@ -133,6 +133,12 @@ export class LessonRenderer {
   }
 
   createProblem(problem, index, lessonId) {
+    // step-by-step タイプの場合
+    if (problem.type === 'step-by-step') {
+      return this.createStepByStepProblem(problem, index, lessonId);
+    }
+
+    // 既存のシンプル問題処理
     const container = document.createElement('div');
     container.className = 'problem-container';
     container.id = `problem-${index}`;
@@ -401,3 +407,233 @@ export class LessonRenderer {
     return emojis[importance] || '⚪';
   }
 }
+
+    // ========================================
+    // 段階的問題（Step-by-Step）の実装
+    // ========================================
+    
+    createStepByStepProblem(problem, index, lessonId) {
+        const container = document.createElement('div');
+        container.className = 'step-by-step-container';
+        
+        // 問題文
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'problem-question';
+        questionDiv.innerHTML = `<strong>段階的問題 ${index + 1}:</strong> ${problem.question}`;
+        container.appendChild(questionDiv);
+        
+        // 各ステップを作成
+        problem.steps.forEach((step, stepIndex) => {
+            const stepElement = this.createStep(step, stepIndex, problem, lessonId);
+            
+            // 最初のステップ以外はロック状態
+            if (stepIndex > 0) {
+                stepElement.classList.add('locked');
+            }
+            
+            container.appendChild(stepElement);
+        });
+        
+        return container;
+    }
+    
+    createStep(step, stepIndex, problem, lessonId) {
+        const stepDiv = document.createElement('div');
+        stepDiv.className = 'step';
+        stepDiv.id = `step-${problem.problemId}-${stepIndex}`;
+        stepDiv.dataset.stepIndex = stepIndex;
+        
+        // ステップヘッダー
+        const header = document.createElement('div');
+        header.className = 'step-header';
+        header.innerHTML = `
+            <div class="step-number">${stepIndex + 1}</div>
+            <div class="step-prompt">${step.prompt}</div>
+        `;
+        stepDiv.appendChild(header);
+        
+        // 入力欄コンテナ
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'step-input-container';
+        
+        // 入力欄
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'problem-input';
+        input.id = `step-answer-${problem.problemId}-${stepIndex}`;
+        input.placeholder = '答えを入力...';
+        
+        // Enterキーで確認
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkBtn.click();
+            }
+        });
+        
+        inputContainer.appendChild(input);
+        
+        // ボタンコンテナ
+        const btnContainer = document.createElement('div');
+        btnContainer.className = 'step-buttons';
+        
+        // ヒントボタン
+        if (step.hints && step.hints.length > 0) {
+            const hintBtn = document.createElement('button');
+            hintBtn.className = 'btn btn-secondary';
+            hintBtn.innerHTML = '💡 ヒント';
+            hintBtn.onclick = () => this.showStepHint(step, stepDiv);
+            btnContainer.appendChild(hintBtn);
+        }
+        
+        // 確認ボタン
+        const checkBtn = document.createElement('button');
+        checkBtn.className = 'btn btn-primary';
+        checkBtn.textContent = '確認';
+        checkBtn.onclick = () => this.checkStepAnswer(step, input.value, stepDiv, stepIndex, problem, lessonId);
+        btnContainer.appendChild(checkBtn);
+        
+        inputContainer.appendChild(btnContainer);
+        stepDiv.appendChild(inputContainer);
+        
+        // フィードバック領域
+        const feedbackDiv = document.createElement('div');
+        feedbackDiv.className = 'step-feedback';
+        stepDiv.appendChild(feedbackDiv);
+        
+        return stepDiv;
+    }
+    
+    showStepHint(step, stepDiv) {
+        const feedbackDiv = stepDiv.querySelector('.step-feedback');
+        
+        // 既存のヒントをクリア
+        const existingHints = feedbackDiv.querySelectorAll('.hint-message');
+        existingHints.forEach(h => h.remove());
+        
+        // ヒントを1つずつ表示
+        const currentHintCount = feedbackDiv.querySelectorAll('.hint-message').length;
+        
+        if (currentHintCount < step.hints.length) {
+            const hintDiv = document.createElement('div');
+            hintDiv.className = 'hint-message';
+            hintDiv.innerHTML = `💡 <strong>ヒント ${currentHintCount + 1}:</strong> ${step.hints[currentHintCount]}`;
+            feedbackDiv.appendChild(hintDiv);
+            
+            // MathJax再レンダリング
+            if (window.MathJax) {
+                MathJax.typesetPromise([hintDiv]);
+            }
+        }
+    }
+    
+    checkStepAnswer(step, userAnswer, stepDiv, stepIndex, problem, lessonId) {
+        const normalized = this.normalizeAnswer(userAnswer);
+        const correctAnswer = this.normalizeAnswer(step.answer);
+        const isCorrect = normalized === correctAnswer;
+        
+        // フィードバック表示
+        this.showStepFeedback(isCorrect, stepDiv, step);
+        
+        if (isCorrect) {
+            // ステップを完了状態に
+            stepDiv.classList.add('completed');
+            
+            // 入力欄を無効化
+            const input = stepDiv.querySelector('.problem-input');
+            input.disabled = true;
+            
+            // 確認ボタンを無効化
+            const checkBtn = stepDiv.querySelector('.btn-primary');
+            checkBtn.disabled = true;
+            checkBtn.textContent = '✓ 完了';
+            
+            // 次のステップをアンロック
+            const nextStepId = `step-${problem.problemId}-${stepIndex + 1}`;
+            const nextStep = document.getElementById(nextStepId);
+            
+            if (nextStep) {
+                setTimeout(() => {
+                    nextStep.classList.remove('locked');
+                    nextStep.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // 次のステップの入力欄にフォーカス
+                    const nextInput = nextStep.querySelector('.problem-input');
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }, 500);
+            } else {
+                // 全ステップ完了
+                this.checkAllStepsCompleted(problem, lessonId);
+            }
+        }
+    }
+    
+    showStepFeedback(isCorrect, stepDiv, step) {
+        const feedbackDiv = stepDiv.querySelector('.step-feedback');
+        
+        // 既存のフィードバックをクリア
+        const existingFeedback = feedbackDiv.querySelector('.feedback-message');
+        if (existingFeedback) {
+            existingFeedback.remove();
+        }
+        
+        const feedbackMsg = document.createElement('div');
+        feedbackMsg.className = `feedback-message ${isCorrect ? 'correct' : 'incorrect'}`;
+        
+        if (isCorrect) {
+            feedbackMsg.innerHTML = `✓ ${step.feedback.correct}`;
+        } else {
+            feedbackMsg.innerHTML = `✗ ${step.feedback.incorrect}`;
+        }
+        
+        feedbackDiv.appendChild(feedbackMsg);
+        
+        // MathJax再レンダリング
+        if (window.MathJax) {
+            MathJax.typesetPromise([feedbackMsg]);
+        }
+    }
+    
+    checkAllStepsCompleted(problem, lessonId) {
+        const allSteps = document.querySelectorAll(`[id^="step-${problem.problemId}-"]`);
+        const completedSteps = document.querySelectorAll(`[id^="step-${problem.problemId}-"].completed`);
+        
+        if (allSteps.length === completedSteps.length) {
+            // 全ステップ完了！
+            setTimeout(() => {
+                const container = document.querySelector('.step-by-step-container');
+                
+                // 完了メッセージ
+                const completionDiv = document.createElement('div');
+                completionDiv.className = 'step-completion-message';
+                completionDiv.innerHTML = `
+                    <div class="completion-icon">🎉</div>
+                    <div class="completion-text">
+                        <strong>すべてのステップを完了しました！</strong>
+                        <p>${problem.feedback?.correct || '素晴らしい理解です！'}</p>
+                    </div>
+                `;
+                
+                container.appendChild(completionDiv);
+                completionDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // 進捗を記録
+                this.recordProblemAttempt(lessonId, problem.problemId, true);
+                
+                // レッスン完了チェック
+                this.checkLessonCompletion();
+            }, 500);
+        }
+    }
+    
+    normalizeAnswer(answer) {
+        if (typeof answer !== 'string') return String(answer);
+        
+        return answer
+            .toLowerCase()
+            .replace(/\s+/g, '')
+            .replace(/[　]/g, '')
+            .replace(/[（）]/g, match => match === '（' ? '(' : ')')
+            .trim();
+    }
