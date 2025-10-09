@@ -1,0 +1,36 @@
+{
+  "courseId": "math-1",
+  "courseName": "数学Ⅰ",
+  "version": "1.0.0",
+  "totalChapters": 3,
+  "totalLessons": 96,
+  "estimatedHours": 80,
+  "difficulty": "beginner",
+  "prerequisites": [],
+  "objectives": [
+    "数と式の計算を理解する",
+    "集合と命題の基礎を学ぶ",
+    "二次関数のグラフを描ける",
+    "図形の性質を証明できる"
+  ],
+  "chapters": [
+    {
+      "chapterId": "math-1_1",
+      "chapterName": "第1章 数と式",
+      "file": "chapter-1.json",
+      "lessons": 32
+    },
+    {
+      "chapterId": "math-1_2",
+      "chapterName": "第2章 集合と命題",
+      "file": "chapter-2.json",
+      "lessons": 32
+    },
+    {
+      "chapterId": "math-1_3",
+      "chapterName": "第3章 二次関数",
+      "file": "chapter-3.json",
+      "lessons": 32
+    }
+  ]
+}

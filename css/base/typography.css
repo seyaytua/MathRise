@@ -1,0 +1,123 @@
+/* ========================================
+   タイポグラフィ
+======================================== */
+
+/* 見出し */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-bold);
+  line-height: var(--line-tight);
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+}
+
+h1 {
+  font-size: var(--font-4xl);
+  margin-bottom: var(--space-xl);
+}
+
+h2 {
+  font-size: var(--font-3xl);
+  margin-bottom: var(--space-lg);
+}
+
+h3 {
+  font-size: var(--font-2xl);
+}
+
+h4 {
+  font-size: var(--font-xl);
+}
+
+h5 {
+  font-size: var(--font-lg);
+}
+
+h6 {
+  font-size: var(--font-base);
+}
+
+/* 段落 */
+p {
+  margin-bottom: var(--space-md);
+  line-height: var(--line-relaxed);
+  color: var(--text-primary);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* 強調 */
+strong, b {
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+em, i {
+  font-style: italic;
+}
+
+/* コード */
+code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  color: var(--error);
+}
+
+pre {
+  font-family: 'Courier New', Courier, monospace;
+  padding: var(--space-md);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  margin-bottom: var(--space-md);
+}
+
+pre code {
+  padding: 0;
+  background: none;
+  color: var(--text-primary);
+}
+
+/* リンク */
+a {
+  color: var(--primary);
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* 引用 */
+blockquote {
+  border-left: 4px solid var(--primary);
+  padding-left: var(--space-md);
+  margin: var(--space-lg) 0;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* 水平線 */
+hr {
+  border: none;
+  border-top: var(--border-width) solid var(--border-color);
+  margin: var(--space-xl) 0;
+}
+
+/* 小さいテキスト */
+small {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+/* マーク */
+mark {
+  background: var(--warning-light);
+  padding: 0.1em 0.3em;
+  border-radius: var(--radius-sm);
+}

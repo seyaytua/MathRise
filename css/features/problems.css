@@ -1,0 +1,313 @@
+/* ========================================
+   問題コンポーネント
+======================================== */
+
+/* ========================================
+   問題コンテナ
+======================================== */
+
+.problem-container {
+  background: var(--card-bg);
+  padding: var(--space-lg);
+  margin: var(--space-lg) 0;
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--border-color);
+  transition: all var(--transition-base);
+}
+
+.problem-container:hover {
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ========================================
+   問題文
+======================================== */
+
+.problem-question {
+  font-size: var(--font-lg);
+  margin-bottom: var(--space-md);
+  font-weight: var(--font-medium);
+  line-height: var(--line-loose);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+/* 問題文内の段落 */
+.problem-question p {
+  margin-bottom: var(--space-md);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  line-height: var(--line-loose);
+}
+
+/* 問題文内の太字（選択肢ラベルなど）- ブロック表示で改行 */
+.problem-question strong {
+  display: block;
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+  font-weight: var(--font-semibold);
+  width: 100%;
+}
+
+/* 問題文の数式を見やすく（インライン） */
+.problem-question mjx-container {
+  display: inline-flex !important;
+  vertical-align: baseline !important;
+  align-items: baseline;
+  margin: 0 0.2em;
+  font-size: 1.05em;
+  line-height: 1;
+}
+
+/* MathJax内部のSVG調整 */
+.problem-question mjx-container svg {
+  vertical-align: baseline !important;
+}
+
+.question-text {
+  display: inline-block;
+  margin-left: var(--space-sm);
+}
+
+/* ========================================
+   ヒント
+======================================== */
+
+.hint-container {
+  background: rgba(33, 150, 243, 0.1);
+  padding: var(--space-md);
+  margin-top: var(--space-md);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--primary);
+}
+
+.hint-container::before {
+  content: '💡 ヒント';
+  display: block;
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-sm);
+  color: var(--primary);
+}
+
+/* ========================================
+   フィードバック
+======================================== */
+
+.feedback {
+  padding: var(--space-md);
+  margin-top: var(--space-md);
+  border-radius: var(--radius-sm);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.feedback-correct {
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 3px solid var(--success);
+  color: var(--success-dark);
+}
+
+.feedback-correct::before {
+  content: '✓ ';
+  font-weight: var(--font-bold);
+}
+
+.feedback-incorrect {
+  background: rgba(244, 67, 54, 0.1);
+  border-left: 3px solid var(--error);
+  color: var(--error-dark);
+}
+
+.feedback-incorrect::before {
+  content: '✗ ';
+  font-weight: var(--font-bold);
+}
+
+/* ========================================
+   段階的問題（Step-by-Step）
+======================================== */
+
+.step-by-step {
+  margin: var(--space-lg) 0;
+}
+
+.step-by-step-container {
+  margin: var(--space-xl) 0;
+}
+
+.step {
+  background: var(--card-bg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-color);
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.step.locked {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(0.5);
+}
+
+.step.locked::before {
+  content: '🔒';
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  font-size: var(--font-2xl);
+}
+
+.step.completed {
+  border-color: var(--success);
+  background: linear-gradient(to right, rgba(76, 175, 80, 0.05) 0%, var(--card-bg) 100%);
+  opacity: 0.7;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  font-weight: var(--font-bold);
+}
+
+.step-number {
+  background: var(--primary);
+  color: var(--text-inverse);
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-bold);
+  font-size: var(--font-xl);
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+  transition: all var(--transition-base);
+}
+
+.step.completed .step-number {
+  background: var(--success);
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+/* ステップのプロンプト */
+.step-prompt {
+  flex: 1;
+  font-size: var(--font-lg);
+  font-weight: var(--font-medium);
+  line-height: var(--line-relaxed);
+  color: var(--text-primary);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ステップのプロンプト内の段落 */
+.step-prompt p {
+  margin-bottom: var(--space-md);
+}
+
+/* ステップのプロンプト内の太字 - ブロック表示で改行 */
+.step-prompt strong {
+  display: block;
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+  font-weight: var(--font-semibold);
+}
+
+/* ステップのプロンプト内の数式（インライン） */
+.step-prompt mjx-container {
+  display: inline !important;
+  vertical-align: middle;
+  margin: 0 0.2em;
+}
+
+.step-input-container {
+  margin-top: var(--space-md);
+}
+
+.step-feedback {
+  margin-top: var(--space-md);
+}
+
+.step-feedback .feedback-message {
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+  margin-top: var(--space-sm);
+  animation: slideIn 0.3s ease;
+}
+
+.step-feedback .feedback-message.correct {
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 4px solid var(--success);
+  color: var(--success-dark);
+}
+
+.step-feedback .feedback-message.incorrect {
+  background: rgba(244, 67, 54, 0.1);
+  border-left: 4px solid var(--error);
+  color: var(--error-dark);
+}
+
+.step-feedback .hint-message {
+  background: rgba(255, 193, 7, 0.1);
+  border-left: 4px solid var(--warning);
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+  margin-top: var(--space-sm);
+  color: var(--warning-dark);
+  animation: slideIn 0.3s ease;
+}
+
+/* ========================================
+   問題完了アニメーション
+======================================== */
+
+.problem-completed {
+  animation: completePulse 0.5s ease;
+  border: 2px solid var(--success);
+  background: rgba(76, 175, 80, 0.05);
+}
+
+@keyframes completePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* ========================================
+   レスポンシブ対応
+======================================== */
+
+@media (max-width: 768px) {
+  .step {
+    padding: var(--space-md);
+  }
+  
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-lg);
+  }
+  
+  .step-prompt {
+    font-size: var(--font-base);
+  }
+}

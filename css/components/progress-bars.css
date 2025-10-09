@@ -1,0 +1,307 @@
+/* ========================================
+   進捗バーコンポーネント
+======================================== */
+
+/* ========================================
+   基本進捗バー
+======================================== */
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--progress-bg);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--progress-gradient);
+  transition: width 0.5s var(--ease-out);
+  position: relative;
+}
+
+/* シマーエフェクト */
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255,255,255,0.3), 
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ========================================
+   進捗バーサイズバリエーション
+======================================== */
+
+.progress-bar-sm {
+  height: 4px;
+}
+
+.progress-bar-md {
+  height: 8px;
+}
+
+.progress-bar-lg {
+  height: 12px;
+}
+
+.progress-bar-xl {
+  height: 16px;
+}
+
+/* ========================================
+   進捗バーカラーバリエーション
+======================================== */
+
+.progress-bar-primary .progress-bar-fill {
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+}
+
+.progress-bar-success .progress-bar-fill {
+  background: linear-gradient(90deg, var(--success), var(--success-light));
+}
+
+.progress-bar-warning .progress-bar-fill {
+  background: linear-gradient(90deg, var(--warning), var(--warning-light));
+}
+
+.progress-bar-error .progress-bar-fill {
+  background: linear-gradient(90deg, var(--error), var(--error-light));
+}
+
+/* ========================================
+   進捗バー（ラベル付き）
+======================================== */
+
+.progress-bar-labeled {
+  position: relative;
+  height: 24px;
+  border-radius: var(--radius-sm);
+}
+
+.progress-bar-labeled .progress-bar-fill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-inverse);
+  font-size: var(--font-sm);
+  font-weight: var(--font-bold);
+}
+
+/* ========================================
+   円形進捗バー
+======================================== */
+
+.circular-progress {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.circular-progress svg {
+  transform: rotate(-90deg);
+}
+
+.circular-progress-bg {
+  fill: none;
+  stroke: var(--progress-bg);
+  stroke-width: 8;
+}
+
+.circular-progress-fill {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s var(--ease-out);
+}
+
+.circular-progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: var(--font-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+/* ========================================
+   ステップ進捗バー
+======================================== */
+
+.step-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.step-progress-item {
+  flex: 1;
+  height: 4px;
+  background: var(--progress-bg);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-base);
+}
+
+.step-progress-item.completed {
+  background: var(--success);
+}
+
+.step-progress-item.active {
+  background: var(--primary);
+  animation: pulse-bar 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-bar {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* ========================================
+   正答率バー
+======================================== */
+
+.accuracy-bar {
+  height: 20px;
+  background: var(--progress-bg);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.accuracy-fill {
+  height: 100%;
+  background: var(--success);
+  transition: width var(--transition-slow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-xs);
+  font-weight: var(--font-bold);
+  color: var(--text-inverse);
+}
+
+.accuracy-fill.high {
+  background: var(--success);
+}
+
+.accuracy-fill.medium {
+  background: var(--warning);
+}
+
+.accuracy-fill.low {
+  background: var(--error);
+}
+
+/* ========================================
+   波アニメーション付き進捗バー
+======================================== */
+
+.progress-bar-wave {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-wave::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: wave 2s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ========================================
+   アニメーション進捗バー
+======================================== */
+
+.progress-bar-animated .progress-bar-fill {
+  background-size: 20px 20px;
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+  animation: progress-stripes 1s linear infinite;
+}
+
+@keyframes progress-stripes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 20px 0;
+  }
+}
+
+/* ========================================
+   進捗テキスト
+======================================== */
+
+.progress-text {
+  display: block;
+  font-size: var(--font-sm);
+  margin-bottom: var(--space-sm);
+  color: var(--text-secondary);
+  font-weight: var(--font-medium);
+}
+
+.progress-percentage {
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+/* ========================================
+   レスポンシブ対応
+======================================== */
+
+@media (max-width: 768px) {
+  .circular-progress {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .circular-progress-text {
+    font-size: var(--font-lg);
+  }
+}

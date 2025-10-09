@@ -1,0 +1,202 @@
+/* ========================================
+   学習画面固有スタイル
+======================================== */
+
+/* ========================================
+   学習モードレイアウト
+======================================== */
+
+#learn-mode {
+  display: flex;
+  width: 100%;
+  min-height: 0;
+}
+
+#learn-mode.active {
+  display: flex;
+}
+
+/* ========================================
+   レッスンコンテンツエリア
+======================================== */
+
+#lesson-content {
+  flex: 1;
+  margin-bottom: var(--space-xl);
+  min-height: 400px;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   レッスン切り替えアニメーション
+======================================== */
+
+.lesson-transition-enter {
+  animation: slideInRight 0.4s ease;
+}
+
+.lesson-transition-exit {
+  animation: slideOutLeft 0.4s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+
+/* ========================================
+   学習進捗インジケーター
+======================================== */
+
+.learning-progress {
+  position: sticky;
+  top: 80px;
+  background: var(--card-bg);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  z-index: var(--z-sticky);
+}
+
+.learning-progress-text {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.learning-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--progress-bg);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.learning-progress-fill {
+  height: 100%;
+  background: var(--progress-gradient);
+  transition: width 0.5s var(--ease-out);
+}
+
+/* ========================================
+   レッスン完了バナー
+======================================== */
+
+.lesson-complete-banner {
+  background: linear-gradient(135deg, var(--success), var(--success-light));
+  color: var(--text-inverse);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  margin: var(--space-xl) 0;
+  animation: bounceIn 0.6s ease;
+}
+
+.lesson-complete-icon {
+  font-size: var(--font-4xl);
+  margin-bottom: var(--space-md);
+  animation: rotate 1s ease;
+}
+
+.lesson-complete-title {
+  font-size: var(--font-2xl);
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-sm);
+}
+
+.lesson-complete-message {
+  font-size: var(--font-lg);
+  opacity: 0.9;
+}
+
+/* ========================================
+   キーボードショートカットヒント
+======================================== */
+
+.keyboard-hints {
+  position: fixed;
+  bottom: 100px;
+  right: var(--space-lg);
+  background: var(--card-bg);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--font-sm);
+  opacity: 0.7;
+  transition: opacity var(--transition-base);
+  z-index: var(--z-fixed);
+}
+
+.keyboard-hints:hover {
+  opacity: 1;
+}
+
+.keyboard-hint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: var(--space-xs) 0;
+}
+
+.keyboard-key {
+  background: var(--bg-secondary);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-family: monospace;
+  font-weight: var(--font-bold);
+  border: 1px solid var(--border-color);
+}
+
+/* ========================================
+   レスポンシブ対応
+======================================== */
+
+@media (max-width: 768px) {
+  .learning-progress {
+    position: relative;
+    top: 0;
+  }
+  
+  .keyboard-hints {
+    display: none;
+  }
+  
+  .lesson-complete-banner {
+    padding: var(--space-lg);
+  }
+  
+  .lesson-complete-icon {
+    font-size: var(--font-3xl);
+  }
+  
+  .lesson-complete-title {
+    font-size: var(--font-xl);
+  }
+}

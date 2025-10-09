@@ -1,0 +1,81 @@
+/* ============================================
+   数式レイアウト調整
+   ============================================ */
+
+/* インライン数式のベースライン調整 */
+.MathJax {
+    display: inline !important;
+    vertical-align: baseline !important;
+    line-height: 1 !important;
+}
+
+/* ブロック数式 */
+.MathJax_Display {
+    display: block !important;
+    text-align: center !important;
+    margin: 1em 0 !important;
+}
+
+/* 数式を含む段落の行間調整 */
+p:has(.MathJax),
+li:has(.MathJax),
+.problem-prompt:has(.MathJax),
+.step-prompt:has(.MathJax) {
+    line-height: 1.8 !important;
+}
+
+/* 数式の前後のスペース調整 */
+.MathJax + .MathJax {
+    margin-left: 0.3em;
+}
+
+/* 数式とテキストの間のスペース */
+.MathJax:not(:first-child) {
+    margin-left: 0.2em;
+}
+
+.MathJax:not(:last-child) {
+    margin-right: 0.2em;
+}
+
+/* 問題文内の数式 */
+.problem-question .MathJax,
+.problem-prompt .MathJax,
+.step-prompt .MathJax {
+    vertical-align: baseline !important;
+}
+
+/* 選択肢内の数式 */
+.choice-label .MathJax {
+    vertical-align: baseline !important;
+    margin: 0 0.2em;
+}
+
+/* 説明文内の数式 */
+.explanation .MathJax,
+.hint .MathJax,
+.feedback .MathJax {
+    vertical-align: baseline !important;
+}
+
+/* 大きな数式（分数など）の調整 */
+.MathJax[style*="font-size"] {
+    vertical-align: middle !important;
+}
+
+/* フォントサイズの統一 */
+.MathJax {
+    font-size: inherit !important;
+}
+
+/* MathJaxのコンテナ調整 */
+mjx-container {
+    display: inline-block !important;
+    vertical-align: baseline !important;
+}
+
+mjx-container[display="true"] {
+    display: block !important;
+    text-align: center !important;
+    margin: 1em 0 !important;
+}

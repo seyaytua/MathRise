@@ -534,3 +534,44 @@ table {
 .home-button {
     display: none !important;
 }
+
+/* 数式の左寄せ（読みやすさ向上） */
+.lesson-content .MathJax,
+.lesson-content mjx-container {
+    text-align: left !important;
+    margin-left: 0 !important;
+}
+
+.problem-content .MathJax,
+.problem-content mjx-container {
+    text-align: left !important;
+    margin-left: 0 !important;
+}
+
+.step-prompt .MathJax,
+.step-prompt mjx-container {
+    text-align: left !important;
+    margin-left: 0 !important;
+}
+
+/* インライン数式も左寄せ */
+.lesson-content p,
+.problem-content p,
+.step-prompt p,
+.lesson-content div,
+.problem-content div,
+.step-prompt div {
+    text-align: left !important;
+}
+
+/* MathJax全体を左寄せ */
+mjx-container[display="true"],
+mjx-container[display="block"] {
+    text-align: left !important;
+    margin: 1em 0 !important;
+}
+
+/* インライン数式のコンテナ */
+mjx-container[jax="CHTML"][display="true"] {
+    text-align: left !important;
+}

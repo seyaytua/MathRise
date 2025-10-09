@@ -1,0 +1,135 @@
+{
+  "unitId": "unit-01",
+  "unitName": "二次関数",
+  "version": "1.0.0",
+  "generatedBy": "Claude Sonnet 4",
+  "generatedDate": "2025-10-06",
+  
+  "keyTopics": [
+    {
+      "topicId": "topic-001",
+      "topicName": "関数とグラフ",
+      "importance": "low",
+      "isPeak": false,
+      "rationale": "既習事項の確認。学習指導要領に「関数の概念を理解する」とあるが、中学校で既に学習済み。基本的な定義の確認のみで、新しい概念の導入はない。",
+      "curriculumReference": "(ア) 関数とグラフ",
+      "estimatedLessons": 1
+    },
+    {
+      "topicId": "topic-002",
+      "topicName": "y = ax² のグラフ",
+      "importance": "low",
+      "isPeak": false,
+      "rationale": "基本的なグラフの形状の確認。中学校で既習の内容。aの符号による開き方の違いを確認する程度。",
+      "curriculumReference": "(イ) 二次関数のグラフ",
+      "prerequisiteTopics": ["topic-001"],
+      "estimatedLessons": 1
+    },
+    {
+      "topicId": "topic-003",
+      "topicName": "グラフの平行移動",
+      "importance": "medium",
+      "isPeak": false,
+      "rationale": "y = a(x - p)² + q の形の理解が必要。新しい概念の導入であり、標準的な問題を解く必要がある。頂点の座標を読み取る練習が必要。",
+      "curriculumReference": "(イ) 二次関数のグラフ",
+      "prerequisiteTopics": ["topic-002"],
+      "estimatedLessons": 2
+    },
+    {
+      "topicId": "topic-004",
+      "topicName": "平方完成",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件1: 新しい重要概念の導入、条件3: つまずきやすいポイント",
+      "rationale": "二次関数の核となる概念。学習指導要領に「平方完成については、丁寧に指導する」と明記され、「つまずきやすいポイント」に「平方完成における定数項の調整」と記載。y = ax² + bx + c を y = a(x - p)² + q に変形する技術は、後続の学習（最大値・最小値、頂点の座標）で頻繁に使用される。多くの学生が定数項の調整でつまずく。",
+      "curriculumReference": "(イ) 二次関数のグラフ",
+      "prerequisiteTopics": ["topic-003"],
+      "estimatedLessons": 3
+    },
+    {
+      "topicId": "topic-005",
+      "topicName": "最大値・最小値（基本）",
+      "importance": "medium",
+      "isPeak": false,
+      "rationale": "平方完成を使って最大値・最小値を求める。概念の理解が必要で、標準的な問題を解く。定義域が制限されていない基本的な場合を扱う。",
+      "curriculumReference": "(ウ) 二次関数の最大・最小",
+      "prerequisiteTopics": ["topic-004"],
+      "estimatedLessons": 2
+    },
+    {
+      "topicId": "topic-006",
+      "topicName": "最大値・最小値（定義域制限）",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件2: 複数の概念の統合、条件3: つまずきやすいポイント",
+      "rationale": "学習指導要領の「つまずきやすいポイント」に「定義域が制限されている場合の最大値・最小値」と明記。平方完成と定義域の概念を統合する必要があり、頂点が定義域内にあるかどうかで場合分けが必要。多くの学生がつまずく重要なポイント。",
+      "curriculumReference": "(ウ) 二次関数の最大・最小",
+      "prerequisiteTopics": ["topic-005"],
+      "estimatedLessons": 3
+    },
+    {
+      "topicId": "topic-007",
+      "topicName": "二次関数の決定",
+      "importance": "medium",
+      "isPeak": false,
+      "rationale": "与えられた条件から二次関数を決定する。平方完成や頂点の知識を応用する標準的な問題。",
+      "curriculumReference": "発展的内容",
+      "prerequisiteTopics": ["topic-004", "topic-005"],
+      "estimatedLessons": 2
+    },
+    {
+      "topicId": "topic-008",
+      "topicName": "二次方程式の解",
+      "importance": "medium",
+      "isPeak": false,
+      "rationale": "二次方程式の解と二次関数のグラフの関係を理解する。解の公式を使って解を求める標準的な内容。",
+      "curriculumReference": "(ア) 二次方程式",
+      "prerequisiteTopics": ["topic-004"],
+      "estimatedLessons": 2
+    },
+    {
+      "topicId": "topic-009",
+      "topicName": "判別式",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件1: 新しい重要概念の導入",
+      "rationale": "判別式 D = b² - 4ac の導入。学習指導要領に「判別式については、その意味を十分に理解させる」と明記。解の個数とグラフの位置関係を理解する重要な概念。後続の二次不等式で頻繁に使用される。",
+      "curriculumReference": "(ア) 二次方程式",
+      "prerequisiteTopics": ["topic-008"],
+      "estimatedLessons": 2
+    },
+    {
+      "topicId": "topic-010",
+      "topicName": "二次不等式の解法（基本）",
+      "importance": "medium",
+      "isPeak": false,
+      "rationale": "二次不等式の解と二次関数のグラフの関係を理解する。判別式を使って解を求める標準的な内容。",
+      "curriculumReference": "(イ) 二次不等式",
+      "prerequisiteTopics": ["topic-009"],
+      "estimatedLessons": 2
+    },
+    {
+      "topicId": "topic-011",
+      "topicName": "二次不等式の場合分け",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件2: 複数の概念の統合、条件3: つまずきやすいポイント",
+      "rationale": "学習指導要領の「つまずきやすいポイント」に「二次不等式の解の場合分け」と明記。判別式の符号による場合分けが必要で、グラフと式の関係を統合して考える必要がある。多くの学生がつまずく重要なポイント。",
+      "curriculumReference": "(イ) 二次不等式",
+      "prerequisiteTopics": ["topic-010"],
+      "estimatedLessons": 3
+    }
+  ],
+  
+  "metadata": {
+    "totalTopics": 11,
+    "peakTopics": 4,
+    "importanceDistribution": {
+      "low": 2,
+      "medium": 5,
+      "high": 4
+    },
+    "estimatedTotalLessons": 23,
+    "peakPercentage": 36.4
+  }
+}

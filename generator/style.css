@@ -1,0 +1,693 @@
+/**
+ * MathRise Generator
+ * スタイルシート
+ */
+
+/* ========================================
+   リセット & 基本設定
+======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 2rem;
+    line-height: 1.6;
+}
+
+/* ========================================
+   コンテナ
+======================================== */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* ========================================
+   ヘッダー
+======================================== */
+header {
+    text-align: center;
+    color: white;
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.6s ease;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* ========================================
+   進捗トラッカー
+======================================== */
+.progress-tracker {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    animation: fadeInUp 0.6s ease;
+}
+
+.progress-tracker .step {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #999;
+    background: #f5f5f5;
+    margin: 0 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.progress-tracker .step.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* ========================================
+   パネル
+======================================== */
+.panel {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.6s ease;
+}
+
+.panel.hidden {
+    display: none;
+}
+
+.panel h2 {
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.description {
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+/* ========================================
+   フォームグループ
+======================================== */
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-hint {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #999;
+}
+
+/* ========================================
+   チェックボックスグリッド
+======================================== */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.checkbox-card {
+    position: relative;
+    display: block;
+    padding: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.checkbox-card:hover {
+    border-color: #667eea;
+    background: #f5f7ff;
+}
+
+.checkbox-card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.checkbox-card input[type="checkbox"]:checked + .checkbox-label {
+    color: #667eea;
+    font-weight: 600;
+}
+
+.checkbox-card input[type="checkbox"]:checked ~ * {
+    border-color: #667eea;
+}
+
+.checkbox-card:has(input:checked) {
+    background: linear-gradient(135deg, #f5f7ff 0%, #e8ebff 100%);
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.checkbox-label {
+    display: block;
+    font-size: 1rem;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+/* ========================================
+   モードグリッド
+======================================== */
+.mode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.mode-card {
+    position: relative;
+    display: block;
+    padding: 1.5rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mode-card:hover {
+    border-color: #667eea;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.mode-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.mode-card:has(input:checked) {
+    background: linear-gradient(135deg, #f5f7ff 0%, #e8ebff 100%);
+    border-color: #667eea;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    transform: translateY(-4px);
+}
+
+.mode-card.mode-recommended {
+    border-color: #ff9800;
+}
+
+.mode-card.mode-recommended:has(input:checked) {
+    border-color: #ff9800;
+    background: linear-gradient(135deg, #fff8f0 0%, #ffe8cc 100%);
+}
+
+.mode-content {
+    text-align: center;
+}
+
+.mode-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.mode-description {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+}
+
+.mode-rating {
+    font-size: 1.2rem;
+}
+
+/* ========================================
+   ファイル入力
+======================================== */
+.file-input-group {
+    margin-bottom: 1rem;
+}
+
+.file-input-label {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: #f5f5f5;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.file-input-label:hover {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.file-input-label input[type="file"] {
+    display: none;
+}
+
+.file-input-hint {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #999;
+}
+
+/* ========================================
+   テキストエリア
+======================================== */
+textarea {
+    width: 100%;
+    min-height: 300px;
+    padding: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* ========================================
+   プロンプト表示
+======================================== */
+.prompt-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+pre {
+    background: #f5f5f5;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-height: 500px;
+    overflow-y: auto;
+    border: 2px solid #e0e0e0;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+    background: #5568d3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* ========================================
+   情報ボックス
+======================================== */
+.info-box {
+    background: #E3F2FD;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border-left: 4px solid #2196F3;
+    color: #1565C0;
+}
+
+/* ========================================
+   ボタン
+======================================== */
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+button {
+    flex: 1;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #653a8a 100%);
+}
+
+.btn-secondary {
+    background: #f5f5f5;
+    color: #333;
+    border: 2px solid #e0e0e0;
+}
+
+.btn-secondary:hover {
+    background: #e0e0e0;
+}
+
+/* ========================================
+   ローディング
+======================================== */
+.loading-container {
+    text-align: center;
+    padding: 3rem;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #667eea;
+    border-radius: 50%;
+    margin: 0 auto 2rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loading-message {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* ========================================
+   完成画面
+======================================== */
+.result-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+/* ========================================
+   フッター
+======================================== */
+footer {
+    text-align: center;
+    color: white;
+    margin-top: 3rem;
+    padding: 2rem;
+    opacity: 0.8;
+}
+
+footer a {
+    color: white;
+    text-decoration: underline;
+}
+
+footer a:hover {
+    opacity: 0.8;
+}
+
+/* ========================================
+   アニメーション
+======================================== */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   レスポンシブ
+======================================== */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    .progress-tracker {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    
+    .progress-tracker .step {
+        margin: 0.25rem 0;
+        font-size: 0.85rem;
+    }
+    
+    .panel {
+        padding: 1.5rem;
+    }
+    
+    .panel h2 {
+        font-size: 1.5rem;
+    }
+    
+    .checkbox-grid,
+    .mode-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions {
+        flex-direction: column;
+    }
+    
+    button {
+        width: 100%;
+    }
+    
+    .result-summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .copy-btn {
+        position: static;
+        margin-top: 1rem;
+        width: 100%;
+    }
+    
+    pre {
+        font-size: 0.8rem;
+        padding: 1rem;
+    }
+}
+
+/* ========================================
+   スクロールバー
+======================================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #5568d3;
+}
+
+/* バッチサイズ選択 */
+.batch-size-selector {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.batch-option {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.batch-option:hover {
+    border-color: #2196F3;
+    background-color: #f0f8ff;
+}
+
+.batch-option input[type="radio"] {
+    display: none;
+}
+
+.batch-option input[type="radio"]:checked + span {
+    font-weight: bold;
+}
+
+.batch-option:has(input[type="radio"]:checked) {
+    border-color: #2196F3;
+    background-color: #e3f2fd;
+}
+
+.batch-option.recommended {
+    border-color: #FFC107;
+}
+
+.batch-option.recommended:has(input[type="radio"]:checked) {
+    border-color: #FFC107;
+    background-color: #fff8e1;
+}
+
+.batch-info {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.batch-info p {
+    margin: 5px 0;
+}
+
+.batch-info strong {
+    color: #333;
+}
+
+#batch-progress {
+    color: #2196F3;
+    font-weight: bold;
+}
+
+#batch-remaining {
+    color: #FF9800;
+    font-weight: bold;
+}

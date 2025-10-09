@@ -1,0 +1,307 @@
+{
+  "courseId": "math-1",
+  "unitId": "unit-01",
+  "unitName": "二次関数",
+  "version": "1.0.0",
+  "generatedBy": "Claude Sonnet 4",
+  "generatedDate": "2025-10-06",
+  
+  "metadata": {
+    "totalLessons": 25,
+    "peakLessons": 9,
+    "importanceDistribution": {
+      "low": 8,
+      "medium": 8,
+      "high": 9
+    },
+    "estimatedHours": 12.5,
+    "peakPercentage": 36.0
+  },
+  
+  "lessons": [
+    {
+      "id": "lesson-001",
+      "title": "関数とグラフ",
+      "topicId": "topic-001",
+      "importance": "low",
+      "isPeak": false,
+      "estimatedTime": 5,
+      "prerequisites": [],
+      "tags": ["関数", "基礎"],
+      "rationale": "既習事項の確認。基本的な定義のみ。"
+    },
+    {
+      "id": "lesson-002",
+      "title": "y = ax² のグラフ",
+      "topicId": "topic-002",
+      "importance": "low",
+      "isPeak": false,
+      "estimatedTime": 5,
+      "prerequisites": ["lesson-001"],
+      "tags": ["グラフ", "基礎"],
+      "rationale": "基本的なグラフの形状の確認。中学校で既習。"
+    },
+    {
+      "id": "lesson-003",
+      "title": "y = ax² + q のグラフ",
+      "topicId": "topic-003",
+      "importance": "low",
+      "isPeak": false,
+      "estimatedTime": 5,
+      "prerequisites": ["lesson-002"],
+      "tags": ["グラフ", "平行移動"],
+      "rationale": "y軸方向の平行移動。基礎固めレッスン。"
+    },
+    {
+      "id": "lesson-004",
+      "title": "y = a(x - p)² のグラフ",
+      "topicId": "topic-003",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-003"],
+      "tags": ["グラフ", "平行移動"],
+      "rationale": "x軸方向の平行移動。符号に注意が必要。"
+    },
+    {
+      "id": "lesson-005",
+      "title": "y = a(x - p)² + q のグラフ",
+      "topicId": "topic-003",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-004"],
+      "tags": ["グラフ", "平行移動", "頂点"],
+      "rationale": "一般形の理解。頂点の座標を読み取る。"
+    },
+    {
+      "id": "lesson-006",
+      "title": "平方完成の基本",
+      "topicId": "topic-004",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件1: 新しい重要概念の導入、条件3: つまずきやすいポイント",
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-005"],
+      "tags": ["平方完成", "山場"],
+      "rationale": "二次関数の核となる概念。係数を2で割って二乗する手順を徹底的に学ぶ。"
+    },
+    {
+      "id": "lesson-007",
+      "title": "平方完成の練習",
+      "topicId": "topic-004",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件1: 新しい重要概念の導入、条件3: つまずきやすいポイント",
+      "estimatedTime": 15,
+      "prerequisites": ["lesson-006"],
+      "tags": ["平方完成", "山場", "練習"],
+      "rationale": "定数項の調整を繰り返し練習。様々なパターンで習熟する。"
+    },
+    {
+      "id": "lesson-008",
+      "title": "平方完成とグラフ",
+      "topicId": "topic-004",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件1: 新しい重要概念の導入、条件3: つまずきやすいポイント",
+      "estimatedTime": 15,
+      "prerequisites": ["lesson-007"],
+      "tags": ["平方完成", "グラフ", "山場"],
+      "rationale": "平方完成により頂点の座標を求め、グラフを描く。"
+    },
+    {
+      "id": "lesson-009",
+      "title": "最大値・最小値の意味",
+      "topicId": "topic-005",
+      "importance": "low",
+      "isPeak": false,
+      "estimatedTime": 5,
+      "prerequisites": ["lesson-008"],
+      "tags": ["最大値", "最小値", "基礎"],
+      "rationale": "最大値・最小値の定義を確認。"
+    },
+    {
+      "id": "lesson-010",
+      "title": "二次関数の最大値・最小値（基本）",
+      "topicId": "topic-005",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-009"],
+      "tags": ["最大値", "最小値"],
+      "rationale": "平方完成を使って最大値・最小値を求める。定義域の制限なし。"
+    },
+    {
+      "id": "lesson-011",
+      "title": "定義域が制限されている場合（導入）",
+      "topicId": "topic-006",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-010"],
+      "tags": ["最大値", "最小値", "定義域"],
+      "rationale": "定義域の制限がある場合の考え方を導入。基礎固めレッスン。"
+    },
+    {
+      "id": "lesson-012",
+      "title": "定義域が制限されている場合（頂点が内部）",
+      "topicId": "topic-006",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件2: 複数の概念の統合、条件3: つまずきやすいポイント",
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-011"],
+      "tags": ["最大値", "最小値", "定義域", "山場"],
+      "rationale": "頂点が定義域内にある場合。場合分けの基本を学ぶ。"
+    },
+    {
+      "id": "lesson-013",
+      "title": "定義域が制限されている場合（頂点が外部）",
+      "topicId": "topic-006",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件2: 複数の概念の統合、条件3: つまずきやすいポイント",
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-012"],
+      "tags": ["最大値", "最小値", "定義域", "山場"],
+      "rationale": "頂点が定義域外にある場合。端点での値を考える。"
+    },
+    {
+      "id": "lesson-014",
+      "title": "最大値・最小値の応用",
+      "topicId": "topic-006",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件2: 複数の概念の統合、条件3: つまずきやすいポイント",
+      "estimatedTime": 15,
+      "prerequisites": ["lesson-013"],
+      "tags": ["最大値", "最小値", "応用", "山場"],
+      "rationale": "様々なパターンの問題を解く。場合分けを完全にマスターする。"
+    },
+    {
+      "id": "lesson-015",
+      "title": "二次関数の決定（3点を通る）",
+      "topicId": "topic-007",
+      "importance": "low",
+      "isPeak": false,
+      "estimatedTime": 5,
+      "prerequisites": ["lesson-008"],
+      "tags": ["二次関数の決定"],
+      "rationale": "3点の座標から二次関数を決定する基本問題。"
+    },
+    {
+      "id": "lesson-016",
+      "title": "二次関数の決定（頂点と通る点）",
+      "topicId": "topic-007",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-015"],
+      "tags": ["二次関数の決定", "頂点"],
+      "rationale": "頂点と通る点から二次関数を決定。平方完成の知識を応用。"
+    },
+    {
+      "id": "lesson-017",
+      "title": "二次方程式の解",
+      "topicId": "topic-008",
+      "importance": "low",
+      "isPeak": false,
+      "estimatedTime": 5,
+      "prerequisites": ["lesson-008"],
+      "tags": ["二次方程式", "基礎"],
+      "rationale": "二次方程式の解の意味を確認。グラフとの関係を理解。"
+    },
+    {
+      "id": "lesson-018",
+      "title": "解の公式",
+      "topicId": "topic-008",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-017"],
+      "tags": ["二次方程式", "解の公式"],
+      "rationale": "解の公式を使って二次方程式を解く。"
+    },
+    {
+      "id": "lesson-019",
+      "title": "判別式の導入",
+      "topicId": "topic-009",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-018"],
+      "tags": ["判別式"],
+      "rationale": "判別式 D = b² - 4ac の導入。基礎固めレッスン。"
+    },
+    {
+      "id": "lesson-020",
+      "title": "判別式と解の個数",
+      "topicId": "topic-009",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件1: 新しい重要概念の導入",
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-019"],
+      "tags": ["判別式", "山場"],
+      "rationale": "判別式の符号と解の個数の関係を徹底的に理解。グラフとの関係も学ぶ。"
+    },
+    {
+      "id": "lesson-021",
+      "title": "解と係数の関係",
+      "topicId": "topic-008",
+      "importance": "low",
+      "isPeak": false,
+      "estimatedTime": 5,
+      "prerequisites": ["lesson-020"],
+      "tags": ["二次方程式"],
+      "rationale": "解と係数の関係の確認。基本的な応用。"
+    },
+    {
+      "id": "lesson-022",
+      "title": "二次不等式の意味",
+      "topicId": "topic-010",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-020"],
+      "tags": ["二次不等式"],
+      "rationale": "二次不等式の解の意味をグラフで理解する。"
+    },
+    {
+      "id": "lesson-023",
+      "title": "二次不等式の解法（基本）",
+      "topicId": "topic-010",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-022"],
+      "tags": ["二次不等式"],
+      "rationale": "判別式を使って二次不等式を解く。標準的な問題。"
+    },
+    {
+      "id": "lesson-024",
+      "title": "二次不等式の場合分け",
+      "topicId": "topic-011",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件2: 複数の概念の統合、条件3: つまずきやすいポイント",
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-023"],
+      "tags": ["二次不等式", "場合分け", "山場"],
+      "rationale": "判別式の符号による場合分け。グラフと式の関係を統合して考える。"
+    },
+    {
+      "id": "lesson-025",
+      "title": "二次不等式の応用",
+      "topicId": "topic-011",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件2: 複数の概念の統合、条件3: つまずきやすいポイント",
+      "estimatedTime": 15,
+      "prerequisites": ["lesson-024"],
+      "tags": ["二次不等式", "応用", "山場"],
+      "rationale": "様々なパターンの二次不等式を解く。場合分けを完全にマスターする。"
+    }
+  ]
+}

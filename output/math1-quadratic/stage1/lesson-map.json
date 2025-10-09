@@ -1,0 +1,252 @@
+{
+  "courseId": "math-1",
+  "unitId": "unit-01",
+  "unitName": "二次関数",
+  "version": "1.0.0",
+  "generatedBy": "Claude Sonnet 4",
+  "generatedDate": "2025-10-05",
+  
+  "metadata": {
+    "totalLessons": 23,
+    "peakLessons": 9,
+    "importanceDistribution": {
+      "low": 2,
+      "medium": 12,
+      "high": 9
+    },
+    "estimatedHours": 4.25
+  },
+  
+  "lessons": [
+    {
+      "id": "lesson-001",
+      "title": "関数とグラフの基本",
+      "topicId": "topic-001",
+      "importance": "low",
+      "isPeak": false,
+      "estimatedTime": 5,
+      "prerequisites": [],
+      "tags": ["関数", "グラフ", "基礎", "復習"]
+    },
+    {
+      "id": "lesson-002",
+      "title": "y = ax² のグラフの性質",
+      "topicId": "topic-002",
+      "importance": "low",
+      "isPeak": false,
+      "estimatedTime": 5,
+      "prerequisites": ["lesson-001"],
+      "tags": ["二次関数", "放物線", "基礎", "復習"]
+    },
+    {
+      "id": "lesson-003",
+      "title": "グラフの平行移動の基本",
+      "topicId": "topic-003",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-002"],
+      "tags": ["平行移動", "頂点", "グラフ変換"]
+    },
+    {
+      "id": "lesson-004",
+      "title": "y = a(x - p)² + q の形",
+      "topicId": "topic-003",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-003"],
+      "tags": ["標準形", "頂点", "軸"]
+    },
+    {
+      "id": "lesson-005",
+      "title": "平方完成の準備",
+      "topicId": "topic-004",
+      "importance": "high",
+      "isPeak": false,
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-004"],
+      "tags": ["平方完成", "準備", "式変形"]
+    },
+    {
+      "id": "lesson-006",
+      "title": "平方完成の基本技術",
+      "topicId": "topic-004",
+      "importance": "high",
+      "isPeak": true,
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-005"],
+      "tags": ["平方完成", "山場", "重要技術"]
+    },
+    {
+      "id": "lesson-007",
+      "title": "平方完成の応用と練習",
+      "topicId": "topic-004",
+      "importance": "high",
+      "isPeak": true,
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-006"],
+      "tags": ["平方完成", "山場", "練習"]
+    },
+    {
+      "id": "lesson-008",
+      "title": "グラフと式の対応関係",
+      "topicId": "topic-005",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-007"],
+      "tags": ["グラフ", "式", "視覚化"]
+    },
+    {
+      "id": "lesson-009",
+      "title": "最大値・最小値の基本",
+      "topicId": "topic-006",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-007"],
+      "tags": ["最大値", "最小値", "頂点"]
+    },
+    {
+      "id": "lesson-010",
+      "title": "最大値・最小値の求め方",
+      "topicId": "topic-006",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-009"],
+      "tags": ["最大値", "最小値", "平方完成応用"]
+    },
+    {
+      "id": "lesson-011",
+      "title": "定義域制限の考え方",
+      "topicId": "topic-007",
+      "importance": "high",
+      "isPeak": false,
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-010"],
+      "tags": ["定義域", "場合分け", "準備"]
+    },
+    {
+      "id": "lesson-012",
+      "title": "定義域制限での最大値・最小値（基本）",
+      "topicId": "topic-007",
+      "importance": "high",
+      "isPeak": true,
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-011"],
+      "tags": ["定義域", "最大値", "最小値", "山場"]
+    },
+    {
+      "id": "lesson-013",
+      "title": "定義域制限での場合分け",
+      "topicId": "topic-007",
+      "importance": "high",
+      "isPeak": true,
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-012"],
+      "tags": ["定義域", "場合分け", "山場", "重要"]
+    },
+    {
+      "id": "lesson-014",
+      "title": "二次方程式とグラフの関係",
+      "topicId": "topic-008",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-007"],
+      "tags": ["二次方程式", "グラフ", "解"]
+    },
+    {
+      "id": "lesson-015",
+      "title": "判別式の導入",
+      "topicId": "topic-009",
+      "importance": "high",
+      "isPeak": false,
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-014"],
+      "tags": ["判別式", "準備", "D"]
+    },
+    {
+      "id": "lesson-016",
+      "title": "判別式と解の個数",
+      "topicId": "topic-009",
+      "importance": "high",
+      "isPeak": true,
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-015"],
+      "tags": ["判別式", "解の個数", "山場", "重要"]
+    },
+    {
+      "id": "lesson-017",
+      "title": "二次不等式の基本",
+      "topicId": "topic-010",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-016"],
+      "tags": ["二次不等式", "グラフ", "基本"]
+    },
+    {
+      "id": "lesson-018",
+      "title": "二次不等式の解法",
+      "topicId": "topic-010",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-017"],
+      "tags": ["二次不等式", "解法", "グラフ活用"]
+    },
+    {
+      "id": "lesson-019",
+      "title": "二次不等式の場合分けの準備",
+      "topicId": "topic-011",
+      "importance": "high",
+      "isPeak": false,
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-018"],
+      "tags": ["場合分け", "準備", "判別式"]
+    },
+    {
+      "id": "lesson-020",
+      "title": "判別式による場合分け",
+      "topicId": "topic-011",
+      "importance": "high",
+      "isPeak": true,
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-019"],
+      "tags": ["場合分け", "判別式", "山場", "重要"]
+    },
+    {
+      "id": "lesson-021",
+      "title": "係数による場合分け",
+      "topicId": "topic-011",
+      "importance": "high",
+      "isPeak": true,
+      "estimatedTime": 20,
+      "prerequisites": ["lesson-020"],
+      "tags": ["場合分け", "係数", "山場", "総合"]
+    },
+    {
+      "id": "lesson-022",
+      "title": "二次関数の決定",
+      "topicId": "topic-012",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-013", "lesson-021"],
+      "tags": ["応用", "関数決定", "総合"]
+    },
+    {
+      "id": "lesson-023",
+      "title": "二次関数の応用問題",
+      "topicId": "topic-012",
+      "importance": "medium",
+      "isPeak": false,
+      "estimatedTime": 10,
+      "prerequisites": ["lesson-022"],
+      "tags": ["応用", "文章題", "総合", "まとめ"]
+    }
+  ]
+}

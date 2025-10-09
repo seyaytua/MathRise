@@ -1,0 +1,346 @@
+/* ========================================
+   レッスン表示
+======================================== */
+
+/* ========================================
+   レッスンコンテナ
+======================================== */
+
+.lesson {
+  width: 100%;
+  max-width: 100%;
+}
+
+.lesson-explanation,
+.lesson-content {
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ========================================
+   レッスンヘッダー
+======================================== */
+
+.lesson-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: var(--text-inverse);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.lesson-title {
+  font-size: var(--font-3xl);
+  font-weight: var(--font-bold);
+  margin: 0;
+}
+
+/* ========================================
+   重要度別レッスンスタイル
+======================================== */
+
+/* 低重要度（基礎確認） */
+.lesson-low {
+  border-left: 4px solid var(--success);
+  background: var(--card-bg);
+  padding: var(--space-xl);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-xl);
+}
+
+.lesson-low .lesson-title::before {
+  content: '🟢 ';
+}
+
+/* 中重要度（橋渡し） */
+.lesson-medium {
+  border-left: 4px solid var(--warning);
+  background: rgba(255, 193, 7, 0.05);
+  padding: var(--space-xl);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-xl);
+}
+
+.lesson-medium .lesson-title::before {
+  content: '🟡 ';
+}
+
+/* 高重要度（山場） - 完全版 */
+.lesson-high {
+  border-left: 4px solid var(--error);
+  background: rgba(244, 67, 54, 0.05);
+  position: relative;
+  padding: 0 !important;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-xl);
+  overflow: hidden;
+}
+
+.lesson-high .lesson-title::before {
+  content: '🔴 ';
+}
+
+/* 山場バッジ - 最終版 */
+.lesson-high::before {
+  content: '🔥 CORE CONCEPT - Master This';
+  display: block;
+  text-align: center;
+  padding: 1.25rem var(--space-xl);
+  margin-bottom: 0;
+  width: 100%;
+  
+  /* グラデーション背景 */
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FFA726 100%);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+  
+  /* テキストスタイル */
+  font-size: var(--font-lg);
+  font-weight: var(--font-bold);
+  color: var(--text-inverse);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.05em;
+  
+  /* アニメーション */
+  animation: gentle-pulse 3s ease-in-out infinite;
+}
+
+/* レッスンコンテンツエリア */
+.lesson-high > * {
+  padding-left: var(--space-xl);
+  padding-right: var(--space-xl);
+}
+
+.lesson-high > *:first-child {
+  padding-top: var(--space-lg);
+}
+
+.lesson-high > *:last-child {
+  padding-bottom: var(--space-xl);
+}
+
+/* パルスアニメーション */
+@keyframes gentle-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+  }
+  50% { 
+    transform: scale(1.005);
+    box-shadow: 0 6px 24px rgba(255, 107, 107, 0.5);
+  }
+}
+
+/* ========================================
+   イントロダクション
+======================================== */
+
+.introduction {
+  background: rgba(33, 150, 243, 0.1);
+  border-left: 4px solid var(--primary);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  border-radius: var(--radius-md);
+}
+
+.introduction h3 {
+  color: var(--primary);
+  margin-bottom: var(--space-md);
+  font-size: var(--font-xl);
+}
+
+/* ========================================
+   説明セクション
+======================================== */
+
+.lesson-explanation {
+  background: var(--card-bg);
+  padding: var(--space-xl);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.lesson-explanation p {
+  margin-bottom: var(--space-md);
+  line-height: var(--line-loose);
+}
+
+.lesson-explanation strong {
+  color: var(--error);
+  font-weight: var(--font-bold);
+}
+
+/* 数式の中央配置 */
+.math-center {
+  text-align: center;
+  margin: var(--space-lg) 0;
+  padding: var(--space-md);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+}
+
+/* ========================================
+   核心概念
+======================================== */
+
+.core-concepts {
+  background: rgba(255, 152, 0, 0.1);
+  border-left: 4px solid var(--secondary);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  border-radius: var(--radius-md);
+}
+
+.core-concepts h3 {
+  color: var(--secondary-dark);
+  margin-bottom: var(--space-md);
+  font-size: var(--font-xl);
+}
+
+.core-concepts ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.core-concepts li {
+  padding: var(--space-sm) 0 var(--space-sm) var(--space-xl);
+  position: relative;
+  line-height: var(--line-relaxed);
+}
+
+.core-concepts li::before {
+  content: "▸";
+  position: absolute;
+  left: var(--space-sm);
+  color: var(--secondary);
+  font-weight: var(--font-bold);
+}
+
+.core-concepts li mjx-container {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ========================================
+   例題セクション
+======================================== */
+
+.example-section {
+  background: rgba(76, 175, 80, 0.05);
+  border: 2px solid var(--success-light);
+  padding: var(--space-lg);
+  margin: var(--space-xl) 0;
+  border-radius: var(--radius-md);
+}
+
+.example-section h4 {
+  color: var(--success-dark);
+  margin-bottom: var(--space-md);
+}
+
+/* ========================================
+   注意事項
+======================================== */
+
+.warning-box {
+  background: rgba(255, 193, 7, 0.1);
+  border-left: 4px solid var(--warning);
+  padding: var(--space-lg);
+  margin: var(--space-xl) 0;
+  border-radius: var(--radius-md);
+}
+
+.warning-box::before {
+  content: '⚠️ 注意';
+  display: block;
+  font-weight: var(--font-bold);
+  color: var(--warning-dark);
+  margin-bottom: var(--space-sm);
+}
+
+/* ========================================
+   ポイント
+======================================== */
+
+.key-point {
+  background: rgba(33, 150, 243, 0.05);
+  border: 2px dashed var(--primary);
+  padding: var(--space-lg);
+  margin: var(--space-xl) 0;
+  border-radius: var(--radius-md);
+}
+
+.key-point::before {
+  content: '💡 ポイント';
+  display: block;
+  font-weight: var(--font-bold);
+  color: var(--primary);
+  margin-bottom: var(--space-sm);
+}
+
+/* ========================================
+   よくある間違い
+======================================== */
+
+.common-mistakes {
+  background: rgba(244, 67, 54, 0.05);
+  padding: var(--space-lg);
+  margin: var(--space-lg) 0;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--error);
+}
+
+.common-mistakes h3 {
+  color: var(--error-dark);
+  margin-bottom: var(--space-md);
+}
+
+.mistake-item {
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
+  background: var(--card-bg);
+  border-radius: var(--radius-sm);
+}
+
+/* ========================================
+   ダークモード対応
+======================================== */
+
+[data-theme="dark"] .lesson-high {
+  background: rgba(244, 67, 54, 0.1);
+}
+
+[data-theme="dark"] .lesson-medium {
+  background: rgba(255, 193, 7, 0.1);
+}
+
+[data-theme="dark"] .lesson-low {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+/* ========================================
+   レスポンシブ対応
+======================================== */
+
+@media (max-width: 768px) {
+  .lesson-header {
+    padding: var(--space-lg);
+  }
+  
+  .lesson-title {
+    font-size: var(--font-2xl);
+  }
+  
+  .lesson-explanation {
+    padding: var(--space-lg);
+  }
+  
+  .lesson-high::before {
+    font-size: var(--font-base);
+    padding: var(--space-md);
+  }
+}

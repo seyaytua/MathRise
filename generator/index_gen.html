@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathRise Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header>
+            <h1>📐 MathRise Generator</h1>
+            <p>学習指導要領から教材を自動生成</p>
+        </header>
+        
+        <!-- 進捗バー -->
+        <div class="progress-tracker">
+            <div class="step active" data-step="1">1. 設定</div>
+            <div class="step" data-step="2">2. 指導要領</div>
+            <div class="step" data-step="3">3. 教科書等</div>
+            <div class="step" data-step="4">4. 生成</div>
+            <div class="step" data-step="5">5. 完成</div>
+        </div>
+        
+        <!-- ステップ1: 基本設定 -->
+        <div class="panel" id="panel-step1">
+            <h2>ステップ1: 基本設定</h2>
+            
+            <!-- 科目選択（チェックボックス） -->
+            <div class="form-group">
+                <label class="form-label">📚 科目を選択してください（複数選択可）</label>
+                <div class="checkbox-grid">
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="subject" value="math1" checked>
+                        <span class="checkbox-label">数学Ⅰ</span>
+                    </label>
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="subject" value="mathA">
+                        <span class="checkbox-label">数学A</span>
+                    </label>
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="subject" value="math2">
+                        <span class="checkbox-label">数学Ⅱ</span>
+                    </label>
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="subject" value="mathB">
+                        <span class="checkbox-label">数学B</span>
+                    </label>
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="subject" value="math3">
+                        <span class="checkbox-label">数学Ⅲ</span>
+                    </label>
+                    <label class="checkbox-card">
+                        <input type="checkbox" name="subject" value="mathC">
+                        <span class="checkbox-label">数学C</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- テーマ入力 -->
+            <div class="form-group">
+                <label class="form-label">🎯 テーマ・方向性（オプション）</label>
+                <input type="text" id="theme" class="form-input" 
+                       placeholder="例: 二次関数を重点的に、または空欄">
+                <p class="form-hint">特定の単元を重点的に扱いたい場合に入力してください</p>
+            </div>
+            
+            <!-- 生成モード選択 -->
+            <div class="form-group">
+                <label class="form-label">⚙️ 生成モードを選択してください</label>
+                <div class="mode-grid">
+                    <label class="mode-card">
+                        <input type="radio" name="mode" value="simple" checked>
+                        <div class="mode-content">
+                            <div class="mode-title">パターンA: シンプル</div>
+                            <div class="mode-description">
+                                学習指導要領のみ<br>
+                                一般的な内容を生成
+                            </div>
+                            <div class="mode-rating">⭐</div>
+                        </div>
+                    </label>
+                    <label class="mode-card">
+                        <input type="radio" name="mode" value="standard">
+                        <div class="mode-content">
+                            <div class="mode-title">パターンB: 標準</div>
+                            <div class="mode-description">
+                                + 教科書の目次<br>
+                                教科書の構成を反映
+                            </div>
+                            <div class="mode-rating">⭐⭐</div>
+                        </div>
+                    </label>
+                    <label class="mode-card mode-recommended">
+                        <input type="radio" name="mode" value="detailed">
+                        <div class="mode-content">
+                            <div class="mode-title">パターンC: 詳細 🔥推奨</div>
+                            <div class="mode-description">
+                                + 教科書の具体例<br>
+                                最も詳細な内容
+                            </div>
+                            <div class="mode-rating">⭐⭐⭐</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="actions">
+                <button class="btn-primary" onclick="moveToStep2()">
+                    次へ：学習指導要領の入力 →
+                </button>
+            </div>
+        </div>
+        
+        <!-- ステップ2: 学習指導要領入力 -->
+        <div class="panel hidden" id="panel-step2">
+            <h2>ステップ2: 学習指導要領の入力</h2>
+            <p class="description">
+                学習指導要領（選択した科目の該当部分）を貼り付けてください。
+            </p>
+            
+            <div class="file-input-group">
+                <label class="file-input-label">
+                    📄 ファイルから読み込み
+                    <input type="file" id="curriculum-file" accept=".txt,.md" onchange="loadFile('curriculum')">
+                </label>
+                <span class="file-input-hint">または下のテキストエリアに直接貼り付け</span>
+            </div>
+            
+            <textarea id="curriculum" placeholder="例：
+(1) 数と式
+  ア 数と集合
+    (ア) 実数
+    ..."></textarea>
+            
+            <div class="actions">
+                <button class="btn-secondary" onclick="backToStep1()">
+                    ← 戻る
+                </button>
+                <button class="btn-primary" onclick="moveToStep3()">
+                    次へ：教科書等の入力 →
+                </button>
+            </div>
+        </div>
+        
+        <!-- ステップ3: 教科書等の入力 -->
+        <div class="panel hidden" id="panel-step3">
+            <h2>ステップ3: 教科書・指導書の入力</h2>
+            <p class="description">
+                選択したモード（<span id="selected-mode-name">パターンA</span>）に応じて、必要な資料を入力してください。
+            </p>
+            
+            <!-- 教科書の目次（パターンB/C） -->
+            <div class="form-group" id="textbook-toc-group">
+                <label class="form-label">📖 教科書の目次</label>
+                <div class="file-input-group">
+                    <label class="file-input-label">
+                        📄 ファイルから読み込み
+                        <input type="file" id="textbook-toc-file" accept=".txt,.md" onchange="loadFile('textbook-toc')">
+                    </label>
+                    <span class="file-input-hint">または下のテキストエリアに直接貼り付け</span>
+                </div>
+                <textarea id="textbook-toc" placeholder="例：
+第1章 二次関数
+  1. 関数とグラフ
+  2. 二次関数のグラフ
+  ..."></textarea>
+            </div>
+            
+            <!-- 教科書の具体例（パターンC） -->
+            <div class="form-group" id="textbook-examples-group">
+                <label class="form-label">📄 教科書の具体例</label>
+                <div class="file-input-group">
+                    <label class="file-input-label">
+                        📄 ファイルから読み込み
+                        <input type="file" id="textbook-examples-file" accept=".txt,.md" onchange="loadFile('textbook-examples')">
+                    </label>
+                    <span class="file-input-hint">または下のテキストエリアに直接貼り付け</span>
+                </div>
+                <textarea id="textbook-examples" placeholder="例：
+例題1 二次関数のグラフ
+y = x² + 2x - 3 のグラフをかけ。
+..."></textarea>
+            </div>
+            
+            <!-- シラバス・観点別評価規準例（オプション） -->
+            <div class="form-group">
+                <label class="form-label">📋 シラバス・観点別評価規準例（オプション）</label>
+                <div class="file-input-group">
+                    <label class="file-input-label">
+                        📄 ファイルから読み込み
+                        <input type="file" id="syllabus-file" accept=".txt,.md" onchange="loadFile('syllabus')">
+                    </label>
+                    <span class="file-input-hint">または下のテキストエリアに直接貼り付け</span>
+                </div>
+                <textarea id="syllabus" placeholder="例：
+【年間指導計画】
+4月: 二次関数（15時間）
+5月: 図形と計量（20時間）
+..."></textarea>
+            </div>
+            
+            <div class="actions">
+                <button class="btn-secondary" onclick="backToStep2()">
+                    ← 戻る
+                </button>
+                <button class="btn-primary" onclick="generateStage0Prompt()">
+                    プロンプト生成 →
+                </button>
+            </div>
+        </div>
+        
+        <!-- プロンプト表示エリア -->
+        <div class="panel hidden" id="panel-prompt">
+            <h2>生成されたプロンプト</h2>
+            <p class="description">
+                このプロンプトをコピーして、別のClaude会話で実行してください。
+            </p>
+            <div class="prompt-container">
+                <pre id="prompt-text"></pre>
+                <button class="copy-btn" onclick="copyPrompt()">
+                    📋 コピー
+                </button>
+            </div>
+            <div class="info-box">
+                💡 プロンプトをコピーしたら、新しいClaude会話を開いて実行してください
+            </div>
+            <div class="actions">
+                <button class="btn-secondary" onclick="showResultInput()">
+                    実行結果を入力 →
+                </button>
+            </div>
+        </div>
+        
+        <!-- 結果入力エリア -->
+        <!-- 結果入力エリア -->
+        <div class="panel hidden" id="panel-result">
+            <h2>実行結果の入力</h2>
+            <p class="description">
+                Claudeが生成したJSON全体をコピーして、ここに貼り付けてください。
+            </p>
+            <textarea id="result-input" placeholder='{"topics": [...], ...}'></textarea>
+            
+            <!-- バッチサイズ選択（第2段階でのみ表示） -->
+            <div class="form-group" id="batch-size-group" style="display: none;">
+                <label class="form-label">📦 一度に生成するレッスン数を選択</label>
+                <div class="batch-size-selector">
+                    <label class="batch-option">
+                        <input type="radio" name="batchSize" value="1" checked>
+                        <span>1個ずつ</span>
+                    </label>
+                    <label class="batch-option">
+                        <input type="radio" name="batchSize" value="3">
+                        <span>3個ずつ</span>
+                    </label>
+                    <label class="batch-option recommended">
+                        <input type="radio" name="batchSize" value="5">
+                        <span>5個ずつ ⭐</span>
+                    </label>
+                    <label class="batch-option">
+                        <input type="radio" name="batchSize" value="10">
+                        <span>10個ずつ</span>
+                    </label>
+                    <label class="batch-option">
+                        <input type="radio" name="batchSize" value="all">
+                        <span>すべて一度に</span>
+                    </label>
+                </div>
+                <div class="batch-info">
+                    <p><strong>現在の進捗:</strong> <span id="batch-progress">0/0</span> レッスン完了</p>
+                    <p><strong>残り実行回数:</strong> <span id="batch-remaining">0</span> 回</p>
+                </div>
+            </div>
+            
+            <div class="actions">
+                <button class="btn-secondary" onclick="goBack()">
+                    ← 戻る
+                </button>
+                <button class="btn-primary" onclick="loadResult()">
+                    読み込む →
+                </button>
+            </div>
+        </div>
+        
+        <!-- ローディング -->
+        <div class="panel hidden" id="panel-loading">
+            <div class="loading-container">
+                <div class="spinner"></div>
+                <p id="loading-message">処理中...</p>
+            </div>
+        </div>
+        <!-- 完成 -->
+        <div class="panel hidden" id="panel-complete">
+            <h2>✅ 完成！</h2>
+            <div class="result-summary">
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-content">
+                        <div class="stat-label">総レッスン数</div>
+                        <div class="stat-value" id="total-lessons">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-content">
+                        <div class="stat-label">山場の数</div>
+                        <div class="stat-value" id="peak-lessons">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-content">
+                        <div class="stat-label">推定学習時間</div>
+                        <div class="stat-value" id="total-time">0h</div>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn-primary" onclick="downloadJSON()">
+                    📥 JSONをダウンロード
+                </button>
+                <button class="btn-secondary" onclick="reset()">
+                    🔄 最初から
+                </button>
+            </div>
+        </div>
+                    <div class="stat-content">
+                        <div class="stat-label">総レッスン数</div>
+                        <div class="stat-value" id="total-lessons">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-content">
+                        <div class="stat-label">山場の数</div>
+                        <div class="stat-value" id="peak-lessons">0</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-content">
+                        <div class="stat-label">推定学習時間</div>
+                        <div class="stat-value" id="total-time">0h</div>
+                    </div>
+                </div>
+            <!-- バッチサイズ選択 -->
+            <div class="form-group" id="batch-size-group" style="display: none;">
+                <label>📦 一度に生成するレッスン数を選択</label>
+                <div class="batch-size-selector">
+                    <label class="batch-option">
+                        <input type="radio" name="batchSize" value="1" checked>
+                        <span>1個ずつ</span>
+                    </label>
+                    <label class="batch-option">
+                        <input type="radio" name="batchSize" value="3">
+                        <span>3個ずつ</span>
+                    </label>
+                    <label class="batch-option recommended">
+                        <input type="radio" name="batchSize" value="5">
+                        <span>5個ずつ ⭐</span>
+                    </label>
+                    <label class="batch-option">
+                        <input type="radio" name="batchSize" value="10">
+                        <span>10個ずつ</span>
+                    </label>
+                    <label class="batch-option">
+                        <input type="radio" name="batchSize" value="all">
+                        <span>すべて一度に</span>
+                    </label>
+                </div>
+                <div class="batch-info">
+                    <p><strong>現在の進捗:</strong> <span id="batch-progress">0/0</span> レッスン完了</p>
+                    <p><strong>残り実行回数:</strong> <span id="batch-remaining">0</span> 回</p>
+                </div>
+            </div>
+            </div>
+            <div class="actions">
+                <button class="btn-primary" onclick="downloadJSON()">
+                    📥 JSONをダウンロード
+                </button>
+                <button class="btn-secondary" onclick="reset()">
+                    🔄 最初から
+                </button>
+            </div>
+        </div>
+        
+        <!-- フッター -->
+        <footer>
+            <p>MathRise Generator v1.0 | 
+               <a href="../index.html">MathRise本体へ</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+{
+  "unitId": "unit-01",
+  "unitName": "二次関数",
+  "version": "1.0.0",
+  "generatedBy": "Claude Sonnet 4",
+  "generatedDate": "2025-10-05",
+  
+  "keyTopics": [
+    {
+      "topicId": "topic-001",
+      "topicName": "関数とグラフの基本",
+      "importance": "low",
+      "isPeak": false,
+      "rationale": "既習事項の確認。学習指導要領に「関数の概念を理解する」「関数のグラフの意味を理解する」とあるが、中学校で既習の内容。高校数学への導入として基本的な定義を再確認する段階。",
+      "curriculumReference": "(ア) 関数とグラフ",
+      "estimatedLessons": 1
+    },
+    {
+      "topicId": "topic-002",
+      "topicName": "y = ax² のグラフ",
+      "importance": "low",
+      "isPeak": false,
+      "rationale": "中学校で既習の基本的なグラフの形状の確認。二次関数の最も基本的な形で、放物線の開き方や対称性など基礎的な性質を復習する。",
+      "curriculumReference": "(イ) 二次関数のグラフ",
+      "prerequisiteTopics": ["topic-001"],
+      "estimatedLessons": 1
+    },
+    {
+      "topicId": "topic-003",
+      "topicName": "グラフの平行移動",
+      "importance": "medium",
+      "isPeak": false,
+      "rationale": "y = a(x - p)² + q の形の理解が必要。学習指導要領に「グラフの頂点、軸、開き方を理解する」「グラフの平行移動を理解する」と記載。新しい概念の導入だが、視覚的に理解しやすい内容。",
+      "curriculumReference": "(イ) 二次関数のグラフ",
+      "prerequisiteTopics": ["topic-002"],
+      "estimatedLessons": 2
+    },
+    {
+      "topicId": "topic-004",
+      "topicName": "平方完成",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件1: 新しい重要概念の導入、条件3: つまずきやすいポイント",
+      "rationale": "二次関数の核となる技術。学習指導要領に「平方完成により、y = a(x - p)² + q の形に変形できることを理解する」と記載され、配慮事項に「平方完成については、丁寧に指導する」と明記。つまずきやすいポイントとして「平方完成における定数項の調整」が挙げられている。y = ax² + bx + c を y = a(x - p)² + q に変形する技術で、後続の学習（最大値・最小値、グラフの頂点、二次方程式）で頻繁に使用される基盤技術。",
+      "curriculumReference": "(イ) 二次関数のグラフ",
+      "prerequisiteTopics": ["topic-003"],
+      "estimatedLessons": 3
+    },
+    {
+      "topicId": "topic-005",
+      "topicName": "グラフと式の対応",
+      "importance": "medium",
+      "isPeak": false,
+      "rationale": "平方完成を使って、二次関数の式からグラフの特徴（頂点、軸、開き方）を読み取る。学習指導要領の配慮事項に「グラフと式の関係を視覚的に理解させる」と記載。平方完成の応用として重要だが、概念的には理解しやすい。",
+      "curriculumReference": "(イ) 二次関数のグラフ",
+      "prerequisiteTopics": ["topic-004"],
+      "estimatedLessons": 1
+    },
+    {
+      "topicId": "topic-006",
+      "topicName": "最大値・最小値（定義域制限なし）",
+      "importance": "medium",
+      "isPeak": false,
+      "rationale": "平方完成を使って最大値・最小値を求める基本的な問題。学習指導要領に「二次関数の最大値・最小値を求める」と記載。平方完成ができれば比較的スムーズに理解できる標準的な内容。",
+      "curriculumReference": "(ウ) 二次関数の最大・最小",
+      "prerequisiteTopics": ["topic-004"],
+      "estimatedLessons": 2
+    },
+    {
+      "topicId": "topic-007",
+      "topicName": "最大値・最小値（定義域制限あり）",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件2: 複数の概念の統合、条件3: つまずきやすいポイント",
+      "rationale": "学習指導要領に「定義域が制限されている場合の最大値・最小値を求める」と記載され、つまずきやすいポイントとして「定義域が制限されている場合の最大値・最小値」と明記。頂点が定義域内にあるか否かで場合分けが必要で、グラフの概念と代数的な計算を統合する必要がある。多くの学生が苦手とする重要な山場。",
+      "curriculumReference": "(ウ) 二次関数の最大・最小",
+      "prerequisiteTopics": ["topic-006"],
+      "estimatedLessons": 3
+    },
+    {
+      "topicId": "topic-008",
+      "topicName": "二次方程式の解とグラフ",
+      "importance": "medium",
+      "isPeak": false,
+      "rationale": "学習指導要領に「二次方程式の解と二次関数のグラフの関係を理解する」と記載。中学校で学んだ二次方程式を、グラフの観点から再解釈する。新しい視点だが、視覚的に理解しやすい内容。",
+      "curriculumReference": "(ア) 二次方程式",
+      "prerequisiteTopics": ["topic-004"],
+      "estimatedLessons": 1
+    },
+    {
+      "topicId": "topic-009",
+      "topicName": "判別式",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件1: 新しい重要概念の導入",
+      "rationale": "判別式 D = b² - 4ac の導入。学習指導要領に「判別式を用いて、解の個数を調べる」と記載され、配慮事項に「判別式については、その意味を十分に理解させる」と明記。つまずきやすいポイントとして「判別式の符号と解の個数の関係」が挙げられている。解の個数とグラフの位置関係を代数的に判定する重要な概念で、後続の二次不等式の基盤となる。",
+      "curriculumReference": "(ア) 二次方程式",
+      "prerequisiteTopics": ["topic-008"],
+      "estimatedLessons": 2
+    },
+    {
+      "topicId": "topic-010",
+      "topicName": "二次不等式の解法（基本）",
+      "importance": "medium",
+      "isPeak": false,
+      "rationale": "学習指導要領に「二次不等式の解と二次関数のグラフの関係を理解する」「二次不等式を解く」と記載。配慮事項に「二次不等式については、グラフを用いて視覚的に理解させる」とある。グラフを用いた視覚的な理解により、比較的スムーズに導入できる。",
+      "curriculumReference": "(イ) 二次不等式",
+      "prerequisiteTopics": ["topic-009"],
+      "estimatedLessons": 2
+    },
+    {
+      "topicId": "topic-011",
+      "topicName": "二次不等式の場合分け",
+      "importance": "high",
+      "isPeak": true,
+      "peakCondition": "条件2: 複数の概念の統合、条件3: つまずきやすいポイント",
+      "rationale": "学習指導要領のつまずきやすいポイントに「二次不等式の解の場合分け」と明記。判別式の符号（D > 0, D = 0, D < 0）や不等号の向き、係数 a の符号などによる場合分けが必要。判別式、グラフの概念、不等式の解法を統合する必要があり、多くの学生が苦手とする最後の山場。",
+      "curriculumReference": "(イ) 二次不等式",
+      "prerequisiteTopics": ["topic-010"],
+      "estimatedLessons": 3
+    },
+    {
+      "topicId": "topic-012",
+      "topicName": "二次関数の応用",
+      "importance": "medium",
+      "isPeak": false,
+      "rationale": "学習指導要領の発展的内容に「二次関数の決定」「二次関数の応用問題」「文章題への応用」が挙げられている。これまで学んだ内容を統合して実際の問題に適用する段階。新しい概念の導入ではなく、既習内容の応用。",
+      "curriculumReference": "発展的内容",
+      "prerequisiteTopics": ["topic-007", "topic-011"],
+      "estimatedLessons": 2
+    }
+  ],
+  
+  "metadata": {
+    "totalTopics": 12,
+    "peakTopics": 4,
+    "importanceDistribution": {
+      "low": 2,
+      "medium": 6,
+      "high": 4
+    },
+    "estimatedTotalLessons": 23,
+    "peakTopicsList": [
+      "topic-004: 平方完成",
+      "topic-007: 最大値・最小値（定義域制限あり）",
+      "topic-009: 判別式",
+      "topic-011: 二次不等式の場合分け"
+    ],
+    "notes": "この単元は4つの明確な山場を持つ。平方完成は全ての後続内容の基盤となる技術的な山場。定義域制限ありの最大値・最小値は場合分けの初出で概念的な山場。判別式は新しい代数的ツールの導入で理論的な山場。二次不等式の場合分けは全ての概念を統合する総合的な山場となっている。"
+  }
+}

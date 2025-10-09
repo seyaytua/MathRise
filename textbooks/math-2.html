@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生徒支援学習プログラム - レッスン</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "游ゴシック体", YuGothic, "游ゴシック", "Yu Gothic", "メイリオ", Meiryo, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .lesson-counter {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .lesson-page {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .lesson-page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .lesson-id {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            font-family: monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge.importance-high {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .badge.importance-medium {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .badge.importance-low {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .badge.time {
+            background-color: #34495e;
+            color: white;
+        }
+
+        .lesson-content {
+            margin: 2rem 0;
+        }
+
+        .content-section {
+            margin-bottom: 2rem;
+        }
+
+        .content-section h3 {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+            border-left: 4px solid #3498db;
+        }
+
+        .content-section p {
+            color: #555;
+            line-height: 1.9;
+            text-align: justify;
+            margin-bottom: 1rem;
+        }
+
+        .tags-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed #ecf0f1;
+        }
+
+        .tags-section h4 {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tags-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .tag:hover {
+            background-color: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .prerequisites-section {
+            background-color: #fff9e6;
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid #f39c12;
+            margin: 2rem 0;
+        }
+
+        .prerequisites-section h4 {
+            color: #f39c12;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .prerequisite-link {
+            display: inline-block;
+            background-color: white;
+            color: #2c3e50;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin: 0.3rem;
+            text-decoration: none;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border: 2px solid #f39c12;
+            transition: all 0.2s;
+        }
+
+        .prerequisite-link:hover {
+            background-color: #f39c12;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: inherit;
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .nav-button.prev {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .nav-button.prev:hover:not(:disabled) {
+            background-color: #7f8c8d;
+            transform: translateX(-5px);
+        }
+
+        .nav-button.next {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .nav-button.next:hover:not(:disabled) {
+            background-color: #2980b9;
+            transform: translateX(5px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: #ecf0f1;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db 0%, #2ecc71 100%);
+            transition: width 0.3s ease;
+        }
+
+        .topic-info {
+            background-color: #e8f4f8;
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 2rem;
+        }
+
+        .topic-info h4 {
+            color: #3498db;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-info p {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .index-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #9b59b6;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+            z-index: 50;
+        }
+
+        .index-button:hover {
+            background-color: #8e44ad;
+            transform: scale(1.1);
+        }
+
+        .index-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 200;
+            overflow-y: auto;
+        }
+
+        .index-overlay.active {
+            display: block;
+        }
+
+        .index-content {
+            background: white;
+            max-width: 900px;
+            margin: 2rem auto;
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .close-index {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .close-index:hover {
+            background-color: #c0392b;
+            transform: rotate(90deg);
+        }
+
+        .index-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .index-item {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+        .index-item:hover {
+            background-color: #ecf0f1;
+            border-left-color: #3498db;
+            transform: translateX(5px);
+        }
+
+        .index-item.current {
+            background-color: #e8f4f8;
+            border-left-color: #3498db;
+        }
+
+        .index-item-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.3rem;
+        }
+
+        .index-item-meta {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .lesson-card {
+                padding: 1.5rem;
+            }
+
+            .lesson-title {
+                font-size: 1.4rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .index-button {
+                bottom: 1rem;
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>生徒支援学習プログラム</h1>
+            <div class="lesson-counter">
+                <span id="currentLesson">1</span> / <span id="totalLessons">42</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 2.38%"></div>
+        </div>
+
+        <!-- Lesson 001 -->
+        <div class="lesson-page active" data-lesson="1">
+            <div class="lesson-card">
+                <div class="lesson-header">
+                    <div class="lesson-id">lesson-001</div>
+                    <h2 class="lesson-title">希死念慮への初期対応：相馬誠一氏のアプローチ</h2>
+                    <div class="lesson-meta">
+                        <span class="badge importance-high">高重要度</span>
+                        <span class="badge time">⏱ 20分</span>
+                    </div>
+                </div>
+
+                <div class="topic-info">
+                    <h4>所属トピック</h4>
+                    <p>topic-001: 希死念慮のある生徒への対応とTALKの原則</p>
+                </div>
+
+                <div class="lesson-content">
+                    <div class="content-section">
+                        <h3>相馬誠一氏の専門的背景</h3>
+                        <p>相馬誠一氏は東京家政大学の名誉教授であり、臨床心理士、日本カウンセリング学会認定カウンセラー・スーパーバイザー、日本学校教育相談学会認定学校カウンセラーの資格を持つ専門家です。博士（学術）および教育学修士の学位を有し、不登校問題や生徒指導・教育相談を専門分野としています。</p>
+                        <p>相馬氏は「不登校—学校に背を向ける子どもたちー」（ゆまに書房、2007年）の編著者として、不登校問題に関する研究と実践を行ってきました。また、「グループ・アプローチで学級の人間関係がもっとよくなる」などの著作を通じて、予防的な観点からの生徒指導の重要性を示しています。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>希死念慮への初期対応の重要性</h3>
+                        <p>希死念慮のある生徒への対応は、教育現場において最も重要かつ緊急性の高い課題です。相馬氏のアプローチは、科学的根拠に基づきながらも、実践的で教育現場に即した方法論を提供しています。初期対応の質が、その後の支援の成否を大きく左右するため、適切な知識とスキルの習得が不可欠です。</p>
+                        <p>相馬氏は、希死念慮への対応において、生徒の訴えを真摯に受け止め、共感的に耳を傾けることの重要性を強調しています。生徒が抱える学業不振、家庭での親子関係の問題、うつ状態や身体的な病気など、複合的な悩みに対して、一つひとつを丁寧に受け止める姿勢が必要です。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>現代的な支援ツールの活用</h3>
+                        <p>現代の生徒に対応するため、相馬氏はSNSを含む多様なコミュニケーション手段の活用も視野に入れています。デジタルネイティブ世代の生徒にとって、対面での相談が困難な場合でも、オンラインでの支援チャネルを設けることで、早期発見と介入が可能になります。</p>
+                        <p>埼玉県では相馬氏の指導のもと、メンタルヘルスに関するハンドブック「I's2019」が作成され、学校での自殺予防教育の充実が図られています。また、「こころのSEA」といったオンラインリソースも提供されており、生徒・保護者・教師が自由にアクセスできる支援体制が整備されています。</p>
+                    </div>
+                </div>
+
+                <div class="tags-section">
+                    <h4>関連タグ</h4>
+                    <div class="tags-list">
+                        <span class="tag" onclick="searchByTag('希死念慮')">希死念慮</span>
+                        <span class="tag" onclick="searchByTag('初期対応')">初期対応</span>
+                        <span class="tag" onclick="searchByTag('専門家の知見')">専門家の知見</span>
+                    </div>
+                </div>
+
+                <div class="prerequisites-section">
+                    <h4>前提知識</h4>
+                    <p>このレッスンには前提知識は必要ありません。</p>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button prev" onclick="previousLesson()" disabled>
+                    ← 前のレッスン
+                </button>
+                <button class="nav-button next" onclick="nextLesson()">
+                    次のレッスン →
+                </button>
+            </div>
+        </div>
+
+        <!-- Lesson 002 -->
+        <div class="lesson-page" data-lesson="2">
+            <div class="lesson-card">
+                <div class="lesson-header">
+                    <div class="lesson-id">lesson-002</div>
+                    <h2 class="lesson-title">TALKの原則：Tell（伝える）とListen（聴く）</h2>
+                    <div class="lesson-meta">
+                        <span class="badge importance-high">高重要度</span>
+                        <span class="badge time">⏱ 18分</span>
+                    </div>
+                </div>
+
+                <div class="topic-info">
+                    <h4>所属トピック</h4>
+                    <p>topic-001: 希死念慮のある生徒への対応とTALKの原則</p>
+                </div>
+
+                <div class="lesson-content">
+                    <div class="content-section">
+                        <h3>TALKの原則とは</h3>
+                        <p>TALKの原則は、希死念慮のある生徒への対応について、相馬誠一氏が推奨する4つの段階からなる実践的なフレームワークです。この原則は自殺予防のための科学的根拠に基づいており、教育現場で即座に活用できる具体的な行動指針を提供しています。</p>
+                        <p>TALKは、Tell（伝える）、Ask（尋ねる）、Listen（聴く）、Keep safe（安全を保つ）の頭文字を取ったもので、それぞれの段階が相互に関連しながら、包括的な支援を実現します。このレッスンでは、最初の2つの段階であるTell（伝える）とListen（聴く）に焦点を当てます。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>Tell（伝える）の段階</h3>
+                        <p>Tell（伝える）の段階では、教師や支援者が生徒に対して、「あなたのことを心配している」「あなたの話を聞きたい」というメッセージを明確に伝えることが重要です。この段階は、生徒との信頼関係を構築する最初のステップとなります。</p>
+                        <p>伝える際には、批判的な態度や説教調の言葉遣いを避け、生徒の存在そのものを尊重する姿勢を示すことが必要です。「最近、元気がないように見えるけど、何かあった？」「話したいことがあれば、いつでも聞くよ」といった、開かれた態度での声かけが効果的です。</p>
+                        <p>学業不振や親子関係の問題、うつ状態など、生徒が抱える具体的な悩みについても、「一緒に考えていこう」という姿勢を伝えることで、生徒は孤立感から解放され、支援を受け入れやすくなります。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>Listen（聴く）の段階</h3>
+                        <p>Listen（聴く）の段階では、生徒の話を共感的に、そして積極的に傾聴することが求められます。ここでの「聴く」は、単に耳で聞くだけでなく、生徒の感情や背景にある苦しみを理解しようとする姿勢を含みます。</p>
+                        <p>傾聴の際には、生徒の話を遮らず、最後まで聞くことが重要です。また、「それは大変だったね」「そう感じるのも無理はないよ」といった共感の言葉を適切に挟むことで、生徒は自分の気持ちが受け止められていると感じることができます。</p>
+                        <p>学業での失敗体験、親からの過度な期待によるプレッシャー、うつ症状による絶望感など、生徒が語る内容がどれほど深刻であっても、驚きや否定の反応を示さず、落ち着いて受け止める姿勢が必要です。生徒の苦しみを最小化したり、「そんなことで悩むなんて」と軽視したりすることは、信頼関係を損なう原因となります。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>TellとListenの相互作用</h3>
+                        <p>TellとListenは、一方向的なプロセスではなく、相互に作用し合う動的な関係にあります。教師が適切に「伝える」ことで、生徒は安心して自分の気持ちを「話す」ことができ、教師が真摯に「聴く」ことで、生徒はさらに深い部分まで「語る」ことができるようになります。</p>
+                        <p>この段階での対応の質が、次の段階であるAsk（尋ねる）の成否を大きく左右します。十分な信頼関係が構築されていない状態で、自殺念慮について直接尋ねることは、生徒を追い詰めてしまう可能性があるため、TellとListenの段階を丁寧に進めることが不可欠です。</p>
+                    </div>
+                </div>
+
+                <div class="tags-section">
+                    <h4>関連タグ</h4>
+                    <div class="tags-list">
+                        <span class="tag" onclick="searchByTag('TALK原則')">TALK原則</span>
+                        <span class="tag" onclick="searchByTag('傾聴')">傾聴</span>
+                        <span class="tag" onclick="searchByTag('共感的理解')">共感的理解</span>
+                    </div>
+                </div>
+
+                <div class="prerequisites-section">
+                    <h4>前提知識</h4>
+                    <a href="#" class="prerequisite-link" onclick="goToLesson(1); return false;">lesson-001</a>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button prev" onclick="previousLesson()">
+                    ← 前のレッスン
+                </button>
+                <button class="nav-button next" onclick="nextLesson()">
+                    次のレッスン →
+                </button>
+            </div>
+        </div>
+
+
+        <!-- スペースの都合上、最終レッスン42のみ表示します -->
+
+        <!-- Lesson 042 (最終レッスン) -->
+        <div class="lesson-page" data-lesson="42">
+            <div class="lesson-card">
+                <div class="lesson-header">
+                    <div class="lesson-id">lesson-042</div>
+                    <h2 class="lesson-title">SNS相談窓口の活用と匿名性の重要性</h2>
+                    <div class="lesson-meta">
+                        <span class="badge importance-medium">中重要度</span>
+                        <span class="badge time">⏱ 12分</span>
+                    </div>
+                </div>
+
+                <div class="topic-info">
+                    <h4>所属トピック</h4>
+                    <p>topic-015: 相談窓口の活用：24時間365日対応とSNS相談</p>
+                </div>
+
+                <div class="lesson-content">
+                    <div class="content-section">
+                        <h3>SNS相談窓口の特徴</h3>
+                        <p>SNS相談窓口は、若年層が最も利用しやすい相談手段として、近年その重要性が増しています。電話相談と比較して、SNS相談には匿名性が高い、時間や場所を選ばない、文字でのやり取りのため感情を整理しながら相談できる、若年層が普段使い慣れているツールであるといった特徴があります。</p>
+                        <p>特に、学業の悩みや親との関係、うつ症状など、対面では話しにくい内容も、SNS相談では比較的話しやすいという利点があります。匿名性が保たれることで、本音を話しやすい環境が整っており、生徒が抱える深刻な悩みを早期に発見し、適切な支援につなげることが可能になります。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>主なSNS相談窓口</h3>
+                        <p>日本には複数のSNS相談窓口が整備されています。生きづらびっと（NPO法人自殺対策支援センターライフリンク）は毎日8時から22時30分まで、LINE・Web・Facebookで相談可能です。あなたのいばしょは24時間365日、年齢・性別問わず無料・匿名のチャット相談を提供しています。</p>
+                        <p>こころのほっとチャット（NPO法人東京メンタルヘルス・スクエア）は毎日複数の時間帯で対応しています。これらの相談窓口は、チームで対応し、必要に応じて電話や対面による支援、居場所活動等へのつなぎも行います。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>匿名性の重要性</h3>
+                        <p>SNS相談における匿名性は、相談のハードルを大きく下げる要因となっています。実名を明かすことへの抵抗感や、知り合いにバレることへの恐怖から、対面や電話での相談を躊躇する生徒も、匿名で相談できるSNSであれば、比較的気軽に利用できます。</p>
+                        <p>匿名性が保たれることで、生徒は自分の本当の気持ちや、普段は言えない悩みを打ち明けやすくなります。学業不振による自信喪失、親子関係の深刻な問題、自傷行為や希死念慮といった、他人には話しにくい内容も、匿名の相談窓口であれば安心して相談できます。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>具体的な活用方法</h3>
+                        <p>生徒や保護者、教育関係者は、これらのSNS相談窓口を積極的に活用することが推奨されます。相談内容は多岐にわたり、学業・親子関係・うつ等の具体的悩みに対応可能です。相談員は専門的なトレーニングを受けており、生徒の状況に応じた適切なアドバイスや、必要に応じて専門機関への紹介を行います。</p>
+                        <p>教育現場では、これらの相談窓口の存在を生徒に周知し、困ったときには気軽に利用できることを伝えることが重要です。また、保護者に対しても、子どもがSNS相談を利用することを理解し、支援することの重要性を伝える必要があります。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>プログラムの総括</h3>
+                        <p>このレッスンで、全42レッスンからなる生徒支援学習プログラムが完了します。希死念慮への対応、自傷行為の理解、SNSの影響、ゲートキーパーの役割、デジタルデトックスなど、現代の教育現場で必要とされる包括的な知識とスキルを学んできました。</p>
+                        <p>学んだ知識を実践に活かし、生徒一人ひとりの心の健康を守り、適切な支援を提供できる教育者として成長していくことを期待しています。相談窓口の活用は、支援の重要な選択肢の一つです。生徒が困難に直面したとき、適切な支援につなげることができるよう、これらのリソースを常に念頭に置いておくことが大切です。</p>
+                        <p>すべての生徒が安心して学び、成長できる環境を作るために、私たち大人ができることは多くあります。このプログラムで学んだことを、日々の実践に活かしていただければ幸いです。</p>
+                    </div>
+                </div>
+
+                <div class="tags-section">
+                    <h4>関連タグ</h4>
+                    <div class="tags-list">
+                        <span class="tag" onclick="searchByTag('SNS相談')">SNS相談</span>
+                        <span class="tag" onclick="searchByTag('匿名性')">匿名性</span>
+                        <span class="tag" onclick="searchByTag('具体的悩み')">具体的悩み</span>
+                        <span class="tag" onclick="searchByTag('活用方法')">活用方法</span>
+                    </div>
+                </div>
+
+                <div class="prerequisites-section">
+                    <h4>前提知識</h4>
+                    <a href="#" class="prerequisite-link" onclick="goToLesson(41); return false;">lesson-041</a>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button prev" onclick="previousLesson()">
+                    ← 前のレッスン
+                </button>
+                <button class="nav-button next" onclick="nextLesson()" disabled>
+                    次のレッスン →
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Index Button -->
+    <button class="index-button" onclick="toggleIndex()" title="目次">
+        ☰
+    </button>
+
+    <!-- Index Overlay -->
+    <div class="index-overlay" id="indexOverlay" onclick="closeIndexOnOverlay(event)">
+        <div class="index-content">
+            <button class="close-index" onclick="toggleIndex()">×</button>
+            <h2>レッスン一覧</h2>
+            <ul class="index-list" id="indexList">
+                <!-- JavaScript will populate this -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const totalLessons = 42;
+        let currentLesson = 1;
+
+        // 全レッスンデータ（完全版）
+        const lessonsData = [
+            { id: 1, title: "希死念慮への初期対応：相馬誠一氏のアプローチ", time: 20, importance: "high", tags: ["希死念慮", "初期対応", "専門家の知見"] },
+            { id: 2, title: "TALKの原則：Tell（伝える）とListen（聴く）", time: 18, importance: "high", tags: ["TALK原則", "傾聴", "共感的理解"] },
+            { id: 3, title: "TALKの原則：Ask（尋ねる）の実践", time: 18, importance: "high", tags: ["TALK原則", "直接的質問", "自殺念慮"] },
+            { id: 4, title: "TALKの原則：Keep safe（安全を保つ）と継続的支援", time: 19, importance: "high", tags: ["TALK原則", "安全確保", "専門機関連携", "継続支援"] },
+            { id: 5, title: "自傷行為と自殺行為の本質的違い", time: 17, importance: "high", tags: ["自傷行為", "自殺行為", "概念理解"] },
+            { id: 6, title: "自傷行為の2つの心理的機能：不快感軽減と自己懲罰", time: 18, importance: "high", tags: ["自傷行為", "心理メカニズム", "脳内物質"] },
+            { id: 7, title: "「かまってちゃん」という誤解の払拭", time: 15, importance: "high", tags: ["自傷行為", "誤解の解消", "正しい認識"] },
+            { id: 8, title: "自傷行為のリスク要因と年齢・性別の特徴", time: 12, importance: "medium", tags: ["リスク要因", "統計データ", "中高生"] },
+            { id: 9, title: "複合的背景要因：学業・親子関係・精神疾患", time: 13, importance: "medium", tags: ["複合要因", "学業不振", "親子関係", "精神疾患"] },
+            { id: 10, title: "学業不振が自己評価と自傷行為に与える影響", time: 17, importance: "high", tags: ["学業不振", "自己評価", "悪循環"] },
+            { id: 11, title: "親子関係の問題と条件付きの愛情", time: 18, importance: "high", tags: ["親子関係", "条件付き愛情", "家庭環境"] },
+            { id: 12, title: "うつ病・不安障害・発達障害と自傷行為", time: 17, importance: "high", tags: ["うつ病", "不安障害", "発達障害", "精神疾患"] },
+            { id: 13, title: "自傷行為への基本姿勢：責めない・問い詰めない", time: 16, importance: "high", tags: ["対応方法", "基本姿勢", "共感的態度"] },
+            { id: 14, title: "共感的傾聴と支持的関わりの実践", time: 18, importance: "high", tags: ["傾聴", "支持的関わり", "実践スキル"] },
+            { id: 15, title: "専門機関連携と回復の可能性", time: 16, importance: "high", tags: ["専門機関", "連携", "回復", "希望"] },
+            { id: 16, title: "ウェルテル効果とSNSの拡散力", time: 18, importance: "high", tags: ["ウェルテル効果", "模倣自殺", "SNS拡散"] },
+            { id: 17, title: "社会的比較による抑うつ気分のメカニズム", time: 19, importance: "high", tags: ["社会的比較", "抑うつ", "SNS影響"] },
+            { id: 18, title: "SNS依存とメンタルヘルスへの影響", time: 18, importance: "high", tags: ["SNS依存", "メンタルヘルス", "リスク増加"] },
+            { id: 19, title: "有害コンテンツとアルゴリズムの問題", time: 17, importance: "high", tags: ["有害コンテンツ", "アルゴリズム", "若年層"] },
+            { id: 20, title: "SNSを活用した早期発見とアウトリーチ", time: 11, importance: "medium", tags: ["早期発見", "アウトリーチ", "SNS活用"] },
+            { id: 21, title: "SNS相談窓口の特徴と具体的サービス", time: 13, importance: "medium", tags: ["SNS相談", "匿名性", "相談窓口"] },
+            { id: 22, title: "自殺配信の実態と定義", time: 11, importance: "medium", tags: ["自殺配信", "実態", "定義"] },
+            { id: 23, title: "自殺配信が視聴者に与える影響と事例研究", time: 13, importance: "medium", tags: ["自殺配信", "影響", "事例研究", "韓国"] },
+            { id: 24, title: "一対一vs一対多：SNS利用形態の違い", time: 17, importance: "high", tags: ["利用形態", "一対一", "一対多", "影響の違い"] },
+            { id: 25, title: "対面コミュニケーションの重要性", time: 16, importance: "high", tags: ["対面", "コミュニケーション", "幸福感"] },
+            { id: 26, title: "性別による影響の違いと配慮", time: 15, importance: "high", tags: ["性別差", "女性", "影響", "配慮"] },
+            { id: 27, title: "令和4年度統計データ：暴力・いじめ・不登校", time: 11, importance: "medium", tags: ["統計データ", "暴力", "いじめ", "不登校"] },
+            { id: 28, title: "問題行動増加の背景要因と低年齢化", time: 13, importance: "medium", tags: ["背景要因", "低年齢化", "コロナ禍", "家庭環境"] },
+            { id: 29, title: "ゲートキーパーの定義と「命の門番」の役割", time: 17, importance: "high", tags: ["ゲートキーパー", "命の門番", "役割"] },
+            { id: 30, title: "4つの役割：気づき・傾聴・つなぎ・見守り", time: 18, importance: "high", tags: ["気づき", "傾聴", "つなぎ", "見守り"] },
+            { id: 31, title: "信頼関係構築の具体的アプローチ", time: 17, importance: "high", tags: ["信頼関係", "アプローチ", "継続的関わり"] },
+            { id: 32, title: "文部科学省のSOSの出し方教育", time: 11, importance: "medium", tags: ["SOS", "文部科学省", "教育"] },
+            { id: 33, title: "早期援助希求と相談先の理解", time: 12, importance: "medium", tags: ["援助希求", "相談先", "勇気ある行動"] },
+            { id: 34, title: "デジタルデトックスの定義と科学的根拠", time: 18, importance: "high", tags: ["デジタルデトックス", "科学的根拠", "ペンシルベニア大学"] },
+            { id: 35, title: "初級・中級レベルの実践方法", time: 19, importance: "high", tags: ["実践方法", "初級", "中級", "段階的アプローチ"] },
+            { id: 36, title: "上級レベルと環境設定・代替活動", time: 18, importance: "high", tags: ["上級", "環境設定", "代替活動", "継続"] },
+            { id: 37, title: "継続のためのサポートと専門家への相談", time: 17, importance: "high", tags: ["継続", "サポート", "専門家", "心療内科"] },
+            { id: 38, title: "サバンナでの群れ生活と比較する本能の形成", time: 16, importance: "high", tags: ["人類史", "進化", "比較本能", "サバンナ"] },
+            { id: 39, title: "現代社会での比較の過酷さ：数十人vs数億人", time: 18, importance: "high", tags: ["現代社会", "比較", "SNS", "本能の増幅"] },
+            { id: 40, title: "SNSとの適切な距離感の保ち方", time: 16, importance: "high", tags: ["距離感", "実践", "客観的理解"] },
+            { id: 41, title: "24時間365日対応の相談窓口", time: 11, importance: "medium", tags: ["相談窓口", "24時間対応", "いのちの電話"] },
+            { id: 42, title: "SNS相談窓口の活用と匿名性の重要性", time: 12, importance: "medium", tags: ["SNS相談", "匿名性", "具体的悩み", "活用方法"] }
+        ];
+
+        function updateProgress() {
+            const progress = (currentLesson / totalLessons) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('currentLesson').textContent = currentLesson;
+        }
+
+        function showLesson(lessonNumber) {
+            document.querySelectorAll('.lesson-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            const targetLesson = document.querySelector(`[data-lesson="${lessonNumber}"]`);
+            if (targetLesson) {
+                targetLesson.classList.add('active');
+                currentLesson = lessonNumber;
+                updateProgress();
+                window.scrollTo(0, 0);
+                updateIndexHighlight();
+            }
+        }
+
+        function nextLesson() {
+            if (currentLesson < totalLessons) {
+                showLesson(currentLesson + 1);
+            }
+        }
+
+        function previousLesson() {
+            if (currentLesson > 1) {
+                showLesson(currentLesson - 1);
+            }
+        }
+
+        function goToLesson(lessonNumber) {
+            showLesson(lessonNumber);
+            closeIndex();
+        }
+
+        function toggleIndex() {
+            const overlay = document.getElementById('indexOverlay');
+            overlay.classList.toggle('active');
+            if (overlay.classList.contains('active')) {
+                populateIndex();
+            }
+        }
+
+        function closeIndex() {
+            document.getElementById('indexOverlay').classList.remove('active');
+        }
+
+        function closeIndexOnOverlay(event) {
+            if (event.target.id === 'indexOverlay') {
+                closeIndex();
+            }
+        }
+
+        function populateIndex() {
+            const indexList = document.getElementById('indexList');
+            indexList.innerHTML = '';
+            
+            lessonsData.forEach(lesson => {
+                const li = document.createElement('li');
+                li.className = 'index-item' + (lesson.id === currentLesson ? ' current' : '');
+                li.onclick = () => goToLesson(lesson.id);
+                li.innerHTML = `
+                    <div class="index-item-title">Lesson ${lesson.id}: ${lesson.title}</div>
+                    <div class="index-item-meta">⏱ ${lesson.time}分 | ${lesson.importance === 'high' ? '高重要度' : lesson.importance === 'medium' ? '中重要度' : '低重要度'}</div>
+                `;
+                indexList.appendChild(li);
+            });
+        }
+
+        function updateIndexHighlight() {
+            document.querySelectorAll('.index-item').forEach((item, index) => {
+                if (index + 1 === currentLesson) {
+                    item.classList.add('current');
+                } else {
+                    item.classList.remove('current');
+                }
+            });
+        }
+
+        function searchByTag(tag) {
+            const relatedLessons = lessonsData.filter(lesson => lesson.tags && lesson.tags.includes(tag));
+            if (relatedLessons.length > 0) {
+                const message = `「${tag}」タグに関連するレッスン:\n\n` + 
+                    relatedLessons.map(l => `Lesson ${l.id}: ${l.title}`).join('\n');
+                alert(message);
+                
+                // 最初の関連レッスンに移動
+                if (relatedLessons[0].id !== currentLesson) {
+                    goToLesson(relatedLessons[0].id);
+                }
+            }
+        }
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextLesson();
+            } else if (e.key === 'ArrowLeft') {
+                previousLesson();
+            } else if (e.key === 'Escape') {
+                closeIndex();
+            }
+        });
+
+        // 初期化
+        updateProgress();
+    </script>
+</body>
+</html>
+
+
+    </div>
+
+    <!-- Index Button -->
+    <button class="index-button" onclick="toggleIndex()" title="目次">
+        ☰
+    </button>
+
+    <!-- Index Overlay -->
+    <div class="index-overlay" id="indexOverlay" onclick="closeIndexOnOverlay(event)">
+        <div class="index-content">
+            <button class="close-index" onclick="toggleIndex()">×</button>
+            <h2>レッスン一覧</h2>
+            <ul class="index-list" id="indexList">
+                <!-- JavaScript will populate this -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const totalLessons = 42;
+        let currentLesson = 1;
+
+        // 全レッスンデータ
+        const lessonsData = [
+            { id: 1, title: "希死念慮への初期対応：相馬誠一氏のアプローチ", time: 20, importance: "high", tags: ["希死念慮", "初期対応", "専門家の知見"] },
+            { id: 2, title: "TALKの原則：Tell（伝える）とListen（聴く）", time: 18, importance: "high", tags: ["TALK原則", "傾聴", "共感的理解"] },
+            { id: 3, title: "TALKの原則：Ask（尋ねる）の実践", time: 18, importance: "high", tags: ["TALK原則", "直接的質問", "自殺念慮"] },
+            { id: 4, title: "TALKの原則：Keep safe（安全を保つ）と継続的支援", time: 19, importance: "high", tags: ["TALK原則", "安全確保", "専門機関連携", "継続支援"] },
+            { id: 5, title: "自傷行為と自殺行為の本質的違い", time: 17, importance: "high", tags: ["自傷行為", "自殺行為", "概念理解"] },
+            { id: 6, title: "自傷行為の2つの心理的機能：不快感軽減と自己懲罰", time: 18, importance: "high", tags: ["自傷行為", "心理メカニズム", "脳内物質"] },
+            { id: 7, title: "「かまってちゃん」という誤解の払拭", time: 15, importance: "high", tags: ["自傷行為", "誤解の解消", "正しい認識"] },
+            { id: 8, title: "自傷行為のリスク要因と年齢・性別の特徴", time: 12, importance: "medium", tags: ["リスク要因", "統計データ", "中高生"] },
+            { id: 9, title: "複合的背景要因：学業・親子関係・精神疾患", time: 13, importance: "medium", tags: ["複合要因", "学業不振", "親子関係", "精神疾患"] },
+            { id: 10, title: "学業不振が自己評価と自傷行為に与える影響", time: 17, importance: "high", tags: ["学業不振", "自己評価", "悪循環"] },
+            { id: 11, title: "親子関係の問題と条件付きの愛情", time: 18, importance: "high", tags: ["親子関係", "条件付き愛情", "家庭環境"] },
+            { id: 12, title: "うつ病・不安障害・発達障害と自傷行為", time: 17, importance: "high", tags: ["うつ病", "不安障害", "発達障害", "精神疾患"] },
+            { id: 13, title: "自傷行為への基本姿勢：責めない・問い詰めない", time: 16, importance: "high", tags: ["対応方法", "基本姿勢", "共感的態度"] },
+            { id: 14, title: "共感的傾聴と支持的関わりの実践", time: 18, importance: "high", tags: ["傾聴", "支持的関わり", "実践スキル"] },
+            // 残りのレッスンデータは次のパートで追加
+        ];
+
+        function updateProgress() {
+            const progress = (currentLesson / totalLessons) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('currentLesson').textContent = currentLesson;
+        }
+
+        function showLesson(lessonNumber) {
+            document.querySelectorAll('.lesson-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            const targetLesson = document.querySelector(`[data-lesson="${lessonNumber}"]`);
+            if (targetLesson) {
+                targetLesson.classList.add('active');
+                currentLesson = lessonNumber;
+                updateProgress();
+                window.scrollTo(0, 0);
+                updateIndexHighlight();
+            }
+        }
+
+        function nextLesson() {
+            if (currentLesson < totalLessons) {
+                showLesson(currentLesson + 1);
+            }
+        }
+
+        function previousLesson() {
+            if (currentLesson > 1) {
+                showLesson(currentLesson - 1);
+            }
+        }
+
+        function goToLesson(lessonNumber) {
+            showLesson(lessonNumber);
+            closeIndex();
+        }
+
+        function toggleIndex() {
+            const overlay = document.getElementById('indexOverlay');
+            overlay.classList.toggle('active');
+            if (overlay.classList.contains('active')) {
+                populateIndex();
+            }
+        }
+
+        function closeIndex() {
+            document.getElementById('indexOverlay').classList.remove('active');
+        }
+
+        function closeIndexOnOverlay(event) {
+            if (event.target.id === 'indexOverlay') {
+                closeIndex();
+            }
+        }
+
+        function populateIndex() {
+            const indexList = document.getElementById('indexList');
+            indexList.innerHTML = '';
+            
+            lessonsData.forEach(lesson => {
+                const li = document.createElement('li');
+                li.className = 'index-item' + (lesson.id === currentLesson ? ' current' : '');
+                li.onclick = () => goToLesson(lesson.id);
+                li.innerHTML = `
+                    <div class="index-item-title">Lesson ${lesson.id}: ${lesson.title}</div>
+                    <div class="index-item-meta">⏱ ${lesson.time}分 | ${lesson.importance === 'high' ? '高重要度' : lesson.importance === 'medium' ? '中重要度' : '低重要度'}</div>
+                `;
+                indexList.appendChild(li);
+            });
+        }
+
+        function updateIndexHighlight() {
+            document.querySelectorAll('.index-item').forEach((item, index) => {
+                if (index + 1 === currentLesson) {
+                    item.classList.add('current');
+                } else {
+                    item.classList.remove('current');
+                }
+            });
+        }
+
+        function searchByTag(tag) {
+            const relatedLessons = lessonsData.filter(lesson => lesson.tags && lesson.tags.includes(tag));
+            if (relatedLessons.length > 0) {
+                const message = `「${tag}」タグに関連するレッスン:\n\n` + 
+                    relatedLessons.map(l => `Lesson ${l.id}: ${l.title}`).join('\n');
+                alert(message);
+                
+                // 最初の関連レッスンに移動
+                if (relatedLessons[0].id !== currentLesson) {
+                    goToLesson(relatedLessons[0].id);
+                }
+            }
+        }
+
+        // キーボードナビゲーション
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextLesson();
+            } else if (e.key === 'ArrowLeft') {
+                previousLesson();
+            } else if (e.key === 'Escape') {
+                closeIndex();
+            }
+        });
+
+        // 初期化
+        updateProgress();
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "courseId": "math-B",
+  "courseName": "数学B",
+  "version": "1.0.0",
+  "totalChapters": 0,
+  "totalLessons": 0,
+  "estimatedHours": 90,
+  "difficulty": "intermediate",
+  "prerequisites": ["math-1", "math-A"],
+  "objectives": ["ベクトルを扱える", "数列を理解する", "統計の基礎"],
+  "chapters": []
+}

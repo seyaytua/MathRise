@@ -1,0 +1,12 @@
+{
+  "courseId": "math-3",
+  "courseName": "数学Ⅲ",
+  "version": "1.0.0",
+  "totalChapters": 0,
+  "totalLessons": 0,
+  "estimatedHours": 120,
+  "difficulty": "advanced",
+  "prerequisites": ["math-2"],
+  "objectives": ["極限を理解する", "微分ができる", "積分ができる"],
+  "chapters": []
+}

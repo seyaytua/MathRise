@@ -1,0 +1,22 @@
+{
+  "courseId": "math-full-32lessons",
+  "courseName": "数学（カスタム・32レッスン）",
+  "version": "1.0.0",
+  "generatedBy": "MathRise Generator",
+  "generatedDate": "2025-10-06",
+  "metadata": {
+    "subjects": [
+      "math1"
+    ],
+    "theme": "",
+    "mode": "simple",
+    "totalUnits": 1,
+    "totalLessons": 32,
+    "estimatedHours": 6.45
+  },
+  "units": [
+    {
+      "unitId": "unit-01",
+      "unitName": "生成された単元",
+      "importance": "high",
+      "lessons": [

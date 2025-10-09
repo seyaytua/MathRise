@@ -1,0 +1,23 @@
+{
+  "courseId": "math-A",
+  "courseName": "数学A",
+  "version": "1.0.0",
+  "totalChapters": 1,
+  "totalLessons": 30,
+  "estimatedHours": 60,
+  "difficulty": "beginner",
+  "prerequisites": ["math-1"],
+  "objectives": [
+    "場合の数の計算ができる",
+    "確率の基本を理解する",
+    "図形の性質を証明できる"
+  ],
+  "chapters": [
+    {
+      "chapterId": "math-A_1",
+      "chapterName": "第1章 場合の数と確率",
+      "file": "chapter-1.json",
+      "lessons": 30
+    }
+  ]
+}

@@ -1,0 +1,346 @@
+/* ========================================
+   カセットカルーセル
+======================================== */
+
+/* ========================================
+   カセットセクション
+======================================== */
+
+.cartridge-section {
+  flex: 0 0 auto;
+}
+
+/* ========================================
+   カルーセルコンテナ
+======================================== */
+
+.cartridge-carousel-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========================================
+   スクロールトリガーエリア（矢印ボタン）
+======================================== */
+
+.scroll-trigger {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: var(--z-dropdown);
+  transition: opacity var(--transition-base);
+}
+
+.scroll-trigger.left {
+  left: var(--space-md);
+}
+
+.scroll-trigger.right {
+  right: var(--space-md);
+}
+
+.scroll-trigger.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ========================================
+   ビューポート
+======================================== */
+
+.cartridge-viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ========================================
+   カセットトラック
+======================================== */
+
+.cartridge-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: transform 0.5s var(--ease-out);
+  gap: var(--space-xl);
+}
+
+/* ========================================
+   カセットアイテム
+======================================== */
+
+.cartridge-item {
+  flex-shrink: 0;
+  width: 140px;
+  height: 180px;
+  perspective: 1000px;
+  cursor: pointer;
+  transition: all var(--transition-base) var(--ease-out);
+}
+
+/* カセット本体 */
+.cartridge {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all var(--transition-base);
+}
+
+/* カセット状態による変化 */
+.cartridge-item.selected .cartridge {
+  transform: scale(1.2) translateY(-10px);
+}
+
+.cartridge-item.selected {
+  z-index: 5;
+}
+
+.cartridge-item.adjacent {
+  opacity: 0.8;
+  transform: scale(0.95);
+}
+
+.cartridge-item.far {
+  opacity: 0.5;
+  transform: scale(0.85);
+}
+
+.cartridge-item.locked {
+  opacity: 0.4;
+  filter: grayscale(100%);
+  cursor: not-allowed;
+}
+
+/* ========================================
+   カセットの外観
+======================================== */
+
+.cartridge-body {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    var(--card-bg) 0%, 
+    var(--btn-bg) 100%
+  );
+  border-radius: var(--radius-lg);
+  border: 3px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+
+.cartridge-item.selected .cartridge-body {
+  border-color: var(--text-primary);
+  box-shadow: 0 0 20px var(--text-primary);
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px var(--text-primary); }
+  50% { box-shadow: 0 0 30px var(--text-primary); }
+}
+
+/* ホバー時の光沢効果 */
+.cartridge-item::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cartridge-item:hover::after {
+  opacity: 1;
+  animation: shine 1.5s ease-in-out;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+/* ========================================
+   カセットラベル
+======================================== */
+
+.cartridge-label {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 0 var(--space-sm);
+}
+
+.cartridge-icon {
+  font-size: var(--font-4xl);
+  margin-bottom: var(--space-sm);
+  display: block;
+}
+
+.cartridge-name {
+  font-size: var(--font-base);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.cartridge-progress {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+/* ロック状態 */
+.cartridge-item.locked .cartridge-label::before {
+  content: '🔒';
+  display: block;
+  font-size: var(--font-3xl);
+  margin-bottom: var(--space-sm);
+}
+
+/* ========================================
+   インジケーター
+======================================== */
+
+.cartridge-indicators {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--border-color);
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+
+.indicator-dot.active {
+  background: var(--text-primary);
+  transform: scale(1.3);
+}
+
+.indicator-dot:hover {
+  background: var(--text-secondary);
+}
+
+/* ========================================
+   コース詳細セクション
+======================================== */
+
+.course-detail-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+/* ========================================
+   カセット選択時のズームインアニメーション
+======================================== */
+
+.cartridge-item.selecting {
+  animation: zoomIn 0.6s var(--ease-bounce);
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.15) translateY(-20px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ========================================
+   カード出現アニメーション
+======================================== */
+
+.cartridge-item {
+  animation: fadeInUp 0.6s ease backwards;
+}
+
+.cartridge-item:nth-child(1) { animation-delay: 0.1s; }
+.cartridge-item:nth-child(2) { animation-delay: 0.2s; }
+.cartridge-item:nth-child(3) { animation-delay: 0.3s; }
+.cartridge-item:nth-child(4) { animation-delay: 0.4s; }
+.cartridge-item:nth-child(5) { animation-delay: 0.5s; }
+.cartridge-item:nth-child(6) { animation-delay: 0.6s; }
+.cartridge-item:nth-child(7) { animation-delay: 0.7s; }
+.cartridge-item:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   レスポンシブ対応
+======================================== */
+
+@media (max-width: 1024px) {
+  .cartridge-track {
+    gap: var(--space-md);
+  }
+  
+  .cartridge-item {
+    width: 120px;
+    height: 160px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cartridge-track {
+    gap: var(--space-sm);
+  }
+  
+  .cartridge-item {
+    width: 100px;
+    height: 140px;
+  }
+  
+  .cartridge-icon {
+    font-size: var(--font-3xl);
+  }
+  
+  .cartridge-name {
+    font-size: var(--font-sm);
+  }
+}

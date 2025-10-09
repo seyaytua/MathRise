@@ -1,170 +1,97 @@
 /* ========================================
-   ライトテーマ - 5つのバリエーション
+   テーマ切り替え
+   注意: 基本変数は base/variables.css に定義済み
 ======================================== */
-
-/* オプション1: 清潔感のあるブルーグラデーション（デフォルト） */
-[data-theme="light"] {
-    --bg-gradient: linear-gradient(135deg, 
-        #E3F2FD 0%,
-        #BBDEFB 25%, 
-        #90CAF9 50%,
-        #64B5F6 75%,
-        #42A5F5 100%
-    );
-    --header-bg: rgba(255, 255, 255, 0.95);
-    --card-bg: #FFFFFF;
-    --btn-bg: #F5F5F5;
-    --btn-hover: #E0E0E0;
-    --text-primary: #212121;
-    --text-secondary: #757575;
-    --border-color: #E0E0E0;
-    --progress-bg: #E0E0E0;
-    --progress-gradient: linear-gradient(90deg, #4CAF50, #8BC34A);
-    
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
-    --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.25);
-    --shadow-top: 0 -4px 16px rgba(0, 0, 0, 0.1);
-}
-
-/* オプション2: 温かみのあるサンセットグラデーション */
-[data-theme="light"].sunset {
-    --bg-gradient: linear-gradient(135deg,
-        #FFF3E0 0%,
-        #FFE0B2 25%,
-        #FFCC80 50%,
-        #FFB74D 75%,
-        #FFA726 100%
-    );
-}
-
-/* オプション3: 爽やかなミントグリーングラデーション */
-[data-theme="light"].mint {
-    --bg-gradient: linear-gradient(135deg,
-        #E8F5E9 0%,
-        #C8E6C9 25%,
-        #A5D6A7 50%,
-        #81C784 75%,
-        #66BB6A 100%
-    );
-}
-
-/* オプション4: 優雅なラベンダーグラデーション */
-[data-theme="light"].lavender {
-    --bg-gradient: linear-gradient(135deg,
-        #F3E5F5 0%,
-        #E1BEE7 25%,
-        #CE93D8 50%,
-        #BA68C8 75%,
-        #AB47BC 100%
-    );
-}
-
-/* オプション5: モダンなグレーグラデーション */
-[data-theme="light"].modern {
-    --bg-gradient: linear-gradient(135deg,
-        #FAFAFA 0%,
-        #F5F5F5 25%,
-        #EEEEEE 50%,
-        #E0E0E0 75%,
-        #BDBDBD 100%
-    );
-}
-
-/* ========================================
-   ダークテーマ
-======================================== */
-[data-theme="dark"] {
-    --bg-gradient: linear-gradient(135deg, 
-        #0D1117 0%,
-        #161B22 25%,
-        #1F2937 50%,
-        #111827 75%,
-        #0D1117 100%
-    );
-    --header-bg: rgba(30, 30, 46, 0.95);
-    --card-bg: #1e1e2e;
-    --btn-bg: #2a2a3e;
-    --btn-hover: #3a3a4e;
-    --text-primary: #E0E0E0;
-    --text-secondary: #A0A0A0;
-    --border-color: #3a3a4e;
-    --progress-bg: #2a2a3e;
-    --progress-gradient: linear-gradient(90deg, #66BB6A, #9CCC65);
-    
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-    --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.6);
-    --shadow-top: 0 -4px 16px rgba(0, 0, 0, 0.3);
-}
 
 /* ========================================
    テーマ切り替えアニメーション
 ======================================== */
+
 * {
-    transition: background-color 0.3s ease, 
-                color 0.3s ease, 
-                border-color 0.3s ease;
-}
-
-.theme-toggle {
-    position: relative;
-}
-
-.theme-icon {
-    transition: transform 0.5s ease;
-}
-
-[data-theme="dark"] .theme-icon {
-    transform: rotate(180deg);
+  transition: background-color var(--transition-base), 
+              color var(--transition-base), 
+              border-color var(--transition-base);
 }
 
 /* ========================================
-   背景パターン選択UI（オプション）
+   テーマトグルアイコンアニメーション
 ======================================== */
+
+.theme-toggle {
+  position: relative;
+}
+
+.theme-icon {
+  transition: transform 0.5s var(--ease-out);
+}
+
+[data-theme="dark"] .theme-icon {
+  transform: rotate(180deg);
+}
+
+/* ========================================
+   テーマ選択UI
+======================================== */
+
 .theme-selector {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 1rem;
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
 }
 
 .theme-option {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-full);
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-base);
 }
 
 .theme-option:hover {
-    transform: scale(1.1);
-    border-color: var(--text-primary);
+  transform: scale(1.1);
+  border-color: var(--text-primary);
 }
 
 .theme-option.active {
-    border-color: var(--text-primary);
-    box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--text-primary);
+  border-color: var(--text-primary);
+  box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--text-primary);
 }
 
 .theme-option.default {
-    background: linear-gradient(135deg, #E3F2FD, #42A5F5);
+  background: linear-gradient(135deg, #E3F2FD, #42A5F5);
 }
 
 .theme-option.sunset {
-    background: linear-gradient(135deg, #FFF3E0, #FFA726);
+  background: linear-gradient(135deg, #FFF3E0, #FFA726);
 }
 
 .theme-option.mint {
-    background: linear-gradient(135deg, #E8F5E9, #66BB6A);
+  background: linear-gradient(135deg, #E8F5E9, #66BB6A);
 }
 
 .theme-option.lavender {
-    background: linear-gradient(135deg, #F3E5F5, #AB47BC);
+  background: linear-gradient(135deg, #F3E5F5, #AB47BC);
 }
 
 .theme-option.modern {
-    background: linear-gradient(135deg, #FAFAFA, #BDBDBD);
+  background: linear-gradient(135deg, #FAFAFA, #BDBDBD);
+}
+
+/* ========================================
+   ダークモード時のテーマバリエーション無効化
+======================================== */
+
+[data-theme="dark"] #themeVariantSection {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+[data-theme="dark"] .theme-selector::after {
+  content: 'ダークモード時は選択できません';
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
 }

@@ -1,0 +1,90 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-10-09",
+  "textbooks": [
+    {
+      "id": "math-1",
+      "title": "数学Ⅰ",
+      "subtitle": "数と式・二次関数・図形と計量",
+      "icon": "📘",
+      "color": "#2196F3",
+      "colorDark": "#1976D2",
+      "pages": 42,
+      "file": "textbooks/math-1.html",
+      "lastUpdated": "2025-10-09",
+      "category": "数学",
+      "difficulty": "基礎",
+      "description": "数学Ⅰの基礎から応用まで、体系的に学習できる教科書です。二次関数、方程式、図形の性質を丁寧に解説します。"
+    },
+    {
+      "id": "math-2",
+      "title": "数学Ⅱ",
+      "subtitle": "式と証明・複素数・図形と方程式",
+      "icon": "📗",
+      "color": "#4CAF50",
+      "colorDark": "#388E3C",
+      "pages": 38,
+      "file": "textbooks/math-2.html",
+      "lastUpdated": "2025-10-09",
+      "category": "数学",
+      "difficulty": "標準",
+      "description": "数学Ⅱの内容を丁寧に解説した教科書です。式と証明、複素数と方程式、図形と方程式を学習します。"
+    },
+    {
+      "id": "math-3",
+      "title": "数学Ⅲ",
+      "subtitle": "極限・微分法・積分法",
+      "icon": "📙",
+      "color": "#FF9800",
+      "colorDark": "#F57C00",
+      "pages": 45,
+      "file": "textbooks/math-3.html",
+      "lastUpdated": "2025-10-09",
+      "category": "数学",
+      "difficulty": "発展",
+      "description": "数学Ⅲの高度な内容を学習できる教科書です。極限、微分法、積分法を体系的に学びます。"
+    },
+    {
+      "id": "math-A",
+      "title": "数学A",
+      "subtitle": "場合の数・確率・整数の性質",
+      "icon": "📕",
+      "color": "#F44336",
+      "colorDark": "#D32F2F",
+      "pages": 35,
+      "file": "textbooks/math-A.html",
+      "lastUpdated": "2025-10-09",
+      "category": "数学",
+      "difficulty": "基礎",
+      "description": "数学Aの内容を基礎から学習できる教科書です。場合の数と確率、整数の性質、図形の性質を学びます。"
+    },
+    {
+      "id": "math-B",
+      "title": "数学B",
+      "subtitle": "数列・ベクトル・統計的な推測",
+      "icon": "📔",
+      "color": "#9C27B0",
+      "colorDark": "#7B1FA2",
+      "pages": 40,
+      "file": "textbooks/math-B.html",
+      "lastUpdated": "2025-10-09",
+      "category": "数学",
+      "difficulty": "標準",
+      "description": "数学Bの内容を体系的に学習できる教科書です。数列、ベクトル、統計的な推測を丁寧に解説します。"
+    },
+    {
+      "id": "math-C",
+      "title": "数学C",
+      "subtitle": "ベクトル・平面上の曲線・複素数平面",
+      "icon": "📓",
+      "color": "#00BCD4",
+      "colorDark": "#0097A7",
+      "pages": 42,
+      "file": "textbooks/math-C.html",
+      "lastUpdated": "2025-10-09",
+      "category": "数学",
+      "difficulty": "発展",
+      "description": "数学Cの高度な内容を学習できる教科書です。ベクトル、平面上の曲線と複素数平面、式と曲線を学習します。"
+    }
+  ]
+}

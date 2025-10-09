@@ -1,0 +1,284 @@
+/* ========================================
+   CSS変数定義
+======================================== */
+
+:root {
+  /* ========================================
+     カラーパレット
+  ======================================== */
+  
+  /* プライマリカラー */
+  --primary: #2196F3;
+  --primary-light: #64B5F6;
+  --primary-dark: #1976D2;
+  
+  /* セカンダリカラー */
+  --secondary: #FF9800;
+  --secondary-light: #FFB74D;
+  --secondary-dark: #F57C00;
+  
+  /* ステータスカラー */
+  --success: #4CAF50;
+  --success-light: #81C784;
+  --success-dark: #388E3C;
+  
+  --error: #F44336;
+  --error-light: #E57373;
+  --error-dark: #D32F2F;
+  
+  --warning: #FFC107;
+  --warning-light: #FFD54F;
+  --warning-dark: #FFA000;
+  
+  --info: #2196F3;
+  --info-light: #64B5F6;
+  --info-dark: #1976D2;
+  
+  /* グレースケール */
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-200: #EEEEEE;
+  --gray-300: #E0E0E0;
+  --gray-400: #BDBDBD;
+  --gray-500: #9E9E9E;
+  --gray-600: #757575;
+  --gray-700: #616161;
+  --gray-800: #424242;
+  --gray-900: #212121;
+  
+  /* ========================================
+     テーマカラー（デフォルト：ライト）
+  ======================================== */
+  
+  --bg-gradient: linear-gradient(135deg, 
+    #E3F2FD 0%,
+    #BBDEFB 25%, 
+    #90CAF9 50%,
+    #64B5F6 75%,
+    #42A5F5 100%
+  );
+  
+  --bg-main: #FFFFFF;
+  --bg-secondary: #F5F5F5;
+  --bg-tertiary: #FAFAFA;
+  
+  --card-bg: #FFFFFF;
+  --header-bg: rgba(255, 255, 255, 0.95);
+  --footer-bg: rgba(255, 255, 255, 0.95);
+  
+  --btn-bg: #F5F5F5;
+  --btn-hover: #E0E0E0;
+  --btn-active: #BDBDBD;
+  
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --text-tertiary: #9E9E9E;
+  --text-inverse: #FFFFFF;
+  
+  --border-color: #E0E0E0;
+  --border-light: #F5F5F5;
+  --border-dark: #BDBDBD;
+  
+  --progress-bg: #E0E0E0;
+  --progress-gradient: linear-gradient(90deg, #4CAF50, #8BC34A);
+  
+  /* ========================================
+     スペーシング
+  ======================================== */
+  
+  --space-xs: 0.25rem;    /* 4px */
+  --space-sm: 0.5rem;     /* 8px */
+  --space-md: 1rem;       /* 16px */
+  --space-lg: 1.5rem;     /* 24px */
+  --space-xl: 2rem;       /* 32px */
+  --space-2xl: 3rem;      /* 48px */
+  --space-3xl: 4rem;      /* 64px */
+  
+  /* ========================================
+     フォント
+  ======================================== */
+  
+  /* フォントサイズ */
+  --font-xs: 0.75rem;     /* 12px */
+  --font-sm: 0.875rem;    /* 14px */
+  --font-base: 1rem;      /* 16px */
+  --font-lg: 1.125rem;    /* 18px */
+  --font-xl: 1.25rem;     /* 20px */
+  --font-2xl: 1.5rem;     /* 24px */
+  --font-3xl: 1.875rem;   /* 30px */
+  --font-4xl: 2.25rem;    /* 36px */
+  
+  /* フォントウェイト */
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* 行間 */
+  --line-tight: 1.25;
+  --line-normal: 1.5;
+  --line-relaxed: 1.75;
+  --line-loose: 2;
+  
+  /* ========================================
+     ボーダー
+  ======================================== */
+  
+  --border-width: 1px;
+  --border-width-thick: 2px;
+  --border-width-thicker: 3px;
+  
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+  
+  /* ========================================
+     シャドウ
+  ======================================== */
+  
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.25);
+  --shadow-2xl: 0 16px 48px rgba(0, 0, 0, 0.3);
+  --shadow-top: 0 -4px 16px rgba(0, 0, 0, 0.1);
+  
+  /* ========================================
+     トランジション
+  ======================================== */
+  
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --transition-slower: 0.75s ease;
+  
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* ========================================
+     Z-index
+  ======================================== */
+  
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+  --z-notification: 800;
+  --z-max: 9999;
+  
+  /* ========================================
+     ブレークポイント
+  ======================================== */
+  
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+/* ========================================
+   ダークテーマ
+======================================== */
+
+[data-theme="dark"] {
+  --bg-gradient: linear-gradient(135deg, 
+    #0D1117 0%,
+    #161B22 25%,
+    #1F2937 50%,
+    #111827 75%,
+    #0D1117 100%
+  );
+  
+  --bg-main: #1e1e2e;
+  --bg-secondary: #2a2a3e;
+  --bg-tertiary: #3a3a4e;
+  
+  --card-bg: #1e1e2e;
+  --header-bg: rgba(30, 30, 46, 0.95);
+  --footer-bg: rgba(30, 30, 46, 0.95);
+  
+  --btn-bg: #2a2a3e;
+  --btn-hover: #3a3a4e;
+  --btn-active: #4a4a5e;
+  
+  --text-primary: #E0E0E0;
+  --text-secondary: #A0A0A0;
+  --text-tertiary: #808080;
+  --text-inverse: #212121;
+  
+  --border-color: #3a3a4e;
+  --border-light: #2a2a3e;
+  --border-dark: #4a4a5e;
+  
+  --progress-bg: #2a2a3e;
+  --progress-gradient: linear-gradient(90deg, #66BB6A, #9CCC65);
+  
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.6);
+  --shadow-2xl: 0 16px 48px rgba(0, 0, 0, 0.7);
+  --shadow-top: 0 -4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   ライトテーマのバリエーション
+======================================== */
+
+/* サンセット */
+[data-theme="light"].sunset {
+  --bg-gradient: linear-gradient(135deg,
+    #FFF3E0 0%,
+    #FFE0B2 25%,
+    #FFCC80 50%,
+    #FFB74D 75%,
+    #FFA726 100%
+  );
+}
+
+/* ミントグリーン */
+[data-theme="light"].mint {
+  --bg-gradient: linear-gradient(135deg,
+    #E8F5E9 0%,
+    #C8E6C9 25%,
+    #A5D6A7 50%,
+    #81C784 75%,
+    #66BB6A 100%
+  );
+}
+
+/* ラベンダー */
+[data-theme="light"].lavender {
+  --bg-gradient: linear-gradient(135deg,
+    #F3E5F5 0%,
+    #E1BEE7 25%,
+    #CE93D8 50%,
+    #BA68C8 75%,
+    #AB47BC 100%
+  );
+}
+
+/* モダングレー */
+[data-theme="light"].modern {
+  --bg-gradient: linear-gradient(135deg,
+    #FAFAFA 0%,
+    #F5F5F5 25%,
+    #EEEEEE 50%,
+    #E0E0E0 75%,
+    #BDBDBD 100%
+  );
+}

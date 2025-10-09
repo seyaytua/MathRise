@@ -1,0 +1,186 @@
+/* ========================================
+   数式レイアウト調整
+======================================== */
+
+/* ========================================
+   インライン数式のベースライン調整
+======================================== */
+
+.MathJax {
+  display: inline !important;
+  vertical-align: baseline !important;
+  line-height: 1 !important;
+}
+
+/* ブロック数式 */
+.MathJax_Display {
+  display: block !important;
+  text-align: center !important;
+  margin: 1em 0 !important;
+}
+
+/* 数式を含む段落の行間調整 */
+p:has(.MathJax),
+li:has(.MathJax),
+.problem-prompt:has(.MathJax),
+.step-prompt:has(.MathJax) {
+  line-height: 1.8 !important;
+}
+
+/* 数式の前後のスペース調整 */
+.MathJax + .MathJax {
+  margin-left: 0.3em;
+}
+
+/* 数式とテキストの間のスペース */
+.MathJax:not(:first-child) {
+  margin-left: 0.2em;
+}
+
+.MathJax:not(:last-child) {
+  margin-right: 0.2em;
+}
+
+/* 問題文内の数式 */
+.problem-question .MathJax,
+.problem-prompt .MathJax,
+.step-prompt .MathJax {
+  vertical-align: baseline !important;
+}
+
+/* 選択肢内の数式 */
+.choice-label .MathJax {
+  vertical-align: baseline !important;
+  margin: 0 0.2em;
+}
+
+/* 説明文内の数式 */
+.explanation .MathJax,
+.hint .MathJax,
+.feedback .MathJax {
+  vertical-align: baseline !important;
+}
+
+/* 大きな数式（分数など）の調整 */
+.MathJax[style*="font-size"] {
+  vertical-align: middle !important;
+}
+
+/* フォントサイズの統一 */
+.MathJax {
+  font-size: inherit !important;
+}
+
+/* ========================================
+   MathJaxコンテナ調整
+======================================== */
+
+/* インライン数式 */
+mjx-container[display="false"] {
+  display: inline !important;
+  vertical-align: middle;
+  margin: 0 0.15em;
+}
+
+/* ディスプレイ数式 - 左詰め */
+mjx-container[display="true"] {
+  display: block !important;
+  text-align: left;
+  margin: var(--space-md) 0;
+  margin-left: var(--space-xl);
+}
+
+/* 数式を含む段落 */
+.lesson-explanation p {
+  line-height: var(--line-loose);
+}
+
+/* MathJax SVG要素の調整 */
+mjx-container svg {
+  vertical-align: middle;
+}
+
+/* 数式のベースライン調整 */
+.MathJax {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin: 0 0.2em !important;
+}
+
+/* レッスン説明内の数式 */
+.lesson-explanation mjx-container {
+  display: inline !important;
+  vertical-align: middle;
+  margin: 0 0.2em;
+}
+
+/* 数式を含む文の調整 */
+.lesson-explanation > div,
+.lesson-explanation > p {
+  display: block;
+  margin-bottom: var(--space-md);
+}
+
+/* ========================================
+   数式の左寄せ（読みやすさ向上）
+======================================== */
+
+.lesson-content .MathJax,
+.lesson-content mjx-container {
+  text-align: left !important;
+  margin-left: 0 !important;
+}
+
+.problem-content .MathJax,
+.problem-content mjx-container {
+  text-align: left !important;
+  margin-left: 0 !important;
+}
+
+.step-prompt .MathJax,
+.step-prompt mjx-container {
+  text-align: left !important;
+  margin-left: 0 !important;
+}
+
+/* インライン数式も左寄せ */
+.lesson-content p,
+.problem-content p,
+.step-prompt p,
+.lesson-content div,
+.problem-content div,
+.step-prompt div {
+  text-align: left !important;
+}
+
+/* MathJax全体を左寄せ */
+mjx-container[display="true"],
+mjx-container[display="block"] {
+  text-align: left !important;
+  margin: 1em 0 !important;
+}
+
+/* インライン数式のコンテナ */
+mjx-container[jax="CHTML"][display="true"] {
+  text-align: left !important;
+}
+
+/* ========================================
+   レスポンシブ対応
+======================================== */
+
+@media (max-width: 768px) {
+  mjx-container[display="true"] {
+    margin-left: var(--space-md);
+  }
+  
+  .MathJax {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  mjx-container {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}

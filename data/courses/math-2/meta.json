@@ -1,0 +1,16 @@
+{
+  "courseId": "math-2",
+  "courseName": "数学Ⅱ",
+  "version": "1.0.0",
+  "totalChapters": 0,
+  "totalLessons": 0,
+  "estimatedHours": 100,
+  "difficulty": "intermediate",
+  "prerequisites": ["math-1"],
+  "objectives": [
+    "式と証明を理解する",
+    "複素数の計算ができる",
+    "図形と方程式を扱える"
+  ],
+  "chapters": []
+}

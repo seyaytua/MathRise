@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学Ⅰ - デジタル教科書</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "游ゴシック体", YuGothic, "游ゴシック", "Yu Gothic", "メイリオ", Meiryo, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .lesson-counter {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .lesson-page {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .lesson-page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid #2196F3;
+        }
+
+        .lesson-id {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            font-family: monospace;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge.importance-high {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .badge.importance-medium {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .badge.importance-low {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .badge.time {
+            background-color: #34495e;
+            color: white;
+        }
+
+        .lesson-content {
+            margin: 2rem 0;
+        }
+
+        .content-section {
+            margin-bottom: 2rem;
+        }
+
+        .content-section h3 {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+            border-left: 4px solid #2196F3;
+        }
+
+        .content-section p {
+            color: #555;
+            line-height: 1.9;
+            text-align: justify;
+            margin-bottom: 1rem;
+        }
+
+        .tags-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed #ecf0f1;
+        }
+
+        .tags-section h4 {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tags-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .tag:hover {
+            background-color: #2196F3;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .prerequisites-section {
+            background-color: #fff9e6;
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid #f39c12;
+            margin: 2rem 0;
+        }
+
+        .prerequisites-section h4 {
+            color: #f39c12;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .prerequisite-link {
+            display: inline-block;
+            background-color: white;
+            color: #2c3e50;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin: 0.3rem;
+            text-decoration: none;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border: 2px solid #f39c12;
+            transition: all 0.2s;
+        }
+
+        .prerequisite-link:hover {
+            background-color: #f39c12;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: inherit;
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .nav-button.prev {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .nav-button.prev:hover:not(:disabled) {
+            background-color: #7f8c8d;
+            transform: translateX(-5px);
+        }
+
+        .nav-button.next {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .nav-button.next:hover:not(:disabled) {
+            background-color: #1976D2;
+            transform: translateX(5px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: #ecf0f1;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2196F3 0%, #4CAF50 100%);
+            transition: width 0.3s ease;
+        }
+
+        .topic-info {
+            background-color: #e3f2fd;
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid #2196F3;
+            margin-bottom: 2rem;
+        }
+
+        .topic-info h4 {
+            color: #2196F3;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-info p {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .index-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #2196F3;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+            z-index: 50;
+        }
+
+        .index-button:hover {
+            background-color: #1976D2;
+            transform: scale(1.1);
+        }
+
+        .index-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 200;
+            overflow-y: auto;
+        }
+
+        .index-overlay.active {
+            display: block;
+        }
+
+        .index-content {
+            background: white;
+            max-width: 900px;
+            margin: 2rem auto;
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .close-index {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .close-index:hover {
+            background-color: #c0392b;
+            transform: rotate(90deg);
+        }
+
+        .index-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .index-item {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+        .index-item:hover {
+            background-color: #ecf0f1;
+            border-left-color: #2196F3;
+            transform: translateX(5px);
+        }
+
+        .index-item.current {
+            background-color: #e3f2fd;
+            border-left-color: #2196F3;
+        }
+
+        .index-item-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.3rem;
+        }
+
+        .index-item-meta {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .lesson-card {
+                padding: 1.5rem;
+            }
+
+            .lesson-title {
+                font-size: 1.4rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .index-button {
+                bottom: 1rem;
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>📘 数学Ⅰ - デジタル教科書</h1>
+            <div class="lesson-counter">
+                <span id="currentLesson">1</span> / <span id="totalLessons">5</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 20%"></div>
+        </div>
+
+        <!-- Lesson 001 -->
+        <div class="lesson-page active" data-lesson="1">
+            <div class="lesson-card">
+                <div class="lesson-header">
+                    <div class="lesson-id">lesson-001</div>
+                    <h2 class="lesson-title">多項式の基本用語と整理</h2>
+                    <div class="lesson-meta">
+                        <span class="badge importance-high">高重要度</span>
+                        <span class="badge time">⏱ 15分</span>
+                    </div>
+                </div>
+
+                <div class="topic-info">
+                    <h4>所属トピック</h4>
+                    <p>第1章 数と式 - 第1節 展開と因数分解</p>
+                </div>
+
+                <div class="lesson-content">
+                    <div class="content-section">
+                        <h3>多項式とは</h3>
+                        <p>多項式とは、文字を含む式のうち、項の和として表される式のことです。例えば、$$3x^2 + 2x - 5$$ は多項式です。この式は3つの項（$$3x^2$$、$$2x$$、$$-5$$）から成り立っています。</p>
+                        <p>各項は、数（係数）と文字の積で表されます。$$3x^2$$ では、3が係数、$$x^2$$ が文字の部分です。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>基本用語</h3>
+                        <p><strong>項（こう）：</strong> 多項式を構成する、加法記号（+）または減法記号（-）で区切られた各部分を項といいます。</p>
+                        <p><strong>係数（けいすう）：</strong> 各項において、文字にかかっている数を係数といいます。$$5x$$ の係数は5です。</p>
+                        <p><strong>定数項（ていすうこう）：</strong> 文字を含まない項を定数項といいます。$$3x^2 + 2x - 5$$ の定数項は -5 です。</p>
+                        <p><strong>次数（じすう）：</strong> 各項において、文字の指数の和を次数といいます。$$3x^2$$ の次数は2です。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>多項式の整理</h3>
+                        <p>多項式を整理するとは、同類項をまとめて、次数の高い順（降べきの順）または低い順（昇べきの順）に並べることです。</p>
+                        <p>例：$$2x + 5x^2 - 3 + x^2 - x$$ を整理すると、$$6x^2 + x - 3$$ となります。</p>
+                    </div>
+                </div>
+
+                <div class="tags-section">
+                    <h4>関連タグ</h4>
+                    <div class="tags-list">
+                        <span class="tag" onclick="searchByTag('多項式')">多項式</span>
+                        <span class="tag" onclick="searchByTag('基本用語')">基本用語</span>
+                        <span class="tag" onclick="searchByTag('整理')">整理</span>
+                    </div>
+                </div>
+
+                <div class="prerequisites-section">
+                    <h4>前提知識</h4>
+                    <p>このレッスンには前提知識は必要ありません。</p>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button prev" onclick="previousLesson()" disabled>
+                    ← 前のレッスン
+                </button>
+                <button class="nav-button next" onclick="nextLesson()">
+                    次のレッスン →
+                </button>
+            </div>
+        </div>
+
+        <!-- Lesson 002 -->
+        <div class="lesson-page" data-lesson="2">
+            <div class="lesson-card">
+                <div class="lesson-header">
+                    <div class="lesson-id">lesson-002</div>
+                    <h2 class="lesson-title">展開の公式（基本）</h2>
+                    <div class="lesson-meta">
+                        <span class="badge importance-high">高重要度</span>
+                        <span class="badge time">⏱ 20分</span>
+                    </div>
+                </div>
+
+                <div class="topic-info">
+                    <h4>所属トピック</h4>
+                    <p>第1章 数と式 - 第1節 展開と因数分解</p>
+                </div>
+
+                <div class="lesson-content">
+                    <div class="content-section">
+                        <h3>展開とは</h3>
+                        <p>展開とは、括弧を外して式を書き直すことです。例えば、$$(x + 2)(x + 3)$$ を展開すると $$x^2 + 5x + 6$$ となります。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>基本の展開公式</h3>
+                        <p><strong>公式1：</strong> $$(a + b)^2 = a^2 + 2ab + b^2$$</p>
+                        <p><strong>公式2：</strong> $$(a - b)^2 = a^2 - 2ab + b^2$$</p>
+                        <p><strong>公式3：</strong> $$(a + b)(a - b) = a^2 - b^2$$</p>
+                        <p><strong>公式4：</strong> $$(x + a)(x + b) = x^2 + (a + b)x + ab$$</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>公式の使い方</h3>
+                        <p>例1：$$(x + 3)^2$$ を展開する</p>
+                        <p>公式1を使って、$$a = x$$、$$b = 3$$ とすると、</p>
+                        <p>$$(x + 3)^2 = x^2 + 2 \cdot x \cdot 3 + 3^2 = x^2 + 6x + 9$$</p>
+                        <p>例2：$$(x + 2)(x - 2)$$ を展開する</p>
+                        <p>公式3を使って、$$a = x$$、$$b = 2$$ とすると、</p>
+                        <p>$$(x + 2)(x - 2) = x^2 - 2^2 = x^2 - 4$$</p>
+                    </div>
+                </div>
+
+                <div class="tags-section">
+                    <h4>関連タグ</h4>
+                    <div class="tags-list">
+                        <span class="tag" onclick="searchByTag('展開')">展開</span>
+                        <span class="tag" onclick="searchByTag('公式')">公式</span>
+                        <span class="tag" onclick="searchByTag('計算')">計算</span>
+                    </div>
+                </div>
+
+                <div class="prerequisites-section">
+                    <h4>前提知識</h4>
+                    <a href="#" class="prerequisite-link" onclick="goToLesson(1); return false;">lesson-001</a>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button prev" onclick="previousLesson()">
+                    ← 前のレッスン
+                </button>
+                <button class="nav-button next" onclick="nextLesson()">
+                    次のレッスン →
+                </button>
+            </div>
+        </div>
+
+        <!-- Lesson 003 -->
+        <div class="lesson-page" data-lesson="3">
+            <div class="lesson-card">
+                <div class="lesson-header">
+                    <div class="lesson-id">lesson-003</div>
+                    <h2 class="lesson-title">因数分解の基本</h2>
+                    <div class="lesson-meta">
+                        <span class="badge importance-high">高重要度</span>
+                        <span class="badge time">⏱ 18分</span>
+                    </div>
+                </div>
+
+                <div class="topic-info">
+                    <h4>所属トピック</h4>
+                    <p>第1章 数と式 - 第1節 展開と因数分解</p>
+                </div>
+
+                <div class="lesson-content">
+                    <div class="content-section">
+                        <h3>因数分解とは</h3>
+                        <p>因数分解とは、多項式を積の形に変形することです。展開の逆の操作です。例えば、$$x^2 + 5x + 6$$ を因数分解すると $$(x + 2)(x + 3)$$ となります。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>基本の因数分解公式</h3>
+                        <p><strong>公式1：</strong> $$a^2 + 2ab + b^2 = (a + b)^2$$</p>
+                        <p><strong>公式2：</strong> $$a^2 - 2ab + b^2 = (a - b)^2$$</p>
+                        <p><strong>公式3：</strong> $$a^2 - b^2 = (a + b)(a - b)$$</p>
+                        <p><strong>公式4：</strong> $$x^2 + (a + b)x + ab = (x + a)(x + b)$$</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>因数分解の手順</h3>
+                        <p>1. 共通因数があれば、まず括り出す</p>
+                        <p>2. 項数を確認する（2項、3項、4項以上）</p>
+                        <p>3. 適切な公式を選んで適用する</p>
+                        <p>4. 因数分解できなくなるまで続ける</p>
+                    </div>
+                </div>
+
+                <div class="tags-section">
+                    <h4>関連タグ</h4>
+                    <div class="tags-list">
+                        <span class="tag" onclick="searchByTag('因数分解')">因数分解</span>
+                        <span class="tag" onclick="searchByTag('公式')">公式</span>
+                        <span class="tag" onclick="searchByTag('展開')">展開</span>
+                    </div>
+                </div>
+
+                <div class="prerequisites-section">
+                    <h4>前提知識</h4>
+                    <a href="#" class="prerequisite-link" onclick="goToLesson(2); return false;">lesson-002</a>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button prev" onclick="previousLesson()">
+                    ← 前のレッスン
+                </button>
+                <button class="nav-button next" onclick="nextLesson()">
+                    次のレッスン →
+                </button>
+            </div>
+        </div>
+
+        <!-- Lesson 004 -->
+        <div class="lesson-page" data-lesson="4">
+            <div class="lesson-card">
+                <div class="lesson-header">
+                    <div class="lesson-id">lesson-004</div>
+                    <h2 class="lesson-title">二次関数のグラフ</h2>
+                    <div class="lesson-meta">
+                        <span class="badge importance-high">高重要度</span>
+                        <span class="badge time">⏱ 25分</span>
+                    </div>
+                </div>
+
+                <div class="topic-info">
+                    <h4>所属トピック</h4>
+                    <p>第2章 二次関数 - 第1節 二次関数とグラフ</p>
+                </div>
+
+                <div class="lesson-content">
+                    <div class="content-section">
+                        <h3>二次関数とは</h3>
+                        <p>二次関数とは、$$y = ax^2 + bx + c$$ の形で表される関数です。$$a \neq 0$$ という条件があります。</p>
+                        <p>二次関数のグラフは放物線と呼ばれる曲線になります。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>基本形 $$y = ax^2$$</h3>
+                        <p>最も基本的な二次関数 $$y = ax^2$$ のグラフは、原点を頂点とする放物線です。</p>
+                        <p>$$a > 0$$ のとき：下に凸の放物線（上に開く）</p>
+                        <p>$$a < 0$$ のとき：上に凸の放物線（下に開く）</p>
+                        <p>$$|a|$$ が大きいほど、グラフは細くなります。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>平行移動</h3>
+                        <p>$$y = a(x - p)^2 + q$$ の形は、$$y = ax^2$$ のグラフを</p>
+                        <p>・$$x$$ 軸方向に $$p$$ だけ平行移動</p>
+                        <p>・$$y$$ 軸方向に $$q$$ だけ平行移動</p>
+                        <p>したものです。頂点の座標は $$(p, q)$$ となります。</p>
+                    </div>
+                </div>
+
+                <div class="tags-section">
+                    <h4>関連タグ</h4>
+                    <div class="tags-list">
+                        <span class="tag" onclick="searchByTag('二次関数')">二次関数</span>
+                        <span class="tag" onclick="searchByTag('グラフ')">グラフ</span>
+                        <span class="tag" onclick="searchByTag('放物線')">放物線</span>
+                    </div>
+                </div>
+
+                <div class="prerequisites-section">
+                    <h4>前提知識</h4>
+                    <a href="#" class="prerequisite-link" onclick="goToLesson(1); return false;">lesson-001</a>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button prev" onclick="previousLesson()">
+                    ← 前のレッスン
+                </button>
+                <button class="nav-button next" onclick="nextLesson()">
+                    次のレッスン →
+                </button>
+            </div>
+        </div>
+
+        <!-- Lesson 005 -->
+        <div class="lesson-page" data-lesson="5">
+            <div class="lesson-card">
+                <div class="lesson-header">
+                    <div class="lesson-id">lesson-005</div>
+                    <h2 class="lesson-title">二次関数の最大値・最小値</h2>
+                    <div class="lesson-meta">
+                        <span class="badge importance-high">高重要度</span>
+                        <span class="badge time">⏱ 22分</span>
+                    </div>
+                </div>
+
+                <div class="topic-info">
+                    <h4>所属トピック</h4>
+                    <p>第2章 二次関数 - 第2節 二次関数の最大・最小</p>
+                </div>
+
+                <div class="lesson-content">
+                    <div class="content-section">
+                        <h3>最大値・最小値とは</h3>
+                        <p>関数 $$y = f(x)$$ において、$$y$$ の値が最も大きくなるときの値を最大値、最も小さくなるときの値を最小値といいます。</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>二次関数の最大値・最小値</h3>
+                        <p>二次関数 $$y = a(x - p)^2 + q$$ において、</p>
+                        <p>$$a > 0$$ のとき：$$x = p$$ で最小値 $$q$$ をとる（最大値なし）</p>
+                        <p>$$a < 0$$ のとき：$$x = p$$ で最大値 $$q$$ をとる（最小値なし）</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3>定義域が制限されている場合</h3>
+                        <p>$$a \leq x \leq b$$ のように定義域が制限されている場合は、</p>
+                        <p>1. 頂点が定義域に含まれるか確認</p>
+                        <p>2. 含まれる場合：頂点で最大値または最小値</p>
+                        <p>3. 含まれない場合：端点で最大値・最小値を調べる</p>
+                    </div>
+                </div>
+
+                <div class="tags-section">
+                    <h4>関連タグ</h4>
+                    <div class="tags-list">
+                        <span class="tag" onclick="searchByTag('二次関数')">二次関数</span>
+                        <span class="tag" onclick="searchByTag('最大値')">最大値</span>
+                        <span class="tag" onclick="searchByTag('最小値')">最小値</span>
+                    </div>
+                </div>
+
+                <div class="prerequisites-section">
+                    <h4>前提知識</h4>
+                    <a href="#" class="prerequisite-link" onclick="goToLesson(4); return false;">lesson-004</a>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button prev" onclick="previousLesson()">
+                    ← 前のレッスン
+                </button>
+                <button class="nav-button next" onclick="nextLesson()" disabled>
+                    次のレッスン →
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Index Button -->
+    <button class="index-button" onclick="toggleIndex()" title="目次">
+        ☰
+    </button>
+
+    <!-- Index Overlay -->
+    <div class="index-overlay" id="indexOverlay" onclick="closeIndexOnOverlay(event)">
+        <div class="index-content">
+            <button class="close-index" onclick="toggleIndex()">×</button>
+            <h2>レッスン一覧</h2>
+            <ul class="index-list" id="indexList">
+                <!-- JavaScript will populate this -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- MathJax for mathematical formulas -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+    <script>
+        const totalLessons = 5;
+        let currentLesson = 1;
+
+        const lessonsData = [
+            { id: 1, title: "多項式の基本用語と整理", time: 15, importance: "high", tags: ["多項式", "基本用語", "整理"] },
+            { id: 2, title: "展開の公式（基本）", time: 20, importance: "high", tags: ["展開", "公式", "計算"] },
+            { id: 3, title: "因数分解の基本", time: 18, importance: "high", tags: ["因数分解", "公式", "展開"] },
+            { id: 4, title: "二次関数のグラフ", time: 25, importance: "high", tags: ["二次関数", "グラフ", "放物線"] },
+            { id: 5, title: "二次関数の最大値・最小値", time: 22, importance: "high", tags: ["二次関数", "最大値", "最小値"] }
+        ];
+
+        function updateProgress() {
+            const progress = (currentLesson / totalLessons) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('currentLesson').textContent = currentLesson;
+        }
+
+        function showLesson(lessonNumber) {
+            document.querySelectorAll('.lesson-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            const targetLesson = document.querySelector(`[data-lesson="${lessonNumber}"]`);
+            if (targetLesson) {
+                targetLesson.classList.add('active');
+                currentLesson = lessonNumber;
+                updateProgress();
+                window.scrollTo(0, 0);
+                updateIndexHighlight();
+            }
+        }
+
+        function nextLesson() {
+            if (currentLesson < totalLessons) {
+                showLesson(currentLesson + 1);
+            }
+        }
+
+        function previousLesson() {
+            if (currentLesson > 1) {
+                showLesson(currentLesson - 1);
+            }
+        }
+
+        function goToLesson(lessonNumber) {
+            showLesson(lessonNumber);
+            closeIndex();
+        }
+
+        function toggleIndex() {
+            const overlay = document.getElementById('indexOverlay');
+            overlay.classList.toggle('active');
+            if (overlay.classList.contains('active')) {
+                populateIndex();
+            }
+        }
+
+        function closeIndex() {
+            document.getElementById('indexOverlay').classList.remove('active');
+        }
+
+        function closeIndexOnOverlay(event) {
+            if (event.target.id === 'indexOverlay') {
+                closeIndex();
+            }
+        }
+
+        function populateIndex() {
+            const indexList = document.getElementById('indexList');
+            indexList.innerHTML = '';
+            
+            lessonsData.forEach(lesson => {
+                const li = document.createElement('li');
+                li.className = 'index-item' + (lesson.id === currentLesson ? ' current' : '');
+                li.onclick = () => goToLesson(lesson.id);
+                li.innerHTML = `
+                    <div class="index-item-title">Lesson ${lesson.id}: ${lesson.title}</div>
+                    <div class="index-item-meta">⏱ ${lesson.time}分 | 高重要度</div>
+                `;
+                indexList.appendChild(li);
+            });
+        }
+
+        function updateIndexHighlight() {
+            document.querySelectorAll('.index-item').forEach((item, index) => {
+                if (index + 1 === currentLesson) {
+                    item.classList.add('current');
+                } else {
+                    item.classList.remove('current');
+                }
+            });
+        }
+
+        function searchByTag(tag) {
+            const relatedLessons = lessonsData.filter(lesson => lesson.tags && lesson.tags.includes(tag));
+            if (relatedLessons.length >

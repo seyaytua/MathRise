@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathRise - デジタル教科書</title>
+    
+    <!-- 基礎スタイル -->
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/typography.css">
+    
+    <!-- レイアウト -->
+    <link rel="stylesheet" href="css/layout/header.css">
+    <link rel="stylesheet" href="css/layout/footer.css">
+    <link rel="stylesheet" href="css/layout/container.css">
+    
+    <!-- コンポーネント -->
+    <link rel="stylesheet" href="css/components/buttons.css">
+    <link rel="stylesheet" href="css/components/cards.css">
+    <link rel="stylesheet" href="css/components/badges.css">
+    
+    <!-- ページ -->
+    <link rel="stylesheet" href="css/pages/bookshelf.css">
+    
+    <!-- ユーティリティ -->
+    <link rel="stylesheet" href="css/utilities/animations.css">
+    <link rel="stylesheet" href="css/utilities/spacing.css">
+    <link rel="stylesheet" href="css/utilities/helpers.css">
+    
+    <!-- テーマ -->
+    <link rel="stylesheet" href="css/themes.css">
+</head>
+<body>
+    <div class="bookshelf-container">
+        <!-- ヘッダー -->
+        <header class="switch-header">
+            <div class="header-left">
+                <h1 class="logo">📚 デジタル教科書</h1>
+            </div>
+            <div class="header-right">
+                <span class="time" id="currentTime">14:26</span>
+                <button class="icon-btn theme-toggle" id="themeToggle" title="テーマ切り替え">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <a href="home.html" class="icon-btn" title="ホームに戻る">
+                    🏠
+                </a>
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <!-- 検索・フィルターバー -->
+            <div class="control-bar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 教科書を検索..." />
+                </div>
+                <div class="filter-controls">
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="all">すべてのカテゴリ</option>
+                        <option value="数学">数学</option>
+                    </select>
+                    <select id="difficultyFilter" class="filter-select">
+                        <option value="all">すべての難易度</option>
+                        <option value="基礎">基礎</option>
+                        <option value="標準">標準</option>
+                        <option value="発展">発展</option>
+                    </select>
+                    <select id="sortBy" class="filter-select">
+                        <option value="title">タイトル順</option>
+                        <option value="updated">更新日順</option>
+                        <option value="pages">ページ数順</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 統計情報 -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-icon">📚</span>
+                    <span class="stat-text">教科書数: <strong id="totalBooks">0</strong></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">📄</span>
+                    <span class="stat-text">総ページ数: <strong id="totalPages">0</strong></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">📅</span>
+                    <span class="stat-text">最終更新: <strong id="lastUpdate">-</strong></span>
+                </div>
+            </div>
+
+            <!-- 本棚 -->
+            <div class="bookshelf">
+                <div class="shelf-row" id="bookshelfRow">
+                    <!-- JavaScriptで動的生成 -->
+                </div>
+            </div>
+
+            <!-- 空の状態 -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">📭</div>
+                <h2>教科書が見つかりません</h2>
+                <p>検索条件を変更してください</p>
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer class="switch-footer compact">
+            <div class="footer-hint">
+                <span class="hint-item">🖱️ クリックで教科書を開く</span>
+                <span class="hint-item">🔍 検索・フィルター可能</span>
+                <span class="hint-item">🏠 ホームに戻る</span>
+            </div>
+        </footer>
+   </div>
+
+    <!-- テーマ初期化スクリプト -->
+    <script>
+        // ThemeManager の初期化を待つ
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('mathrise_theme') || 'light';
+            const savedVariant = localStorage.getItem('mathrise_theme_variant') || 'default';
+            
+            // テーマの適用
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-variant', savedVariant);
+            }
+            
+            // アイコンの更新
+            const themeIcon = document.querySelector('.theme-icon');
+            if (themeIcon) {
+                themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            }
+            
+            console.log(`✅ Theme initialized: ${savedTheme} (${savedVariant})`);
+        }
+
+        // テーマトグル機能
+        function setupThemeToggle() {
+            const themeToggleBtn = document.getElementById('themeToggle');
+            if (!themeToggleBtn) return;
+
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                // テーマの切り替え
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('mathrise_theme', newTheme);
+                
+                // アイコンの更新
+                const themeIcon = document.querySelector('.theme-icon');
+                if (themeIcon) {
+                    themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+                }
+                
+                // サウンド再生（SoundManagerが利用可能な場合）
+                if (window.soundManager) {
+                    window.soundManager.play('theme');
+                }
+                
+                console.log(`✅ Theme toggled to: ${newTheme}`);
+            });
+        }
+
+        // DOMContentLoaded で初期化
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            setupThemeToggle();
+        });
+    </script>
+
+    <!-- マネージャー（非モジュール） -->
+    <script src="js/managers/ThemeManager.js"></script>
+    
+    <!-- 本棚スクリプト（モジュール） -->
+    <script type="module" src="js/bookshelf.js"></script>
+</body>
+</html>

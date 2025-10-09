@@ -1,0 +1,12 @@
+{
+  "courseId": "math-C",
+  "courseName": "数学C",
+  "version": "1.0.0",
+  "totalChapters": 0,
+  "totalLessons": 0,
+  "estimatedHours": 100,
+  "difficulty": "advanced",
+  "prerequisites": ["math-2", "math-B"],
+  "objectives": ["複素数平面を理解する", "式と曲線を扱える"],
+  "chapters": []
+}

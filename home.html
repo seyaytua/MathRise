@@ -1,12 +1,43 @@
 <!DOCTYPE html>
 <html lang="ja" data-theme="light">
 <head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MathRise - ホーム</title>
-    <link rel="stylesheet" href="css/home.css">
+    
+    <!-- 基礎スタイル -->
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/typography.css">
+    
+    <!-- レイアウト -->
+    <link rel="stylesheet" href="css/layout/header.css">
+    <link rel="stylesheet" href="css/layout/footer.css">
+    <link rel="stylesheet" href="css/layout/container.css">
+    
+    <!-- コンポーネント -->
+    <link rel="stylesheet" href="css/components/buttons.css">
+    <link rel="stylesheet" href="css/components/cards.css">
+    <link rel="stylesheet" href="css/components/modals.css">
+    <link rel="stylesheet" href="css/components/badges.css">
+    <link rel="stylesheet" href="css/components/progress-bars.css">
+    <link rel="stylesheet" href="css/components/notifications.css">
+    
+    <!-- 機能 -->
+    <link rel="stylesheet" href="css/features/cartridge.css">
+    <link rel="stylesheet" href="css/features/achievements.css">
+    
+    <!-- ページ -->
+    <link rel="stylesheet" href="css/pages/home.css">
+    
+    <!-- ユーティリティ -->
+    <link rel="stylesheet" href="css/utilities/animations.css">
+    <link rel="stylesheet" href="css/utilities/spacing.css">
+    <link rel="stylesheet" href="css/utilities/helpers.css">
+    
+    <!-- テーマ -->
     <link rel="stylesheet" href="css/themes.css">
-    <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
     <div class="switch-home">
@@ -20,45 +51,125 @@
                 <button class="icon-btn theme-toggle" id="themeToggle" title="テーマ切り替え">
                     <span class="theme-icon">🌙</span>
                 </button>
+                        <a href="bookshelf.html" class="icon-btn" title="デジタル教科書">
+            📚
+        </a>
                 <button class="icon-btn" id="achievementsBtn" title="実績">
                     🏆
                     <span class="badge" id="achievementBadge">0</span>
                 </button>
                 <button class="icon-btn" id="settingsBtn" title="設定">⚙️</button>
-                <button class="icon-btn" id="userBtn" title="ユーザー">👤</button>
             </div>
         </header>
 
         <!-- メインコンテンツ -->
-        <main class="main-content">
-            <div class="welcome-section">
-                <h2 class="welcome-text">学びたいコースを選択してください</h2>
-                <p class="subtitle">各コースをクリックして学習を始めましょう 🚀</p>
+        <main class="main-content no-scroll">
+            <!-- カセットカルーセル -->
+            <div class="cartridge-section">
+                <h2 class="section-title">学習するコースを選択</h2>
+                
+                <!-- スクロールエリア -->
+                <div class="cartridge-carousel-container">
+                    <!-- 左スクロールボタン -->
+                    <div class="scroll-trigger left" id="scrollTriggerLeft">
+                        <button class="scroll-btn" id="scrollBtnLeft">
+                            <span>⬅️</span>
+                        </button>
+                    </div>
+                    
+                    <!-- カセット表示エリア -->
+                    <div class="cartridge-viewport">
+                        <div class="cartridge-track" id="cartridgeTrack">
+                            <!-- JavaScriptで動的生成 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 右スクロールボタン -->
+                    <div class="scroll-trigger right" id="scrollTriggerRight">
+                        <button class="scroll-btn" id="scrollBtnRight">
+                            <span>➡️</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- インジケーター -->
+                <div class="cartridge-indicators" id="cartridgeIndicators">
+                    <!-- JavaScriptで動的生成 -->
+                </div>
             </div>
 
-            <!-- コースグリッド -->
-            <div class="course-grid" id="courseGrid">
-                <!-- JavaScriptで動的生成 -->
+            <!-- コース詳細表示 -->
+            <div class="course-detail-section" id="courseDetailSection">
+                <div class="course-detail-card">
+                    <div class="detail-header">
+                        <div class="detail-icon" id="detailIcon">📊</div>
+                        <div class="detail-title-area">
+                            <h2 class="detail-title" id="detailTitle">数学Ⅰ</h2>
+                            <p class="detail-subtitle" id="detailSubtitle">二次関数、方程式、図形の基礎</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">進捗</span>
+                            <div class="progress-bar-detail">
+                                <div class="progress-fill-detail" id="detailProgress"></div>
+                            </div>
+                            <span class="stat-value" id="detailProgressText">0%</span>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <span class="stat-label">完了レッスン</span>
+                            <span class="stat-value" id="detailLessons">0/32</span>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <span class="stat-label">最終学習</span>
+                            <span class="stat-value" id="detailLastStudy">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-actions">
+                        <button class="action-btn primary" id="startLearningBtn">
+                            <span class="btn-icon">▶️</span>
+                            <span class="btn-text">学習を始める</span>
+                        </button>
+                        <button class="action-btn secondary" id="viewStatsBtn">
+                            <span class="btn-icon">📊</span>
+                            <span class="btn-text">統計を見る</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </main>
 
         <!-- フッター -->
-        <footer class="switch-footer">
-            <div class="footer-controls">
-                <button class="control-btn" id="prevBtn">
-                    <span class="btn-icon">⬅️</span>
-                    <span class="btn-text">前へ</span>
-                </button>
-                <button class="control-btn primary" id="selectBtn">
-                    <span class="btn-badge">[A]</span>
-                    <span class="btn-text">選択</span>
-                </button>
-                <button class="control-btn" id="nextBtn">
-                    <span class="btn-text">次へ</span>
-                    <span class="btn-icon">➡️</span>
-                </button>
+        <footer class="switch-footer compact">
+            <div class="footer-hint">
+                <span class="hint-item">⬅️➡️ カセット選択</span>
+                <span class="hint-item">[A] 学習開始</span>
+                <span class="hint-item">[B] 統計表示</span>
             </div>
         </footer>
+    </div>
+
+    <!-- カセット挿入演出オーバーレイ -->
+    <div class="cartridge-insert-overlay" id="insertOverlay">
+        <div class="insert-animation">
+            <div class="cartridge-slot">
+                <div class="slot-opening"></div>
+            </div>
+            <div class="cartridge-inserting" id="insertingCartridge">
+                <div class="cartridge-body"></div>
+                <div class="cartridge-label"></div>
+            </div>
+        </div>
+        <div class="startup-logo" id="startupLogo">
+            <h1>🎮 MathRise</h1>
+            <div class="loading-dots">
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+        </div>
     </div>
 
     <!-- 実績モーダル -->
@@ -74,7 +185,91 @@
         </div>
     </div>
 
-    <!-- 実績アンロック通知 -->
+    <!-- 設定モーダル -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content settings-modal">
+            <div class="modal-header">
+                <h2>⚙️ 設定</h2>
+                <button class="close-btn" id="closeSettings">✕</button>
+            </div>
+            <div class="modal-body">
+                <!-- テーマ設定 -->
+                <div class="settings-section">
+                    <h3>🎨 テーマ設定</h3>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span>ダークモード</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item" id="themeVariantSection">
+                        <label class="setting-label">ライトテーマのバリエーション</label>
+                        <div class="theme-selector">
+                            <button class="theme-option default active" data-variant="default" title="デフォルト（ブルー）"></button>
+                            <button class="theme-option sunset" data-variant="sunset" title="サンセット"></button>
+                            <button class="theme-option mint" data-variant="mint" title="ミントグリーン"></button>
+                            <button class="theme-option lavender" data-variant="lavender" title="ラベンダー"></button>
+                            <button class="theme-option modern" data-variant="modern" title="モダングレー"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- サウンド設定 -->
+                <div class="settings-section">
+                    <h3>🔊 サウンド設定</h3>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <span>効果音</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="soundToggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- データ管理 -->
+                <div class="settings-section">
+                    <h3>💾 データ管理</h3>
+                    <div class="setting-item">
+                        <button class="settings-btn" id="exportDataBtn">
+                            <span>📥</span>
+                            <span>データをエクスポート</span>
+                        </button>
+                    </div>
+                    <div class="setting-item">
+                        <button class="settings-btn" id="importDataBtn">
+                            <span>📤</span>
+                            <span>データをインポート</span>
+                        </button>
+                        <input type="file" id="importDataFile" accept=".json" style="display: none;">
+                    </div>
+                    <div class="setting-item">
+                        <button class="settings-btn danger" id="resetDataBtn">
+                            <span>🔄</span>
+                            <span>すべてのデータをリセット</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- アプリ情報 -->
+                <div class="settings-section">
+                    <h3>ℹ️ アプリ情報</h3>
+                    <div class="app-info">
+                        <p><strong>バージョン:</strong> 2.0.0</p>
+                        <p><strong>最終更新:</strong> 2025年10月</p>
+                        <p><strong>開発:</strong> MathRise Team : seya yuta</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 実績通知 -->
     <div class="achievement-notification" id="achievementNotification">
         <div class="notification-content">
             <span class="notification-icon">🏆</span>
@@ -85,62 +280,12 @@
         </div>
     </div>
 
-    <!-- スクリプト -->
-    <script src="js/sound-manager.js"></script>
-    <script src="js/theme-manager.js"></script>
-    <script src="js/achievements.js"></script>
-    <script src="js/home.js"></script>
+    <!-- スクリプト（非モジュール） -->
+    <script src="js/managers/SoundManager.js"></script>
+    <script src="js/managers/ThemeManager.js"></script>
+    <script src="js/managers/AchievementManager.js"></script>
+    
+    <!-- メインスクリプト（モジュール） -->
+    <script type="module" src="js/home.js"></script>
 </body>
 </html>
-
-    <!-- テーマ設定モーダル -->
-    <div class="modal" id="themeModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>🎨 テーマ設定</h2>
-                <button class="close-btn" id="closeTheme">✕</button>
-            </div>
-            <div class="modal-body">
-                <h3>背景スタイル（ライトモードのみ）</h3>
-                <div class="theme-selector">
-                    <button class="theme-option default active" data-variant="default" title="デフォルト（ブルー）"></button>
-                    <button class="theme-option sunset" data-variant="sunset" title="サンセット"></button>
-                    <button class="theme-option mint" data-variant="mint" title="ミントグリーン"></button>
-                    <button class="theme-option lavender" data-variant="lavender" title="ラベンダー"></button>
-                    <button class="theme-option modern" data-variant="modern" title="モダングレー"></button>
-                </div>
-                
-                <div style="margin-top: 2rem;">
-                    <h3>プレビュー</h3>
-                    <div class="theme-preview" id="themePreview">
-                        選択した背景がここに表示されます
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // テーマ選択機能
-        document.getElementById('settingsBtn')?.addEventListener('click', () => {
-            soundManager.play('select');
-            document.getElementById('themeModal').classList.add('active');
-        });
-        
-        document.getElementById('closeTheme')?.addEventListener('click', () => {
-            soundManager.play('select');
-            document.getElementById('themeModal').classList.remove('active');
-        });
-        
-        document.querySelectorAll('.theme-option').forEach(option => {
-            option.addEventListener('click', () => {
-                const variant = option.dataset.variant;
-                themeManager.setVariant(variant);
-                soundManager.play('select');
-                
-                // アクティブ表示を更新
-                document.querySelectorAll('.theme-option').forEach(o => o.classList.remove('active'));
-                option.classList.add('active');
-            });
-        });
-    </script>

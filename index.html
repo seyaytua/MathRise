@@ -4,11 +4,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MathRise - 数学学習アプリ</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/templates.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/dashboard.css">
+  
+  <!-- 基礎スタイル -->
+  <link rel="stylesheet" href="css/base/reset.css">
+  <link rel="stylesheet" href="css/base/variables.css">
+  <link rel="stylesheet" href="css/base/typography.css">
+  
+  <!-- レイアウト -->
+  <link rel="stylesheet" href="css/layout/header.css">
+  <link rel="stylesheet" href="css/layout/sidebar.css">
+  <link rel="stylesheet" href="css/layout/container.css">
+  
+  <!-- コンポーネント -->
+  <link rel="stylesheet" href="css/components/buttons.css">
+  <link rel="stylesheet" href="css/components/cards.css">
+  <link rel="stylesheet" href="css/components/forms.css">
+  <link rel="stylesheet" href="css/components/navigation.css">
+  <link rel="stylesheet" href="css/components/badges.css">
+  <link rel="stylesheet" href="css/components/progress-bars.css">
+  <link rel="stylesheet" href="css/components/notifications.css">
+  
+  <!-- 機能 -->
+  <link rel="stylesheet" href="css/features/lessons.css">
+  <link rel="stylesheet" href="css/features/problems.css">
+  <link rel="stylesheet" href="css/features/math-layout.css">
+  
+  <!-- ページ -->
+  <link rel="stylesheet" href="css/pages/learning.css">
+  <link rel="stylesheet" href="css/pages/dashboard.css">
+  
+  <!-- ユーティリティ -->
+  <link rel="stylesheet" href="css/utilities/animations.css">
+  <link rel="stylesheet" href="css/utilities/spacing.css">
+  <link rel="stylesheet" href="css/utilities/helpers.css">
+  
+  <!-- テーマ -->
   <link rel="stylesheet" href="css/themes.css">
+  
+  <!-- MathJax設定と読み込み -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      startup: {
+        ready: () => {
+          console.log('✅ MathJax loaded successfully');
+          MathJax.startup.defaultReady();
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 </head>
 <body>
   <div id="app">
@@ -39,7 +92,6 @@
             <span>HOME</span>
           </a>
         </div>
-        
       </div>
     </header>
 
@@ -49,7 +101,7 @@
         <aside class="sidebar" id="sidebar">
           <div class="course-selector">
             <select id="course-select">
-              <option value="math-1-sample">数学Ⅰ（サンプル）</option>
+              <!-- JavaScriptで動的生成 -->
             </select>
           </div>
           <nav id="lesson-list">
@@ -163,7 +215,11 @@
     </div>
   </div>
 
+  <!-- マネージャー（非モジュール） -->
+  <script src="js/managers/SoundManager.js"></script>
+  <script src="js/managers/ThemeManager.js"></script>
+  
+  <!-- メインアプリ（モジュール） -->
   <script type="module" src="js/app.js"></script>
-  <script src="js/theme-manager.js"></script>
 </body>
 </html>

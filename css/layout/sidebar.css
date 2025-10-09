@@ -1,0 +1,142 @@
+/* ========================================
+   サイドバー
+======================================== */
+
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: var(--card-bg);
+  border-right: var(--border-width) solid var(--border-color);
+  padding: var(--space-lg);
+  overflow-y: auto;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ========================================
+   コースセレクター
+======================================== */
+
+.course-selector {
+  margin-bottom: var(--space-lg);
+}
+
+.course-selector select {
+  width: 100%;
+  padding: var(--space-md);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-base);
+  background: var(--bg-main);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  color: var(--text-primary);
+}
+
+.course-selector select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.course-selector select:hover {
+  border-color: var(--primary-light);
+}
+
+/* ========================================
+   レッスンリスト
+======================================== */
+
+#lesson-list {
+  list-style: none;
+}
+
+/* ユニットグループ */
+.unit-group {
+  margin-bottom: var(--space-lg);
+}
+
+.unit-title {
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+  font-size: var(--font-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-left: var(--space-sm);
+  border-left: 3px solid var(--primary);
+}
+
+/* レッスンアイテム */
+.lesson-item {
+  padding: var(--space-md);
+  margin: var(--space-xs) 0;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-sm);
+  color: var(--text-primary);
+  border: var(--border-width) solid transparent;
+}
+
+.lesson-item:hover {
+  background: var(--bg-secondary);
+  border-color: var(--border-light);
+  transform: translateX(4px);
+}
+
+.lesson-item.active {
+  background: var(--primary);
+  color: var(--text-inverse);
+  border-color: var(--primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.lesson-item.completed::after {
+  content: '✓';
+  margin-left: auto;
+  color: var(--success);
+  font-weight: var(--font-bold);
+  font-size: var(--font-lg);
+}
+
+.lesson-item.active.completed::after {
+  color: var(--text-inverse);
+}
+
+/* レッスン番号 */
+.lesson-item::before {
+  content: attr(data-lesson-number);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  font-size: var(--font-xs);
+  font-weight: var(--font-bold);
+  color: var(--text-secondary);
+}
+
+.lesson-item.active::before {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-inverse);
+}
+
+/* ========================================
+   レスポンシブ対応
+======================================== */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    min-width: auto;
+    border-right: none;
+    border-bottom: var(--border-width) solid var(--border-color);
+    max-height: 300px;
+  }
+}

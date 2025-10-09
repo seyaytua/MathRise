@@ -1,0 +1,369 @@
+/* ========================================
+   カードコンポーネント
+======================================== */
+
+/* ========================================
+   基本カード
+======================================== */
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   コースカード
+======================================== */
+
+.course-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transition: all var(--transition-base) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.course-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.course-card:hover::before {
+  opacity: 1;
+}
+
+.course-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: var(--shadow-xl);
+}
+
+.course-card:active {
+  transform: translateY(-8px) scale(0.98);
+}
+
+.course-card.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.course-card.locked:hover {
+  transform: none;
+}
+
+/* 選択アニメーション */
+.course-card.selecting {
+  animation: zoomIn 0.6s var(--ease-bounce);
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.15) translateY(-20px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* カード出現アニメーション */
+.course-card {
+  animation: fadeInUp 0.6s ease backwards;
+}
+
+.course-card:nth-child(1) { animation-delay: 0.1s; }
+.course-card:nth-child(2) { animation-delay: 0.2s; }
+.course-card:nth-child(3) { animation-delay: 0.3s; }
+.course-card:nth-child(4) { animation-delay: 0.4s; }
+.course-card:nth-child(5) { animation-delay: 0.5s; }
+.course-card:nth-child(6) { animation-delay: 0.6s; }
+.course-card:nth-child(7) { animation-delay: 0.7s; }
+.course-card:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* コースカードヘッダー */
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+
+.course-name {
+  font-size: var(--font-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+.course-status {
+  font-size: var(--font-xl);
+}
+
+/* コース進捗バー */
+.course-progress {
+  width: 100%;
+  height: 10px;
+  background: var(--progress-bg);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin: var(--space-md) 0;
+  position: relative;
+}
+
+.course-progress-bar {
+  height: 100%;
+  background: var(--progress-gradient);
+  transition: width 0.5s var(--ease-out);
+  position: relative;
+}
+
+.course-progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255,255,255,0.3), 
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* コース統計 */
+.course-stats {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--space-md) 0;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+/* コースアイコン */
+.course-icons {
+  font-size: var(--font-3xl);
+  text-align: center;
+  margin: var(--space-lg) 0;
+  letter-spacing: 0.5rem;
+}
+
+/* コース説明 */
+.course-description {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  line-height: var(--line-relaxed);
+}
+
+/* ========================================
+   統計カード
+======================================== */
+
+.stat-card {
+  background: var(--card-bg);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  transition: all var(--transition-base);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat-icon {
+  font-size: var(--font-4xl);
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-label {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+  font-weight: var(--font-medium);
+}
+
+.stat-value {
+  font-size: var(--font-3xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+.stat-total {
+  font-size: var(--font-base);
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   コース詳細カード
+======================================== */
+
+.course-detail-card {
+  width: 100%;
+  max-width: 800px;
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-lg);
+  animation: fadeInUp 0.5s ease;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.detail-icon {
+  font-size: var(--font-4xl);
+  flex-shrink: 0;
+}
+
+.detail-title-area {
+  flex: 1;
+}
+
+.detail-title {
+  font-size: var(--font-3xl);
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.detail-subtitle {
+  font-size: var(--font-lg);
+  color: var(--text-secondary);
+}
+
+/* 詳細統計 */
+.detail-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.progress-bar-detail {
+  width: 100%;
+  height: 10px;
+  background: var(--progress-bg);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin: var(--space-sm) 0;
+}
+
+.progress-fill-detail {
+  height: 100%;
+  background: var(--progress-gradient);
+  transition: width 0.5s ease;
+}
+
+/* 詳細アクション */
+.detail-actions {
+  display: flex;
+  gap: var(--space-md);
+}
+
+/* ========================================
+   問題カード
+======================================== */
+
+.problem-container {
+  background: var(--card-bg);
+  padding: var(--space-lg);
+  margin: var(--space-lg) 0;
+  border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--border-color);
+  transition: all var(--transition-base);
+}
+
+.problem-container:hover {
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.problem-completed {
+  animation: completePulse 0.5s ease;
+  border: 2px solid var(--success);
+  background: rgba(76, 175, 80, 0.05);
+}
+
+@keyframes completePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* ========================================
+   レスポンシブ対応
+======================================== */
+
+@media (max-width: 768px) {
+  .course-card {
+    padding: var(--space-md);
+  }
+  
+  .course-name {
+    font-size: var(--font-xl);
+  }
+  
+  .detail-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .detail-actions {
+    flex-direction: column;
+  }
+  
+  .stat-card {
+    flex-direction: column;
+    text-align: center;
+  }
+}

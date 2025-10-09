@@ -1,0 +1,116 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-10-09",
+  "courses": [
+    {
+      "id": "math-1",
+      "name": "数学Ⅰ",
+      "icon": "📊",
+      "description": "二次関数、方程式、図形の基礎",
+      "color": "#2196F3",
+      "locked": false,
+      "difficulty": "beginner",
+      "estimatedHours": 80,
+      "chapters": [
+        {
+          "id": "math-1_1",
+          "name": "第1章 数と式",
+          "file": "data/courses/math-1/chapter-1.json"
+        },
+        {
+          "id": "math-1_2",
+          "name": "第2章 集合と命題",
+          "file": "data/courses/math-1/chapter-2.json"
+        },
+        {
+          "id": "math-1_3",
+          "name": "第3章 二次関数",
+          "file": "data/courses/math-1/chapter-3.json"
+        }
+      ]
+    },
+    {
+      "id": "math-A",
+      "name": "数学A",
+      "icon": "🔺",
+      "description": "場合の数、確率、図形の性質",
+      "color": "#4CAF50",
+      "locked": false,
+      "difficulty": "beginner",
+      "estimatedHours": 60,
+      "chapters": [
+        {
+          "id": "math-A_1",
+          "name": "第1章 場合の数と確率",
+          "file": "data/courses/math-A/chapter-1.json"
+        }
+      ]
+    },
+    {
+      "id": "math-2",
+      "name": "数学Ⅱ",
+      "icon": "🎯",
+      "description": "式と証明、複素数、図形と方程式",
+      "color": "#FF9800",
+      "locked": false,
+      "difficulty": "intermediate",
+      "estimatedHours": 90,
+      "chapters": []
+    },
+    {
+      "id": "math-B",
+      "name": "数学B",
+      "icon": "📉",
+      "description": "ベクトル、数列、統計",
+      "color": "#9C27B0",
+      "locked": false,
+      "difficulty": "intermediate",
+      "estimatedHours": 70,
+      "chapters": []
+    },
+    {
+      "id": "math-3",
+      "name": "数学Ⅲ",
+      "icon": "🎲",
+      "description": "極限、微分、積分",
+      "color": "#F44336",
+      "locked": false,
+      "difficulty": "advanced",
+      "estimatedHours": 100,
+      "chapters": []
+    },
+    {
+      "id": "math-C",
+      "name": "数学C",
+      "icon": "🔢",
+      "description": "ベクトル、複素数平面、式と曲線",
+      "color": "#00BCD4",
+      "locked": false,
+      "difficulty": "advanced",
+      "estimatedHours": 80,
+      "chapters": []
+    },
+    {
+      "id": "physics",
+      "name": "物理",
+      "icon": "⚡",
+      "description": "力学、波動、電磁気",
+      "color": "#607D8B",
+      "locked": true,
+      "difficulty": "intermediate",
+      "estimatedHours": 120,
+      "chapters": []
+    },
+    {
+      "id": "chemistry",
+      "name": "化学",
+      "icon": "⚗️",
+      "description": "物質の構造、反応、化学平衡",
+      "color": "#795548",
+      "locked": true,
+      "difficulty": "intermediate",
+      "estimatedHours": 110,
+      "chapters": []
+    }
+  ]
+}
